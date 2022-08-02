@@ -26,49 +26,27 @@ async function readFiles() {
             if (data) {
                 users[folder].push(data);
             }
-
-            console.log(file, users);
         });
     });
-
-    /*fs.readdirSync('./users/').forEach(file => {
-        files.push(file);
-    });*/
-
-    /*for (var a = 0; a < folders.length; a++) {
-        for (var b = 0; b < files.length; b++) {
-            try {
-                const data = JSON.parse(fs.readFileSync(`./users/${folders[a]}/${files[b]}`, 'utf8'));
-
-                if (!users[folders[a]]) users[folders[a]] = [];
-
-                users[folders[a]].push(data);
-
-                console.log(data);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    }*/
 }
 
 async function generateKeys() {
     if (!fs.existsSync('./keys/')) {
         fs.mkdirSync('./keys/');
-    }
 
-    var number = 10;
-    var key = null;
-    var body = null;
+        var number = 10;
+        var key = null;
+        var body = null;
 
-    for (var i = 0; i < number; i++) {
-        key = crypto.randomBytes(10).toString('hex');
-        body = {
-            "key": key, 
-            "name": ""
+        for (var i = 0; i < number; i++) {
+            key = crypto.randomBytes(10).toString('hex');
+            body = {
+                "key": key, 
+                "name": ""
+            }
+
+            fs.writeFileSync(`./keys/${key}.json`, JSON.stringify(body, null, 2));
         }
-
-        fs.writeFileSync(`./keys/${key}.json`, JSON.stringify(body, null, 2));
     }
 }
 
@@ -93,10 +71,10 @@ var alerts = [];
 var keys = [];
 
 readFiles();
-//generateKeys();
+generateKeys();
 getKeys();
 
-console.log(keys);
+console.log(keys, 'keys');
 
 app.use(bodyParser.json());
 
@@ -268,7 +246,7 @@ async function onAlert(alertState) {
                     if (id === state_id || id === district_id || id === community_id) {
                         type = activeAlerts[d].type;
 
-                        if (trigger[type] === 'on') {
+                        if (trigger[type]) {
                             trigger.need_alert = true;
 
                             changeFiles(trigger);

@@ -8583,7 +8583,7 @@
                 }
                 
                 if (state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && id.value && name.value) {
-                    console.log(unknown.value, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
+                    console.log(unknown.checked, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
 
                     var obj = {
                         'triggerID': Date.now(), 
@@ -8596,12 +8596,12 @@
                         'webhock_close': webhock_close.value, 
                         'id': id.value, 
                         'name': name.value, 
-                        'UNKNOWN': unknown.value, 
-                        'AIR': air.value, 
-                        'ARTILLERY': artillery.value, 
-                        'URBAN_FIGHTS': urban_fights.value, 
-                        'CHEMICAL': chemical.value, 
-                        'NUCLEAR': nuclear.value, 
+                        'UNKNOWN': unknown.checked, 
+                        'AIR': air.checked, 
+                        'ARTILLERY': artillery.checked, 
+                        'URBAN_FIGHTS': urban_fights.checked, 
+                        'CHEMICAL': chemical.checked, 
+                        'NUCLEAR': nuclear.checked, 
                         'started': false, 
                         'need_alert': false
                     }
@@ -8622,6 +8622,8 @@
                     });
                 }
             });
+
+            console.log(unknown.value, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
         </script>
     </body>
 </html>
