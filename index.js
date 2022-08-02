@@ -2,7 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import fetch from "node-fetch";
 import fs from 'fs'
-import { exec } from 'child_process';
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
 const port = 3000;
@@ -10,7 +11,9 @@ const port = 3000;
 async function readFiles() {
     var folders = [];
     var files = [];
-
+    if(!fs.existsSync('./users/')){
+        fs.mkdirSync('./users/');
+    }
     fs.readdirSync('./users/').forEach(folder => {
         console.log(folder);
         folders.push(folder);
@@ -52,7 +55,7 @@ readFiles();
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-    res.sendFile('c:/node_js/files/index.html');
+    res.sendFile(__dirname + '/files/index.html');
 });
 
 app.post('/data', (req, res) => {
