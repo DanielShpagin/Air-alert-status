@@ -11,15 +11,23 @@ const port = 4000;
 async function readFiles() {
     var folders = [];
     var files = [];
-    if(!fs.existsSync('./users/')){
+    if (!fs.existsSync('./users/')) {
         fs.mkdirSync('./users/');
     }
+
     fs.readdirSync('./users/').forEach(folder => {
+        if (!users[folder]) users[folder] = [];
+        
         console.log(folder);
-        folders.push(folder);
+
         fs.readdirSync(`./users/${folder}/`).forEach(file => {
-            console.log(file);
-            files.push(file);
+            const data = JSON.parse(fs.readFileSync(`./users/${folder}/${file}`, 'utf8'));
+
+            if (data) {
+                users[folder].push(data);
+            }
+
+            console.log(file, users);
         });
     });
 
@@ -27,7 +35,7 @@ async function readFiles() {
         files.push(file);
     });*/
 
-    for (var a = 0; a < folders.length; a++) {
+    /*for (var a = 0; a < folders.length; a++) {
         for (var b = 0; b < files.length; b++) {
             try {
                 const data = JSON.parse(fs.readFileSync(`./users/${folders[a]}/${files[b]}`, 'utf8'));
@@ -35,13 +43,19 @@ async function readFiles() {
                 if (!users[folders[a]]) users[folders[a]] = [];
 
                 users[folders[a]].push(data);
-                
+
                 console.log(data);
             } catch (err) {
                 console.error(err);
             }
         }
-    }
+    }*/
+}
+
+async function changeFiles(trigger) {
+    fs.writeFile(`./users/${trigger['id']}/${trigger.triggerID}.json`, JSON.stringify(trigger, null, 2), err => {
+        if (err) throw err;
+    });
 }
 
 var users = {};
@@ -62,6 +76,8 @@ app.post('/data', (req, res) => {
     var body = req.body;
     var key = body['id'];
     var triggerID = body.triggerID;
+
+    console.log(key, body);
 
     var num = 0;
 
@@ -113,7 +129,6 @@ app.listen(port, () => {
 
 var apikey = '';
 apikey = fs.readFileSync('key.txt').toString('utf8').substring(0,41);
-console.log(apikey);
 
 if (apikey.length == 0) {
     console.error('You need to get the correct access key from the https://api.ukrainealarm.com and put into the key.txt');
@@ -205,6 +220,8 @@ async function onAlert(alertState) {
 
             trigger.need_alert = false;
 
+            changeFiles(trigger);
+
             state_id = trigger.state_id;
             district_id = trigger.district_id;
             community_id = trigger.community_id;
@@ -220,6 +237,8 @@ async function onAlert(alertState) {
 
                         if (trigger[type] === 'on') {
                             trigger.need_alert = true;
+
+                            changeFiles(trigger);
                         }
                     }
                 }
@@ -240,14 +259,20 @@ function trigger_alerts() {
             if (trigger.need_alert && !trigger.started) {
                 console.log('attempt to open');
                 exec_hook(trigger.webhock_open).then(res => {
-                    if (res) trigger.started = true;
+                    if (res) {
+                        trigger.started = true;
+                        changeFiles(trigger);
+                    }
                 });
             }
             
             if (!trigger.need_alert && trigger.started) {
                 console.log('attempt to close');
                 exec_hook(trigger.webhock_close).then(res => {
-                    if (res) trigger.started = false;
+                    if (res) {
+                        trigger.started = false;
+                        changeFiles(trigger);
+                    }
                 });
             }
         }
