@@ -3,14 +3,14 @@ import bodyParser from 'body-parser';
 import fetch from "node-fetch";
 import fs from 'fs'
 import path from 'path';
+import crypto from 'crypto';
+
 const __dirname = path.resolve();
 
 const app = express();
 const port = 4000;
 
 async function readFiles() {
-    var folders = [];
-    var files = [];
     if (!fs.existsSync('./users/')) {
         fs.mkdirSync('./users/');
     }
@@ -52,6 +52,34 @@ async function readFiles() {
     }*/
 }
 
+async function generateKeys() {
+    if (!fs.existsSync('./keys/')) {
+        fs.mkdirSync('./keys/');
+    }
+
+    var number = 10;
+    var key = null;
+    var body = null;
+
+    for (var i = 0; i < number; i++) {
+        key = crypto.randomBytes(10).toString('hex');
+        body = {
+            "key": key, 
+            "name": ""
+        }
+
+        fs.writeFileSync(`./keys/${key}.json`, JSON.stringify(body, null, 2));
+    }
+}
+
+async function getKeys() {
+    fs.readdirSync('./keys/').forEach(file => {
+        const data = JSON.parse(fs.readFileSync(`./keys/${file}`, 'utf8'));
+
+        if (data) keys.push(data);
+    });
+}
+
 async function changeFiles(trigger) {
     fs.writeFile(`./users/${trigger['id']}/${trigger.triggerID}.json`, JSON.stringify(trigger, null, 2), err => {
         if (err) throw err;
@@ -62,9 +90,13 @@ var users = {};
 var obj = {};
 var alerts = [];
 
-var keys = ['123', 'capybara', 'amogus'];
+var keys = [];
 
 readFiles();
+//generateKeys();
+getKeys();
+
+console.log(keys);
 
 app.use(bodyParser.json());
 
@@ -83,7 +115,7 @@ app.post('/data', (req, res) => {
 
     if (body.id) {
         for (var a = 0; a < keys.length; a++) {
-            if (keys[a] === key) {
+            if (keys[a].key === key) {
                 if (!users[key]) users[key] = [];
 
                 for (var b = 0; b < users[key].length; b++) {
