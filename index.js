@@ -108,19 +108,6 @@ app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
 
-/*
-fetch("https://api.ukrainealarm.com/api/v3/alerts", {
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': '1c6b8457:e3cee763aadec0e642ddafa589e64a79'
-    }
-}).then(result => {
-    result.text().then(txt => {
-        console.log(JSON.parse(txt));
-    })
-})
-*/
-
 var apikey = '';
 apikey = fs.readFileSync('key.txt').toString('utf8');
 
@@ -186,10 +173,6 @@ async function test_hooks(uri_start, uri_end) {
     }
     return true;
 }
-
-//test_hooks(
-//  'https://eu-apia.coolkit.cc/v2/smartscene2/webhooks/execute?id=1314c9a4365642bcb36436e64c23a2db'
-//  ,'https://eu-apia.coolkit.cc/v2/smartscene2/webhooks/execute?id=f70900d1c1254506bb08f441e0fa33d9');
 
 // this function called each time when alert state changes
 
