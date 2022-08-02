@@ -6,7 +6,7 @@ import path from 'path';
 const __dirname = path.resolve();
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 async function readFiles() {
     var folders = [];
