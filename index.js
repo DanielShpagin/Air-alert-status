@@ -113,7 +113,7 @@ app.listen(port, () => {
 
 var apikey = '';
 apikey = fs.readFileSync('key.txt').toString('utf8').substring(0,41);
-console.log(apikey);
+console.log('KEY:', apikey);
 
 if (apikey.length == 0) {
     console.error('You need to get the correct access key from the https://api.ukrainealarm.com and put into the key.txt');
