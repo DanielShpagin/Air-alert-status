@@ -4,7 +4,7 @@ body {
 
 .container {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 
     background-color: rgb(139, 236, 236);
 
@@ -22,10 +22,6 @@ body {
     flex-direction: column;
 }
 
-#reject_dialog:first-child {
-    z-index: 1;
-}
-
 #text {
     align-self: center;
     font: 22px "Fira Sans", sans-serif;
@@ -33,6 +29,20 @@ body {
 
 h3 {
     font: 1em "Fira Sans", sans-serif;
+}
+
+label {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+select {
+    font: 1em "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
+    width: 250px;
+    min-height: 40px;
+    font-size: 15px;
 }
 
 .options1 {
@@ -45,80 +55,151 @@ h3 {
     display: flex;
     flex-direction: column;
 
-    margin: 10px;
+    margin: 5px;
 }
 
-#ok {
-    align-self: center;
+/* areas */
 
-    background: #333;
-    border: none;
-    padding: 0 1rem;
-    margin: 0.25rem;
-    border-radius: 3px;
+#key_area {
+    display: flex;
+    align-items: center;
+}
+
+#id {
+    flex: 1;
+    font: 14px "Fira Sans", sans-serif;
     outline: none;
-    color: #fff;
-    width: 60px;
+
+    margin: 5px;
+    width: 200px;
     min-height: 30px;
-    font-size: 13px;
-
-    font: 14x "Fira Sans", sans-serif;
-    outline: none;
 }
 
-select {
-    font: 1em "Fira Sans", sans-serif;
+#name_area {
+    display: flex;
+    align-items: center;
+}
+
+#name {
+    flex: 1;
+    font: 14px "Fira Sans", sans-serif;
     outline: none;
 
-    margin: 15px;
-    width: 250px;
-    min-height: 40px;
-    font-size: 15px;
+    margin: 5px;
+    width: 200px;
+    min-height: 30px;
 }
+
+/* button_area */
+
+#button_area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button {
+    font: 1.1rem 'Fira Sans', sans-serif;
+
+    padding: 10px;
+    margin: 2.5px;
+
+    border: none;
+    outline: none;
+    background-color: rgb(255, 255, 255);
+}
+
+.button:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+/* chekboxes */
 
 #checkboxes input {
     margin: .4rem;
 }
 
-#checkboxes label {
+#checklabel {
     font: 1rem 'Fira Sans', sans-serif;
 }
 
 #choose_alarm {
     font: 1rem 'Fira Sans', sans-serif;
-    margin: 8px;
+    margin: 5px;
+}
+
+/* webhock */
+
+#webhock1 {
+    display: flex;
+    align-items: center;
+}
+
+#webhock2 {
+    display: flex;
+    align-items: center;
 }
 
 #webhock {
-    margin: 15px;
+    margin: 2.5px;
 }
 
-#webhock input {
+#webhock1_input {
+    flex: 1;
     font: 14px "Fira Sans", sans-serif;
     outline: none;
 
-    margin: 8px;
+    margin: 5px;
     width: 200px;
     min-height: 30px;
 }
 
-#webhock label {
-    font: 1rem 'Fira Sans', sans-serif;
+#webhock2_input {
+    flex: 1;
+    font: 14px "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
+    width: 200px;
+    min-height: 30px;
 }
+
+/* time */
 
 #time {
-    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 2.5px;
 }
 
-#time label {
-    font: 1rem 'Fira Sans', sans-serif;
-}
-
-#time input {
+#time_start {
     font: 18px "Fira Sans", sans-serif;
     outline: none;
 
-    margin: 8px;
+    margin: 5px;
+    width: 200px;
+    min-height: 30px;
+
+    text-align: center;
+}
+
+#time_start_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#time_end_area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#time_end {
+    font: 18px "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
     width: 200px;
     min-height: 30px;
 

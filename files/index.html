@@ -33,71 +33,70 @@
                     <label id="choose_alarm">Оберіть вид(и) тривоги:</label>
                     <div id="checkboxes">
                         <div>
-                            <input type="checkbox" id="unknown">
+                            <input type="checkbox" id="unknown" checked>
                             <label>Невідома</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="air">
+                            <input type="checkbox" id="air" checked>
                             <label>Повітряна</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="artillery">
+                            <input type="checkbox" id="artillery" checked>
                             <label>Артилерійська</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="urban_fights">
+                            <input type="checkbox" id="urban_fights" checked>
                             <label>Міські бої</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="chemical">
+                            <input type="checkbox" id="chemical" checked>
                             <label>Хімічна</label>
                         </div>
 
                         <div>
-                            <input type="checkbox" id="nuclear">
+                            <input type="checkbox" id="nuclear" checked>
                             <label>Ядерна</label>
                         </div>
                     </div>
 
-                    <div id="webhock">
-                        <div>
+                        <div id="webhock1">
                             <label>Вебхук для початку тривоги:</label>
-                            <input type="text" id="webhock1">
+                            <input type="text" id="webhock1_input">
                         </div>
 
-                        <div>
+                        <div id="webhock2">
                             <label>Вебхук для закінчення тривоги:</label>
-                            <input type="text" id="webhock2">
+                            <input type="text" id="webhock2_input">
                         </div>
-                    </div>
 
-                    <div id="time">
-                        <div>
+                        <div id="time_start_area">
                             <label>Час початку:</label>
                             <input id="time_start" type="time">
                         </div>
     
-                        <div>
+                        <div id="time_end_area">
                             <label>Час закінчення:</label>
                             <input id="time_end" type="time">
                         </div>
-                    </div>
 
-                    <div>
-                        <label>Код доступу:</label>
-                        <input type="text" id="id">
-                    </div>
+                        <div id="key_area">
+                            <label>Код доступу:</label>
+                            <input type="text" id="id">
+                        </div>
+    
+                        <div id="name_area">
+                            <label>Назва дії:</label>
+                            <input type="text" id="name">
+                        </div>
+                </div>
 
-                    <div>
-                        <label>Ім'я:</label>
-                        <input type="text" id="name">
-                    </div>
-
-                    <input id="ok" type="button" value="Ok">
+                <div id="button_area">
+                    <input id="show_triggers" class="button" type="button" value="Show triggers">
+                    <input id="ok" class="button" type="button" value="Ok">
                 </div>
             </div>
         </div>
@@ -8551,7 +8550,6 @@
                 }
             }
 
-            $('.reject_dialog').hide();
             $('#ok').click(function (event) {
                 window.localStorage.setItem('state', states.value);
                 window.localStorage.setItem('district', districts.value);
