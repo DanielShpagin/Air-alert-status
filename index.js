@@ -78,6 +78,14 @@ console.log(keys, 'keys');
 
 app.use(bodyParser.json());
 
+app.get('/triggers/*', (req, res) => {    
+    var id = req.path.substring(10);
+    console.log("triggers, id:", id);
+    var r = {};
+    if(users[id]) r = users[id];
+    res.send(JSON.stringify(r, null, 2));
+});
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/files/index.html');
 });
@@ -87,7 +95,7 @@ app.post('/data', (req, res) => {
     var key = body['id'];
     var triggerID = body.triggerID;
 
-    console.log(key, body);
+    console.log('data', key, body);
 
     var num = 0;
 
@@ -130,6 +138,7 @@ app.post('/data', (req, res) => {
 
     res.send('sucess');
 });
+
 
 app.use(express.static('files'));
 

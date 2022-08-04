@@ -65,12 +65,12 @@
 
                         <div id="webhock1">
                             <label>Вебхук для початку тривоги:</label>
-                            <input type="text" id="webhock1_input">
+                            <input type="text" id="webhock_open">
                         </div>
 
                         <div id="webhock2">
                             <label>Вебхук для закінчення тривоги:</label>
-                            <input type="text" id="webhock2_input">
+                            <input type="text" id="webhock_close">
                         </div>
 
                         <div id="time_start_area">
@@ -85,7 +85,7 @@
 
                         <div id="key_area">
                             <label>Код доступу:</label>
-                            <input type="text" id="id">
+                            <input type="text" id="key">
                         </div>
     
                         <div id="name_area">
@@ -99,6 +99,8 @@
                     <input id="ok" class="button" type="button" value="Ok">
                 </div>
             </div>
+
+            <div id="dialog_triggers"></div>
         </div>
 
         <script>
@@ -8433,8 +8435,8 @@
             const time_start = document.getElementById('time_start');
             const time_end = document.getElementById('time_end');
 
-            const webhock_open = document.getElementById('webhock1');
-            const webhock_close = document.getElementById('webhock2');
+            const webhock_open = document.getElementById('webhock_open');
+            const webhock_close = document.getElementById('webhock_close');
 
             const unknown = document.getElementById('unknown');
             const air = document.getElementById('air');
@@ -8443,7 +8445,7 @@
             const chemical = document.getElementById('chemical');
             const nuclear = document.getElementById('nuclear');
 
-            const id = document.getElementById('id');
+            const key = document.getElementById('key');
             const name = document.getElementById('name');
 
             var state_id = 0;
@@ -8461,6 +8463,56 @@
                 time_start.value = '00:00';
                 time_end.value = '23:59';
             }
+ 
+            function memorizeBox(name) {
+                var a = window.localStorage.getItem(name);
+
+                if (a) document.getElementById(name).value = a;
+
+                document.getElementById(name).addEventListener('change', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+
+                document.getElementById(name).addEventListener('keydown', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+
+                document.getElementById(name).addEventListener('click', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+                
+            }
+
+            function memorizeChekboxes(name) {
+                var a = window.localStorage.getItem(name);
+
+                if (a) document.getElementById(name).checked = a === 'true';
+
+                document.getElementById(name).addEventListener('click', () => {
+                    console.log('click', document.getElementById(name).checked);
+                    window.localStorage.setItem(name, document.getElementById(name).checked);
+                });
+            }
+
+            function memorizeDroplists(name) {
+                console.log(states.children.length);
+
+                var a = window.localStorage.getItem(name);
+
+                if (a) document.getElementById(name).value = a;
+
+                document.getElementById(name).addEventListener('change', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+
+                document.getElementById(name).addEventListener('keydown', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+
+                document.getElementById(name).addEventListener('click', () => {
+                    window.localStorage.setItem(name, document.getElementById(name).value);
+                });
+            }
 
             function fillStatesSelect() {
                 for (var i = 0; i < ua.states.length; i++) {
@@ -8475,18 +8527,18 @@
                     states.appendChild(item);
                 }
 
-                if (window.localStorage.getItem('state')) {
-                    states.value = window.localStorage.getItem('state');
+                if (window.localStorage.getItem('states')) {
+                    states.value = window.localStorage.getItem('states');
                 }
 
-                if (window.localStorage.getItem('district')) {
+                if (window.localStorage.getItem('districts')) {
                     fillDistrictsSelect();
-                    districts.value = window.localStorage.getItem('district');
+                    districts.value = window.localStorage.getItem('districts');
                 }
 
-                if (window.localStorage.getItem('community')) {
+                if (window.localStorage.getItem('communities')) {
                     fillCommunitiesSelect();
-                    communities.value = window.localStorage.getItem('community');
+                    communities.value = window.localStorage.getItem('communities');
                 }
             }
 
@@ -8550,18 +8602,29 @@
                 }
             }
 
-            $('#ok').click(function (event) {
-                window.localStorage.setItem('state', states.value);
-                window.localStorage.setItem('district', districts.value);
-                window.localStorage.setItem('community', communities.value);
-            });
-
             setTime();
             fillStatesSelect();
+
             states.addEventListener('change', fillDistrictsSelect);
             districts.addEventListener('change', fillCommunitiesSelect);
 
-            $('#ok').click(function (event) {
+            var inputs = ['webhock_open', 'webhock_close', 'key', 'name'];
+            var checkboxes = ['unknown', 'air', 'artillery', 'urban_fights', 'chemical', 'nuclear'];
+            var droplists = ['states', 'districts', 'communities'];
+
+            for (var i = 0; i < inputs.length; i++) {
+                memorizeBox(inputs[i]);
+            }
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                memorizeChekboxes(checkboxes[i]);
+            }
+
+            for (var i = 0; i < droplists.length; i++) {
+                memorizeDroplists(droplists[i]);
+            }
+
+            $('#ok').click(function () {
                 for (var i = 0; i < states_id.length; i++) {
                     if (states.value === states_id[i]['name']) {
                         state_id = states_id[i]['id'];
@@ -8580,7 +8643,7 @@
                     }
                 }
                 
-                if (state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && id.value && name.value) {
+                if (state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && key.value && name.value) {
                     console.log(unknown.checked, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
 
                     var obj = {
@@ -8592,7 +8655,7 @@
                         'time_start': time_start.value, 
                         'webhock_open': webhock_open.value, 
                         'webhock_close': webhock_close.value, 
-                        'id': id.value, 
+                        'id': key.value, 
                         'name': name.value, 
                         'UNKNOWN': unknown.checked, 
                         'AIR': air.checked, 
@@ -8603,6 +8666,8 @@
                         'started': false, 
                         'need_alert': false
                     }
+
+                    console.log('/data', obj);
 
                     fetch('/data', {
                         method: 'post',
@@ -8621,7 +8686,30 @@
                 }
             });
 
-            console.log(unknown.value, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
+            /*$('#show_triggers').click(function () {
+                fetch(`/triggers/${id.value}`).then(res => {
+                    res.text().then(txt => {
+                        var obj = JSON.parse(txt);
+                        var key = null;
+
+                        $('.dialog').hide();
+
+                        for (var i = 0; i < obj.length; i++) {
+                            var item = document.createElement('div');
+
+                            item.innerHTML = `<div class="trigger">${obj[i].name}</div>`;
+                            document.getElementById('dialog_triggers').appendChild(item);
+
+                            
+                        }
+
+                        if (obj) window.localStorage.setItem('obj', obj);
+
+
+                        console.log(obj);
+                    });
+                });
+            });*/
         </script>
     </body>
 </html>
