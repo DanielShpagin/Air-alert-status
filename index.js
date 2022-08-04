@@ -78,9 +78,9 @@ console.log(keys, 'keys');
 
 app.use(bodyParser.json());
 
-app.get('/triggers/*', (req, res) => {    
+app.get('/triggers/*', (req, res) => {
+    console.log(users);
     var id = req.path.substring(10);
-    console.log("triggers, id:", id);
     var r = {};
     if(users[id]) r = users[id];
     res.send(JSON.stringify(r, null, 2));

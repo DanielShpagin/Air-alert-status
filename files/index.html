@@ -100,7 +100,9 @@
                 </div>
             </div>
 
-            <div id="dialog_triggers"></div>
+            <div id="dialog_triggers">
+                <label id="trigger_text">Активні тревоги</label>
+            </div>
         </div>
 
         <script>
@@ -8686,30 +8688,35 @@
                 }
             });
 
-            /*$('#show_triggers').click(function () {
-                fetch(`/triggers/${id.value}`).then(res => {
+            $('#dialog_triggers').hide();
+            $('#show_triggers').click(function () {
+                fetch(`/triggers/${key.value}`).then(res => {
                     res.text().then(txt => {
                         var obj = JSON.parse(txt);
                         var key = null;
 
+                        $('#dialog_triggers').show();
                         $('.dialog').hide();
+                        console.log(obj);
 
                         for (var i = 0; i < obj.length; i++) {
                             var item = document.createElement('div');
 
-                            item.innerHTML = `<div class="trigger">${obj[i].name}</div>`;
-                            document.getElementById('dialog_triggers').appendChild(item);
+                            item.className = 'trigger';
+                            console.log(obj[i].name);
+                            item.innerHTML = `
+                                <label class="trigger_name">${obj[i].name}</label>
+                                <div class="trigger_margin"></div>
+                                <label class="trigger_delete">x</label>
+                            `;
 
-                            
+                            document.getElementById('dialog_triggers').appendChild(item);
                         }
 
                         if (obj) window.localStorage.setItem('obj', obj);
-
-
-                        console.log(obj);
                     });
                 });
-            });*/
+            });
         </script>
     </body>
 </html>
