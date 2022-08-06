@@ -17,8 +17,6 @@ async function readFiles() {
 
     fs.readdirSync('./users/').forEach(folder => {
         if (!users[folder]) users[folder] = [];
-        
-        console.log(folder);
 
         fs.readdirSync(`./users/${folder}/`).forEach(file => {
             const data = JSON.parse(fs.readFileSync(`./users/${folder}/${file}`, 'utf8'));
@@ -74,15 +72,31 @@ readFiles();
 generateKeys();
 getKeys();
 
-console.log(keys, 'keys');
-
 app.use(bodyParser.json());
 
+app.get('/delete/*', (req, res) => {
+    var massiv = req.path.split('/');
+
+    var key = massiv[2];
+    var id = massiv[3];
+
+    if(fs.existsSync(`./users/${key}/${id}.json`)) fs.unlinkSync(`./users/${key}/${id}.json`);
+
+    console.log('delete');
+
+    for (var i = 0; i < users[key].length; i++) {
+        if (users[key][i].triggerID === id) {
+            users[key].splice(i, 1);
+        }
+    }
+
+    console.log(users, 'delete');
+});
+
 app.get('/triggers/*', (req, res) => {
-    console.log(users);
     var id = req.path.substring(10);
     var r = {};
-    if(users[id]) r = users[id];
+    if (users[id]) r = users[id];
     res.send(JSON.stringify(r, null, 2));
 });
 
@@ -92,10 +106,8 @@ app.get('/', (req, res) => {
 
 app.post('/data', (req, res) => {
     var body = req.body;
-    var key = body['id'];
+    var key = body.id;
     var triggerID = body.triggerID;
-
-    console.log('data', key, body);
 
     var num = 0;
 
@@ -105,7 +117,9 @@ app.post('/data', (req, res) => {
                 if (!users[key]) users[key] = [];
 
                 for (var b = 0; b < users[key].length; b++) {
-                    if (users[key][b].name === body['name']) {
+                    if (users[key][b].triggerID === body.triggerID) {
+                        users[key][b] = body;
+
                         num++;
                     }
                 }
@@ -123,11 +137,7 @@ app.post('/data', (req, res) => {
                     console.error(err);
                 }
 
-                fs.writeFile(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2), err => {
-                    if (err) throw err;
-                });
-
-                console.log(alerts, users);
+                fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
 
                 break;
             }
@@ -148,7 +158,6 @@ app.listen(port, () => {
 
 var apikey = '';
 apikey = fs.readFileSync('key.txt').toString('utf8').substring(0,41);
-console.log('KEY:', apikey);
 
 if (apikey.length == 0) {
     console.error('You need to get the correct access key from the https://api.ukrainealarm.com and put into the key.txt');

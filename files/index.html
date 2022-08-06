@@ -102,6 +102,8 @@
 
             <div id="dialog_triggers">
                 <label id="trigger_text">Активні тревоги</label>
+                <div id="triggers_list"></div>
+                <input id="add_trigger" type="button" value="Add trigger">
             </div>
         </div>
 
@@ -8465,6 +8467,21 @@
                 time_start.value = '00:00';
                 time_end.value = '23:59';
             }
+
+            function callback(event) {
+                const string = event.srcElement.id;
+                var triggerID = string.replace('_delete', '');
+
+                document.getElementById(`${triggerID}`).remove(); 
+
+                if (window.localStorage.getItem('key')) {
+                    fetch(`/delete/${window.localStorage.getItem('key')}/${triggerID}`).then(res => {
+                        res.text().then(txt => {
+                            console.log(txt);
+                        });
+                    });
+                }
+            }
  
             function memorizeBox(name) {
                 var a = window.localStorage.getItem(name);
@@ -8472,14 +8489,17 @@
                 if (a) document.getElementById(name).value = a;
 
                 document.getElementById(name).addEventListener('change', () => {
+                    if (name === 'key') window.localStorage.setItem('key', key.value);
                     window.localStorage.setItem(name, document.getElementById(name).value);
                 });
 
                 document.getElementById(name).addEventListener('keydown', () => {
+                    if (name === 'key') window.localStorage.setItem('key', key.value);
                     window.localStorage.setItem(name, document.getElementById(name).value);
                 });
 
                 document.getElementById(name).addEventListener('click', () => {
+                    if (name === 'key') window.localStorage.setItem('key', key.value);
                     window.localStorage.setItem(name, document.getElementById(name).value);
                 });
                 
@@ -8646,10 +8666,10 @@
                 }
                 
                 if (state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && key.value && name.value) {
-                    console.log(unknown.checked, air.value, artillery.value, urban_fights.value, chemical.value, nuclear.value);
+                    if (!window.localStorage.getItem('triggerID')) window.localStorage.setItem('triggerID', Date.now());
 
                     var obj = {
-                        'triggerID': Date.now(), 
+                        'triggerID': window.localStorage.getItem('triggerID'), 
                         'state_id': state_id, 
                         'district_id': district_id, 
                         'community_id': community_id, 
@@ -8697,25 +8717,52 @@
 
                         $('#dialog_triggers').show();
                         $('.dialog').hide();
-                        console.log(obj);
 
+                        document.getElementById('triggers_list').innerHTML = '';
+
+                        console.log(obj);
                         for (var i = 0; i < obj.length; i++) {
                             var item = document.createElement('div');
+                            var triggerID = obj[i].triggerID;
 
                             item.className = 'trigger';
-                            console.log(obj[i].name);
+                            item.id = triggerID;
+
                             item.innerHTML = `
                                 <label class="trigger_name">${obj[i].name}</label>
                                 <div class="trigger_margin"></div>
-                                <label class="trigger_delete">x</label>
+                                <label class="trigger_delete" id="${triggerID}_delete">x</label>
                             `;
 
-                            document.getElementById('dialog_triggers').appendChild(item);
+                            document.getElementById('triggers_list').appendChild(item);
+
+                            /*item.addEventListener('click', (event) => {
+                                console.log(event);
+                            });*/
+
+                            document.getElementById(`${triggerID}_delete`).addEventListener('click', (event) => callback(event));
+                            console.log(document.getElementById(`${triggerID}_delete`));
                         }
 
                         if (obj) window.localStorage.setItem('obj', obj);
                     });
                 });
+            });
+
+            $('#add_trigger').click(function () {
+                $('#dialog_triggers').hide();
+                $('.dialog').show();
+
+                window.localStorage.removeItem('name');
+                window.localStorage.removeItem('webhock_open');
+                window.localStorage.removeItem('webhock_close');
+                window.localStorage.removeItem('triggerID');
+
+                name.value = '';
+                webhock_open.value = '';
+                webhock_close.value = '';
+
+                console.log(window.localStorage);
             });
         </script>
     </body>
