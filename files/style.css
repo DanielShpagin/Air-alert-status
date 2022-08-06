@@ -242,6 +242,7 @@ select {
 
 .trigger_margin {
     flex: 1;
+    min-height: 100%;
 }
 
 .trigger_delete {
