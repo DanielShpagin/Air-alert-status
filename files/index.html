@@ -7,6 +7,7 @@
     </head>
 
     <body>
+        <script src="https://kit.fontawesome.com/225277b5de.js" crossorigin="anonymous"></script>
         <script src='https://code.jquery.com/jquery-2.1.0.js'></script>
 
         <div id="help"></div>
@@ -8485,8 +8486,6 @@
                     if (trigger.triggerID === triggerID) {
                         console.log(trigger, window.localStorage);
 
-                        //window.localStorage.clear();
-
                         unknown.value = trigger['unknown'];
                         air.value = trigger['air'];
                         artillery.value = trigger['artillery'];
@@ -8522,10 +8521,50 @@
 
             function editTriggerForMargin(event) {
                 const string = event.srcElement.id;
-                var triggerID = string.replace('_margin', '');
+                var triggerID = string.replace('_edit', '');
 
+                var trigger = null;
 
-                console.log(triggerID, allTriggers);
+                $('#dialog_triggers').hide();
+                $('.dialog').show();
+
+                for (var i = 0; i < allTriggers.length; i++) {
+                    trigger = allTriggers[i];
+
+                    if (trigger.triggerID === triggerID) {
+                        console.log(trigger, window.localStorage);
+
+                        unknown.value = trigger['unknown'];
+                        air.value = trigger['air'];
+                        artillery.value = trigger['artillery'];
+                        chemical.value = trigger['chemical'];
+                        nuclear.value - trigger['nuclear'];
+
+                        webhock_open.value = trigger['webhock_open'];
+                        webhock_close.value = trigger['webhock_close'];
+
+                        key.value = trigger['id'];
+                        name.value = trigger['name'];
+
+                        states.value = trigger['state_name'];
+
+                        document.getElementById('districts').innerHTML = '';
+
+                        fillDistrictsSelect();
+                        districts.value = trigger['district_name'];
+
+                        document.getElementById('communities').innerHTML = '';
+
+                        fillCommunitiesSelect();
+                        communities.value = trigger['community_name'];
+
+                        window.localStorage['triggerID'] = triggerID;
+                        window.localStorage.setItem('triggerID', triggerID);
+                        window.localStorage.setItem('communities', communities.value);
+                        window.localStorage.setItem('states', states.value);
+                        window.localStorage.setItem('districts', districts.value);
+                    }
+                }
             }
 
             function callback(event) {
@@ -8795,7 +8834,9 @@
                             item.innerHTML = `
                                 <label class="trigger_name" id="${triggerID}_edit">${obj[i].name}</label>
                                 <div class="trigger_margin" id="${triggerID}_margin"></div>
-                                <label class="trigger_delete" id="${triggerID}_delete">x</label>
+                                <div class="trigger_delete" id="${triggerID}_delete">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                </div>
                             `;
 
                             document.getElementById('triggers_list').appendChild(item);
