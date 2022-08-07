@@ -263,7 +263,7 @@ async function onAlert() {
             
             time_start = massiv1[0]*60+massiv1[1];
             time_end = massiv2[0]*60+massiv2[1];
-            console.log(massiv, time_start, time_end, time);
+            console.log(massiv1, massiv2, time_start, time_end, time);
 
             var need_alert_old = trigger.need_alert;
             trigger.need_alert = false;
