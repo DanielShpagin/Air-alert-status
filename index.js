@@ -228,10 +228,6 @@ async function onAlert() {
 
     var users_massiv = Object.values(users);
 
-    var date = new Date(Date.now());
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-
     var user = null;
     var trigger = null;
 
@@ -240,30 +236,15 @@ async function onAlert() {
     var community_id = null;
 
     var activeAlerts = null;
-    var type = null;
-
-    var diff = date.getTimezoneOffset() + 180;
-    var time = (hours*60+minutes + diff + 60*24) % (60*24);
-    var time_start = 0;
-    var time_end = 0;
+    var type = null;    
 
     var id = 0;
-
-    var massiv1 = [];
-    var massiv2 = [];
 
     for (var a = 0; a < users_massiv.length; a++) {
         user = users_massiv[a];
 
         for (var b = 0; b < user.length; b++) {
             trigger = user[b];
-
-            massiv1 = trigger.time_start.split(':');
-            massiv2 = trigger.time_end.split(':');
-           
-            
-            time_start = parseInt(massiv1[0])*60+parseInt(massiv1[1]);
-            time_end = parseInt(massiv2[0])*60+parseInt(massiv2[1]);
 
             var need_alert_old = trigger.need_alert;
             trigger.need_alert = false;
@@ -274,19 +255,14 @@ async function onAlert() {
  
             for (var c = 0; c < obj.length; c++) {
                 activeAlerts = obj[c].activeAlerts;
-
                 for (var d = 0; d < activeAlerts.length; d++) {
                     id = activeAlerts[d].regionId;
 
-                    // console.log(time, time_start, time_end, time >= time_start && time <= time_end);
+                    if (id === state_id || id === district_id || id === community_id) {
+                        type = activeAlerts[d].type;
 
-                    if (time >= time_start && time <= time_end) {
-                        if (id === state_id || id === district_id || id === community_id) {
-                            type = activeAlerts[d].type;
-    
-                            if (trigger[type]) {
-                                trigger.need_alert = true;
-                            }
+                        if (trigger[type]) {
+                            trigger.need_alert = true;
                         }
                     }
                 }
@@ -301,32 +277,55 @@ async function onAlert() {
 function trigger_alerts() {
     var users_massiv = Object.values(users);
 
+    var date = new Date(Date.now());
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var diff = date.getTimezoneOffset() + 180;
+    var time = (hours*60+minutes + diff + 60*24) % (60*24);
+    var time_start = 0;
+    var time_end = 0;
+    var massiv1 = [];
+    var massiv2 = [];
+
     for (var a = 0; a < users_massiv.length; a++) {
         var user = users_massiv[a];
 
         for (var b = 0; b < user.length; b++) {
             var trigger = user[b];
 
+            massiv1 = trigger.time_start.split(':');
+            massiv2 = trigger.time_end.split(':');             
+            time_start = parseInt(massiv1[0])*60+parseInt(massiv1[1]);
+            time_end = parseInt(massiv2[0])*60+parseInt(massiv2[1]);
+
             if (trigger.need_alert && !trigger.started) {
-                console.log('alert ON', trigger.name);
-                exec_hook(trigger.webhock_open).then(res => {
-                    if (res) {
-                        console.log('alert ON successful', trigger.name);
-                        trigger.started = true;
-                        changeFiles(trigger);
-                    }
-                });
+                if (time >= time_start && time <= time_end) {
+                    console.log('alert ON', trigger.name);
+                    exec_hook(trigger.webhock_open).then(res => {
+                        if (res) {
+                            console.log('alert ON successful', trigger.name);
+                            trigger.started = true;
+                            changeFiles(trigger);
+                        }
+                    });
+                } else{
+                    trigger.started = true;
+                }
             }
             
             if (!trigger.need_alert && trigger.started) {
-                console.log('alert OFF', trigger.name);
-                exec_hook(trigger.webhock_close).then(res => {
-                    if (res) {
-                        console.log('alert OFF successful', trigger.name);
-                        trigger.started = false;
-                        changeFiles(trigger);
-                    }
-                });
+                if (time >= time_start && time <= time_end) {
+                    console.log('alert OFF', trigger.name);
+                    exec_hook(trigger.webhock_close).then(res => {
+                        if (res) {
+                            console.log('alert OFF successful', trigger.name);
+                            trigger.started = false;
+                            changeFiles(trigger);
+                        }
+                    });
+                } else{
+                    trigger.started = false;
+                }
             }
         }
     }
@@ -342,7 +341,7 @@ async function checkAlerts(callback) {
             lastActionIndex = id.lastActionIndex;
             obj = await alert_request('');
             if (obj !== {}) {
-                // console.log(obj);
+                console.log("Alert state changed:\n",obj);
                 alertState = obj;
                 if (callback) callback();
             }
