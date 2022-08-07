@@ -82,15 +82,11 @@ app.get('/delete/*', (req, res) => {
 
     if(fs.existsSync(`./users/${key}/${id}.json`)) fs.unlinkSync(`./users/${key}/${id}.json`);
 
-    console.log('delete');
-
     for (var i = 0; i < users[key].length; i++) {
         if (users[key][i].triggerID === id) {
             users[key].splice(i, 1);
         }
     }
-
-    console.log(users, 'delete');
 });
 
 app.get('/triggers/*', (req, res) => {
@@ -155,7 +151,7 @@ app.post('/data', (req, res) => {
 app.use(express.static('files'));
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(`Listening on port ${port}`);
 });
 
 var apikey = '';
@@ -196,11 +192,9 @@ async function alert_request(cmd) {
 async function exec_hook(uri) {
     if(uri.includes('https://')){
         try {
-            console.log('exec uri:', uri);
             var res = await fetch(uri);
             var txt = await res.text();
             if (txt.length) {
-                console.log('exec uri response:', txt);
                 var obj = JSON.parse(txt);
                 if (obj.error) return obj.error === 0;
                 return true;
@@ -248,7 +242,7 @@ async function onAlert() {
     var activeAlerts = null;
     var type = null;
 
-    var time = 0;
+    var  time = hours*60+minutes;
     var time_start = 0;
     var time_end = 0;
 
@@ -265,10 +259,11 @@ async function onAlert() {
 
             massiv1 = trigger.time_start.split(':');
             massiv2 = trigger.time_end.split(':');
-
-            time = hours*60+minutes;
+           
+            
             time_start = massiv1[0]*60+massiv1[1];
             time_end = massiv2[0]*60+massiv2[1];
+            console.log(massiv, time_start, time_end, time);
 
             var need_alert_old = trigger.need_alert;
             trigger.need_alert = false;
@@ -283,7 +278,7 @@ async function onAlert() {
                 for (var d = 0; d < activeAlerts.length; d++) {
                     id = activeAlerts[d].regionId;
 
-                    console.log(time, time_start, time_end, time >= time_start && time <= time_end);
+                    // console.log(time, time_start, time_end, time >= time_start && time <= time_end);
 
                     if (time >= time_start && time <= time_end) {
                         if (id === state_id || id === district_id || id === community_id) {
@@ -313,10 +308,8 @@ function trigger_alerts() {
             var trigger = user[b];
 
             if (trigger.need_alert && !trigger.started) {
-                console.log('attempt to open', trigger.webhock_open);
                 exec_hook(trigger.webhock_open).then(res => {
                     if (res) {
-                        console.log("open request success");
                         trigger.started = true;
                         changeFiles(trigger);
                     }
@@ -324,11 +317,8 @@ function trigger_alerts() {
             }
             
             if (!trigger.need_alert && trigger.started) {
-                console.log(trigger);
-                console.log('attempt to close', trigger.webhock_close);
                 exec_hook(trigger.webhock_close).then(res => {
                     if (res) {
-                        console.log("close request success");
                         trigger.started = false;
                         changeFiles(trigger);
                     }
@@ -348,7 +338,7 @@ async function checkAlerts(callback) {
             lastActionIndex = id.lastActionIndex;
             obj = await alert_request('');
             if (obj !== {}) {
-                console.log(obj);
+                // console.log(obj);
                 alertState = obj;
                 if (callback) callback();
             }
