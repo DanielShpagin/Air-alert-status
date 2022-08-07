@@ -252,8 +252,6 @@ async function onAlert(alertState) {
     var massiv1 = [];
     var massiv2 = [];
 
-    console.log(hours, minutes);
-
     for (var a = 0; a < users_massiv.length; a++) {
         user = users_massiv[a];
 
@@ -267,9 +265,8 @@ async function onAlert(alertState) {
             time_start = massiv1[0]*60+massiv1[1];
             time_end = massiv2[0]*60+massiv2[1];
 
+            var need_alert_old = trigger.need_alert;
             trigger.need_alert = false;
-
-            changeFiles(trigger);
 
             state_id = trigger.state_id;
             district_id = trigger.district_id;
@@ -289,12 +286,13 @@ async function onAlert(alertState) {
     
                             if (trigger[type]) {
                                 trigger.need_alert = true;
-    
-                                changeFiles(trigger);
                             }
                         }
                     }
                 }
+            }
+            if(need_alert_old !== trigger.need_alert){
+                changeFiles(trigger);
             }
         }
     }
@@ -313,6 +311,7 @@ function trigger_alerts() {
                 console.log('attempt to open');
                 exec_hook(trigger.webhock_open).then(res => {
                     if (res) {
+                        console.log("open request success");
                         trigger.started = true;
                         changeFiles(trigger);
                     }
@@ -323,6 +322,7 @@ function trigger_alerts() {
                 console.log('attempt to close');
                 exec_hook(trigger.webhock_close).then(res => {
                     if (res) {
+                        console.log("close request success");
                         trigger.started = false;
                         changeFiles(trigger);
                     }
