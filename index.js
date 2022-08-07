@@ -310,7 +310,7 @@ function trigger_alerts() {
             var trigger = user[b];
 
             if (trigger.need_alert && !trigger.started) {
-                console.log('attempt to open');
+                console.log('attempt to open', trigger.webhock_open);
                 exec_hook(trigger.webhock_open).then(res => {
                     if (res) {
                         console.log("open request success");
@@ -321,7 +321,7 @@ function trigger_alerts() {
             }
             
             if (!trigger.need_alert && trigger.started) {
-                console.log('attempt to close');
+                console.log('attempt to close', trigger.webhock_close);
                 exec_hook(trigger.webhock_close).then(res => {
                     if (res) {
                         console.log("close request success");
