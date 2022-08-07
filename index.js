@@ -321,6 +321,7 @@ function trigger_alerts() {
             }
             
             if (!trigger.need_alert && trigger.started) {
+                console.log(trigger);
                 console.log('attempt to close', trigger.webhock_close);
                 exec_hook(trigger.webhock_close).then(res => {
                     if (res) {
