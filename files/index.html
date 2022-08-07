@@ -8472,7 +8472,7 @@
             }
 
             function editTrigger(event) {
-                const string = event.srcElement.id;
+                const string = event.currentTarget.id;
                 var massiv = string.split('_');
 
                 var triggerID = string.replace(`_${massiv[1]}`, '');
@@ -8523,7 +8523,7 @@
             }
 
             function callback(event) {
-                const string = event.srcElement.id;
+                const string = event.currentTarget.id;
                 var triggerID = string.replace('_delete', '');
 
                 document.getElementById(`${triggerID}`).remove(); 
@@ -8747,6 +8747,9 @@
                     }
 
                     console.log('/data', obj);
+
+                    $('.dialog').hide();
+                    $('#dialog_triggers').show();
 
                     fetch('/data', {
                         method: 'post',

@@ -140,8 +140,6 @@ app.post('/data', (req, res) => {
                 fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
 
                 res.send('sucess');
-
-                return;
             }
         }
     } else {
