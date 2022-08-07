@@ -226,7 +226,7 @@ async function test_hooks(uri_start, uri_end) {
 
 // this function called each time when alert state changes
 
-async function onAlert(alertState) {
+async function onAlert() {
     var obj = alertState;
 
     var users_massiv = Object.values(users);
@@ -347,7 +347,7 @@ async function checkAlerts(callback) {
             if (obj !== {}) {
                 console.log(obj);
                 alertState = obj;
-                if (callback) callback(alertState);
+                if (callback) callback();
             }
         }
     }
@@ -358,5 +358,6 @@ trigger_alerts();
 
 setInterval(async () => {
     checkAlerts(onAlert);
+    onAlert();
     trigger_alerts();
 }, 30000);
