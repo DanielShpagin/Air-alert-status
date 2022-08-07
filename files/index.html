@@ -8760,10 +8760,13 @@
                             if (txt === 'reject') {
                                 alert('Зверніться до адміністрації');
                             }
+
+                            if (txt === 'acess denied') {
+                                alert('Ключ доступу недійсний. Для отримання коректного ключа зверніться до розробника.');
+                            }
                         });
                     });
                 } else {
-                    //state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && key.value && name.value
                     var inputs = [
                         {
                             variable: state_id, 
@@ -8797,7 +8800,7 @@
 
                     for (var i = 0; i < inputs.length; i++) {
                         if (!inputs[i].variable) {
-                            window.alert(inputs[i].string);
+                            alert(inputs[i].string);
                             break;
                         }
                     }

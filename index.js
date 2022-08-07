@@ -139,14 +139,18 @@ app.post('/data', (req, res) => {
 
                 fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
 
-                break;
+                res.send('sucess');
+
+                return;
             }
         }
     } else {
         res.send('reject');
+
+        return;
     }
 
-    res.send('sucess');
+    res.send('acess denied');
 });
 
 
