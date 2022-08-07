@@ -143,12 +143,10 @@ app.post('/data', (req, res) => {
             }
         }
     } else {
-        res.send('reject');
-
+        res.send('acess denied');
         return;
     }
 
-    res.send('acess denied');
 });
 
 

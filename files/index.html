@@ -8466,6 +8466,39 @@
             const on = 'on';
             const off = 'off';
 
+            function createTriggers(obj) {
+                $('#dialog_triggers').show();
+                $('.dialog').hide();
+
+                document.getElementById('triggers_list').innerHTML = '';
+
+                allTriggers = obj;
+
+                for (var i = 0; i < obj.length; i++) {
+                    var item = document.createElement('div');
+                    var triggerID = obj[i].triggerID;
+
+                    item.className = 'trigger';
+                    item.id = triggerID;
+
+                    item.innerHTML = `
+                        <label class="trigger_name" id="${triggerID}_edit">${obj[i].name}</label>
+                        <div class="trigger_margin" id="${triggerID}_margin"></div>
+                        <div class="trigger_delete" id="${triggerID}_delete">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </div>
+                    `;
+
+                    document.getElementById('triggers_list').appendChild(item);
+
+                    document.getElementById(`${triggerID}_edit`).addEventListener('click', (event) => editTrigger(event));
+                    document.getElementById(`${triggerID}_margin`).addEventListener('click', (event) => editTrigger(event));
+                    document.getElementById(`${triggerID}_delete`).addEventListener('click', (event) => callback(event));
+                }
+
+                if (obj) window.localStorage.setItem('obj', obj);
+            }
+
             function setTime() {
                 time_start.value = '00:00';
                 time_end.value = '23:59';
@@ -8536,7 +8569,7 @@
                     });
                 }
             }
- 
+
             function memorizeBox(name) {
                 var a = window.localStorage.getItem(name);
 
@@ -8748,9 +8781,6 @@
 
                     console.log('/data', obj);
 
-                    $('.dialog').hide();
-                    $('#dialog_triggers').show();
-
                     fetch('/data', {
                         method: 'post',
                         headers: {
@@ -8766,6 +8796,14 @@
 
                             if (txt === 'acess denied') {
                                 alert('Ключ доступу недійсний. Для отримання коректного ключа зверніться до розробника.');
+                            }else{
+                                fetch(`/triggers/${key.value}`).then(res => {
+                                    res.text().then(txt => {
+                                        var obj = JSON.parse(txt);
+
+                                        createTriggers(obj);
+                                    });
+                                });
                             }
                         });
                     });
@@ -8815,38 +8853,8 @@
                 fetch(`/triggers/${key.value}`).then(res => {
                     res.text().then(txt => {
                         var obj = JSON.parse(txt);
-                        var key = null;
 
-                        $('#dialog_triggers').show();
-                        $('.dialog').hide();
-
-                        document.getElementById('triggers_list').innerHTML = '';
-
-                        allTriggers = obj;
-
-                        for (var i = 0; i < obj.length; i++) {
-                            var item = document.createElement('div');
-                            var triggerID = obj[i].triggerID;
-
-                            item.className = 'trigger';
-                            item.id = triggerID;
-
-                            item.innerHTML = `
-                                <label class="trigger_name" id="${triggerID}_edit">${obj[i].name}</label>
-                                <div class="trigger_margin" id="${triggerID}_margin"></div>
-                                <div class="trigger_delete" id="${triggerID}_delete">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </div>
-                            `;
-
-                            document.getElementById('triggers_list').appendChild(item);
-
-                            document.getElementById(`${triggerID}_edit`).addEventListener('click', (event) => editTrigger(event));
-                            document.getElementById(`${triggerID}_margin`).addEventListener('click', (event) => editTrigger(event));
-                            document.getElementById(`${triggerID}_delete`).addEventListener('click', (event) => callback(event));
-                        }
-
-                        if (obj) window.localStorage.setItem('obj', obj);
+                        createTriggers(obj);
                     });
                 });
             });
