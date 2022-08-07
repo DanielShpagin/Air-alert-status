@@ -308,8 +308,10 @@ function trigger_alerts() {
             var trigger = user[b];
 
             if (trigger.need_alert && !trigger.started) {
+                console.log('alert ON', trigger.name);
                 exec_hook(trigger.webhock_open).then(res => {
                     if (res) {
+                        console.log('alert ON successful', trigger.name);
                         trigger.started = true;
                         changeFiles(trigger);
                     }
@@ -317,8 +319,10 @@ function trigger_alerts() {
             }
             
             if (!trigger.need_alert && trigger.started) {
+                console.log('alert OFF', trigger.name);
                 exec_hook(trigger.webhock_close).then(res => {
                     if (res) {
+                        console.log('alert OFF successful', trigger.name);
                         trigger.started = false;
                         changeFiles(trigger);
                     }
