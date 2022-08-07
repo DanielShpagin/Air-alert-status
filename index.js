@@ -242,7 +242,8 @@ async function onAlert() {
     var activeAlerts = null;
     var type = null;
 
-    var  time = (hours*60+minutes + diff + 60*24) % (60*24);
+    var diff = date.getTimezoneOffset() + 180;
+    var time = (hours*60+minutes + diff + 60*24) % (60*24);
     var time_start = 0;
     var time_end = 0;
 
