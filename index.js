@@ -117,9 +117,11 @@ app.post('/data', (req, res) => {
                 if (!users[key]) users[key] = [];
 
                 for (var b = 0; b < users[key].length; b++) {
-                    if (users[key][b].triggerID === body.triggerID) {
+                    var el=users[key][b];
+                    if (el.triggerID === body.triggerID) {
+                        if(el.need_alert)body.need_alert = el.need_alert;
+                        if(el.started)body.started = el.started;
                         users[key][b] = body;
-
                         num++;
                     }
                 }
@@ -192,20 +194,21 @@ async function alert_request(cmd) {
 
 // execure the webhook, returns true if succesful
 async function exec_hook(uri) {
-    try {
-        console.log('exec uri:', uri);
-        var res = await fetch(uri);
-        var txt = await res.text();
-        if (txt.length) {
-            console.log('exec uri response:', txt);
-            var obj = JSON.parse(txt);
-            if (obj.error) return obj.error === 0;
-            return true;
+    if(uri.includes('https://')){
+        try {
+            console.log('exec uri:', uri);
+            var res = await fetch(uri);
+            var txt = await res.text();
+            if (txt.length) {
+                console.log('exec uri response:', txt);
+                var obj = JSON.parse(txt);
+                if (obj.error) return obj.error === 0;
+                return true;
+            }
+        } catch (err) {
+            console.log(err);
         }
-    } catch (err) {
-        console.log(err);
     }
-
     return false;
 }
 
