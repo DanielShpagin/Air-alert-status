@@ -242,6 +242,8 @@ async function onAlert() {
     var activeAlerts = null;
     var type = null;
 
+    var diff = date.getTimezoneOffset();
+    console.log("diff", diff);
     var  time = hours*60+minutes;
     var time_start = 0;
     var time_end = 0;
