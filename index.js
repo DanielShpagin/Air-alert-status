@@ -193,9 +193,11 @@ async function alert_request(cmd) {
 // execure the webhook, returns true if succesful
 async function exec_hook(uri) {
     try {
+        console.log('exec uri:', uri);
         var res = await fetch(uri);
         var txt = await res.text();
         if (txt.length) {
+            console.log('exec uri response:', txt);
             var obj = JSON.parse(txt);
             if (obj.error) return obj.error === 0;
             return true;
