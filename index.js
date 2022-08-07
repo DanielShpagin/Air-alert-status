@@ -39,7 +39,7 @@ async function generateKeys() {
         for (var i = 0; i < number; i++) {
             key = crypto.randomBytes(10).toString('hex');
             body = {
-                "key": key, 
+                "key": key,
                 "name": ""
             }
 
@@ -80,7 +80,7 @@ app.get('/delete/*', (req, res) => {
     var key = massiv[2];
     var id = massiv[3];
 
-    if(fs.existsSync(`./users/${key}/${id}.json`)) fs.unlinkSync(`./users/${key}/${id}.json`);
+    if (fs.existsSync(`./users/${key}/${id}.json`)) fs.unlinkSync(`./users/${key}/${id}.json`);
 
     for (var i = 0; i < users[key].length; i++) {
         if (users[key][i].triggerID === id) {
@@ -113,10 +113,10 @@ app.post('/data', (req, res) => {
                 if (!users[key]) users[key] = [];
 
                 for (var b = 0; b < users[key].length; b++) {
-                    var el=users[key][b];
+                    var el = users[key][b];
                     if (el.triggerID === body.triggerID) {
-                        if(el.need_alert)body.need_alert = el.need_alert;
-                        if(el.started)body.started = el.started;
+                        if (el.need_alert) body.need_alert = el.need_alert;
+                        if (el.started) body.started = el.started;
                         users[key][b] = body;
                         num++;
                     }
@@ -155,7 +155,7 @@ app.listen(port, () => {
 });
 
 var apikey = '';
-apikey = fs.readFileSync('key.txt').toString('utf8').substring(0,41);
+apikey = fs.readFileSync('key.txt').toString('utf8').substring(0, 41);
 
 if (apikey.length == 0) {
     console.error('You need to get the correct access key from the https://api.ukrainealarm.com and put into the key.txt');
@@ -190,7 +190,7 @@ async function alert_request(cmd) {
 
 // execure the webhook, returns true if succesful
 async function exec_hook(uri) {
-    if(uri.includes('https://')){
+    if (uri.includes('https://')) {
         try {
             var res = await fetch(uri);
             var txt = await res.text();
@@ -231,12 +231,12 @@ async function onAlert() {
     var user = null;
     var trigger = null;
 
-    var state_id= null;
+    var state_id = null;
     var district_id = null;
     var community_id = null;
 
     var activeAlerts = null;
-    var type = null;    
+    var type = null;
 
     var id = 0;
 
@@ -252,7 +252,7 @@ async function onAlert() {
             state_id = trigger.state_id;
             district_id = trigger.district_id;
             community_id = trigger.community_id;
- 
+
             for (var c = 0; c < obj.length; c++) {
                 activeAlerts = obj[c].activeAlerts;
                 for (var d = 0; d < activeAlerts.length; d++) {
@@ -267,7 +267,7 @@ async function onAlert() {
                     }
                 }
             }
-            if(need_alert_old !== trigger.need_alert){
+            if (need_alert_old !== trigger.need_alert) {
                 changeFiles(trigger);
             }
         }
@@ -281,7 +281,7 @@ function trigger_alerts() {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var diff = date.getTimezoneOffset() + 180;
-    var time = (hours*60+minutes + diff + 60*24) % (60*24);
+    var time = (hours * 60 + minutes + diff + 60 * 24) % (60 * 24);
     var time_start = 0;
     var time_end = 0;
     var massiv1 = [];
@@ -294,9 +294,9 @@ function trigger_alerts() {
             var trigger = user[b];
 
             massiv1 = trigger.time_start.split(':');
-            massiv2 = trigger.time_end.split(':');             
-            time_start = parseInt(massiv1[0])*60+parseInt(massiv1[1]);
-            time_end = parseInt(massiv2[0])*60+parseInt(massiv2[1]);
+            massiv2 = trigger.time_end.split(':');
+            time_start = parseInt(massiv1[0]) * 60 + parseInt(massiv1[1]);
+            time_end = parseInt(massiv2[0]) * 60 + parseInt(massiv2[1]);
 
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
@@ -308,11 +308,11 @@ function trigger_alerts() {
                             changeFiles(trigger);
                         }
                     });
-                } else{
+                } else {
                     trigger.started = true;
                 }
             }
-            
+
             if (!trigger.need_alert && trigger.started) {
                 if (time >= time_start && time <= time_end) {
                     console.log('alert OFF', trigger.name);
@@ -323,7 +323,7 @@ function trigger_alerts() {
                             changeFiles(trigger);
                         }
                     });
-                } else{
+                } else {
                     trigger.started = false;
                 }
             }
@@ -341,7 +341,11 @@ async function checkAlerts(callback) {
             lastActionIndex = id.lastActionIndex;
             obj = await alert_request('');
             if (obj !== {}) {
-                console.log("Alert state changed:\n",obj);
+                var areas='Alert state changed: ';                
+                for(const a of obj){
+                    areas += a.regionName + '; ';
+                }
+                console.log(areas);
                 alertState = obj;
                 if (callback) callback();
             }
