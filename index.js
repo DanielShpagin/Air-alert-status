@@ -202,7 +202,7 @@ async function exec_hook(uri) {
         } catch (err) {
             console.log(err);
         }
-    }
+    } else return true;
     return false;
 }
 
