@@ -64,14 +64,20 @@
                         </div>
                     </div>
 
-                        <div id="webhock1">
+                        <div id="webhook1">
                             <label>Вебхук для початку тривоги:</label>
-                            <input type="text" id="webhock_open">
+                            <input type="text" id="webhook_open">
+                            <button id="webhook_open_check">
+                                <i class="fa fa-bolt" aria-hidden="true"></i>
+                            </button>
                         </div>
 
-                        <div id="webhock2">
+                        <div id="webhook2">
                             <label>Вебхук для закінчення тривоги:</label>
-                            <input type="text" id="webhock_close">
+                            <input type="text" id="webhook_close">
+                            <button id="webhook_close_check">
+                                <i class="fa fa-bolt" aria-hidden="true"></i>
+                            </button>
                         </div>
 
                         <div id="time_start_area">
@@ -8440,8 +8446,8 @@
             const time_start = document.getElementById('time_start');
             const time_end = document.getElementById('time_end');
 
-            const webhock_open = document.getElementById('webhock_open');
-            const webhock_close = document.getElementById('webhock_close');
+            const webhook_open = document.getElementById('webhook_open');
+            const webhook_close = document.getElementById('webhook_close');
 
             const unknown = document.getElementById('unknown');
             const air = document.getElementById('air');
@@ -8528,8 +8534,8 @@
                         chemical.checked = trigger['CHEMICAL'];
                         nuclear.checked - trigger['NUCLEAR'];
 
-                        webhock_open.value = trigger['webhock_open'];
-                        webhock_close.value = trigger['webhock_close'];
+                        webhook_open.value = trigger['webhook_open'];
+                        webhook_close.value = trigger['webhook_close'];
 
                         key.value = trigger['id'];
                         name.value = trigger['name'];
@@ -8717,7 +8723,7 @@
             states.addEventListener('change', fillDistrictsSelect);
             districts.addEventListener('change', fillCommunitiesSelect);
 
-            var inputs = ['webhock_open', 'webhock_close', 'key', 'name'];
+            var inputs = ['webhook_open', 'webhook_close', 'key', 'name'];
             var checkboxes = ['unknown', 'air', 'artillery', 'urban_fights', 'chemical', 'nuclear'];
             var droplists = ['states', 'districts', 'communities'];
 
@@ -8752,7 +8758,7 @@
                     }
                 }
                 
-                if (state_id && district_id && community_id && time_end.value && time_start.value && webhock_open.value && webhock_close.value && key.value && name.value) {
+                if (state_id && district_id && community_id && time_end.value && time_start.value && webhook_open.value && webhook_close.value && key.value && name.value) {
                     if (!window.localStorage.getItem('triggerID')) window.localStorage.setItem('triggerID', Date.now());
 
                     var obj = {
@@ -8765,8 +8771,8 @@
                         'community_name': communities.value, 
                         'time_end': time_end.value, 
                         'time_start': time_start.value, 
-                        'webhock_open': webhock_open.value, 
-                        'webhock_close': webhock_close.value, 
+                        'webhook_open': webhook_open.value, 
+                        'webhook_close': webhook_close.value, 
                         'id': key.value, 
                         'name': name.value, 
                         'UNKNOWN': unknown.checked, 
@@ -8822,11 +8828,11 @@
                             string: 'Оберіть громаду.'
                         },
                         {
-                            variable: webhock_open.value, 
+                            variable: webhook_open.value, 
                             string: 'Заповніть поле "Вебхук для початку тривоги"'
                         },
                         {
-                            variable: webhock_close.value, 
+                            variable: webhook_close.value, 
                             string: 'Заповніть поле "Вебхук для закінчення тривоги"'
                         },
                         {
@@ -8848,6 +8854,21 @@
                 }
             });
 
+            $('#webhook_open_check').click(function () {
+                fetch('/webhook', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({webhook: webhook_open.value})
+                }).then(res => {
+                    res.text().then(txt => {
+                        console.log(txt);
+                    });
+                });
+            });
+
             $('#dialog_triggers').hide();
             $('#show_triggers').click(function () {
                 fetch(`/triggers/${key.value}`).then(res => {
@@ -8864,13 +8885,13 @@
                 $('.dialog').show();
 
                 window.localStorage.removeItem('name');
-                window.localStorage.removeItem('webhock_open');
-                window.localStorage.removeItem('webhock_close');
+                window.localStorage.removeItem('webhook_open');
+                window.localStorage.removeItem('webhook_close');
                 window.localStorage.removeItem('triggerID');
 
                 name.value = '';
-                webhock_open.value = '';
-                webhock_close.value = '';
+                webhook_open.value = '';
+                webhook_close.value = '';
 
                 console.log(window.localStorage);
             });

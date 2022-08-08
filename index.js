@@ -100,6 +100,12 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/files/index.html');
 });
 
+app.post('/webhook', (req, res) => {
+    var body = req.body;
+
+    console.log(exec_hook(body.webhook));
+});
+
 app.post('/data', (req, res) => {
     var body = req.body;
     var key = body.id;
@@ -146,7 +152,6 @@ app.post('/data', (req, res) => {
     }
 
 });
-
 
 app.use(express.static('files'));
 
@@ -282,8 +287,10 @@ function trigger_alerts() {
     var minutes = date.getMinutes();
     var diff = date.getTimezoneOffset() + 180;
     var time = (hours * 60 + minutes + diff + 60 * 24) % (60 * 24);
+
     var time_start = 0;
     var time_end = 0;
+
     var massiv1 = [];
     var massiv2 = [];
 
@@ -300,10 +307,8 @@ function trigger_alerts() {
 
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
-                    console.log('alert ON', trigger.name);
-                    exec_hook(trigger.webhock_open).then(res => {
+                    exec_hook(trigger.webhook_open).then(res => {
                         if (res) {
-                            console.log('alert ON successful', trigger.name);
                             trigger.started = true;
                             changeFiles(trigger);
                         }
@@ -315,10 +320,8 @@ function trigger_alerts() {
 
             if (!trigger.need_alert && trigger.started) {
                 if (time >= time_start && time <= time_end) {
-                    console.log('alert OFF', trigger.name);
-                    exec_hook(trigger.webhock_close).then(res => {
+                    exec_hook(trigger.webhook_close).then(res => {
                         if (res) {
-                            console.log('alert OFF successful', trigger.name);
                             trigger.started = false;
                             changeFiles(trigger);
                         }
@@ -345,7 +348,6 @@ async function checkAlerts(callback) {
                 for(const a of obj){
                     areas += a.regionName + '; ';
                 }
-                console.log(areas);
                 alertState = obj;
                 if (callback) callback();
             }
