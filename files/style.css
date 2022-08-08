@@ -1,13 +1,21 @@
-body {
+html, body {
     margin: 0;
+    height: 100%;
+    background-color: rgb(139, 236, 236);
+}
+#whole {
+    margin: 0;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+margin {
+    flex: 1;
 }
 
 .container {
-    width: 100%;
-    min-height: 100vh;
-
-    background-color: rgb(139, 236, 236);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,10 +25,20 @@ body {
     border-radius: 10px;
     padding: 20px;
     background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+}
+
+#dialog_triggers {
+    width: 250px;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
 
     display: flex;
     flex-direction: column;
 }
+
 
 #text {
     align-self: center;
@@ -150,6 +168,7 @@ select {
 
 #webhook_open {
     flex: 1;
+
     font: 14px "Fira Sans", sans-serif;
     outline: none;
 
@@ -210,17 +229,6 @@ select {
     text-align: center;
 }
 
-/* dialog_triggers */
-
-#dialog_triggers {
-    width: 250px;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: rgb(255, 255, 255);
-
-    display: flex;
-    flex-direction: column;
-}
 
 .trigger {
     display: flex;
