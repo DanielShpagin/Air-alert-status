@@ -92,7 +92,8 @@
 
                         <div id="key_area">
                             <label>Код доступу:</label>
-                            <input type="text" id="key">
+                                <input id="key" name="password" placeholder="Password">
+                                <i class="fa fa-eye" id="togglePassword" style="cursor: pointer"></i>
                         </div>
     
                         <div id="name_area">
@@ -8765,6 +8766,16 @@
             for (var i = 0; i < droplists.length; i++) {
                 memorizeDroplists(droplists[i]);
             }
+
+            const togglePassword = document.getElementById("togglePassword");
+
+            togglePassword.addEventListener("click", function () {
+                const type = key.getAttribute("type") === "password" ? "text" : "password";
+                key.setAttribute("type", type);
+
+                togglePassword.classList.toggle('fa-eye');
+                togglePassword.classList.toggle('fa-eye-slash');
+            });
 
             $('#ok').click(function () {
                 for (var i = 0; i < states_id.length; i++) {
