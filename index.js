@@ -100,10 +100,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/files/index.html');
 });
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
     var body = req.body;
 
-    console.log(exec_hook(body.webhook));
+    var result = await exec_hook(body.webhook);
+    res.send(result ? "success" : "failure");
 });
 
 app.post('/data', (req, res) => {

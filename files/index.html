@@ -8472,6 +8472,33 @@
             const on = 'on';
             const off = 'off';
 
+            function webhookCheck(event) {
+                const string = event.currentTarget.id;
+                var massiv = string.split('_');
+
+                const webhook = document.getElementById(`${massiv[0]}_${massiv[1]}`);
+
+                fetch('/webhook', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({webhook: webhook.value})
+                }).then(res => {
+                    res.text().then(txt => {
+                        console.log(txt);
+                        if (txt === "success") {
+                            alert('Вебхук працює коректно.');
+                        } else {
+                            alert('Вебхук не працює коректно.');
+                        }
+                    });
+                });
+
+                console.log(webhook.value);
+            }
+
             function createTriggers(obj) {
                 $('#dialog_triggers').show();
                 $('.dialog').hide();
@@ -8854,7 +8881,11 @@
                 }
             });
 
-            $('#webhook_open_check').click(function () {
+            document.getElementById('webhook_open_check').addEventListener('click', (event) => webhookCheck(event));
+            document.getElementById('webhook_close_check').addEventListener('click', (event) => webhookCheck(event));
+
+            /*$('#webhook_open_check').click(function (event) {
+                console.log(event);
                 fetch('/webhook', {
                     method: 'post',
                     headers: {
@@ -8865,9 +8896,14 @@
                 }).then(res => {
                     res.text().then(txt => {
                         console.log(txt);
+                        if (txt === "success") {
+                            alert('Вебхук працює коректно.');
+                        } else {
+                            alert('Вебхук не працює коректно.');
+                        }
                     });
                 });
-            });
+            });*/
 
             $('#dialog_triggers').hide();
             $('#show_triggers').click(function () {
