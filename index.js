@@ -196,7 +196,7 @@ async function alert_request(cmd) {
 
 // execure the webhook, returns true if succesful
 async function exec_hook(uri) {
-    if (uri.includes('https://')) {
+    if (uri && uri.includes('https://')) {
         try {
             var res = await fetch(uri);
             var txt = await res.text();
