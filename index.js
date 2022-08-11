@@ -246,6 +246,8 @@ async function onAlert() {
 
     var id = 0;
 
+    console.log(JSON.stringify(obj));
+
     for (var a = 0; a < users_massiv.length; a++) {
         user = users_massiv[a];
 
