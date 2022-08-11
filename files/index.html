@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="style.css">
 
 <head>
+    <meta name=”viewport” content=”width=device-width, initial-scale=1.0″>
     <title>Air alert status</title>
 </head>
 
@@ -12,8 +13,10 @@
     <div class="container">
         <div class="top">
             <div id="buttons">
+                    <img alt="" src="favicon.ico" width="10%" height="10%">
                 <input id="show_triggers" class="button" type="button" value="Тріггери">
                 <input id="help" class="button" type="button" value="Як це працює?">
+                <input id="about" class="button" type="button" value="Про автора">
             </div>
         </div>
         <div class="dialog">
@@ -120,6 +123,8 @@
             </div>
 
             <div class="tutorial_elements"></div>
+
+            <div class="about_elements"></div>
         </div>
     </div>
 
@@ -8480,7 +8485,7 @@
 
         var allTriggers = [];
 
-        var elements = [
+        var tutorial_elements = [
             {
                 element_type: 'h2',
                 element_style: '',
@@ -8660,8 +8665,62 @@
             &#1087;&#1088;&#1080; &#1087;&#1086;&#1074;&#1110;&#1090;&#1088;&#1103;&#1085;&#1110;&#1081;
             &#1090;&#1088;&#1080;&#1074;&#1086;&#1079;&#1110;, &#1110;&#1085;&#1096;&#1110; - &#1087;&#1088;&#1080;
             &#1103;&#1076;&#1077;&#1088;&#1085;&#1110;&#1081;.`
-            }, 
+            }
         ];
+        var about_elements = [
+            {
+                element_type: 'h2',
+                element_style: '',
+                element_id: '',
+                element_text: `&#1055;&#1088;&#1086;
+            &#1072;&#1074;&#1090;&#1086;&#1088;&#1072;`
+            }, 
+            {
+                element_type: 'p',
+                element_style: '',
+                element_id: '',
+                element_text: `&#1040;&#1074;&#1090;&#1086;&#1088; &#1094;&#1100;&#1086;&#1075;&#1086;
+            &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1091; - &#1044;&#1072;&#1085;&#1080;&#1083;&#1086;
+            &#1064;&#1087;&#1072;&#1075;&#1110;&#1085;. &#1071; &#1074;&#1095;&#1091;&#1089;&#1103; &#1074;
+            &#1089;&#1100;&#1086;&#1084;&#1086;&#1084;&#1091; &#1082;&#1083;&#1072;&#1089;&#1110;,
+            &#1084;&#1077;&#1085;&#1110; &#1076;&#1074;&#1072;&#1085;&#1072;&#1076;&#1094;&#1103;&#1090;&#1100;
+            &#1088;&#1086;&#1082;&#1110;&#1074; &#1110; &#1091; &#1084;&#1077;&#1085;&#1077;
+            &#1076;&#1110;&#1072;&#1073;&#1077;&#1090; 1 &#1090;&#1080;&#1087;&#1091;. &#1052;&#1077;&#1085;&#1110;
+            &#1087;&#1086;&#1076;&#1086;&#1073;&#1072;&#1108;&#1090;&#1100;&#1089;&#1103;
+            &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1091;&#1074;&#1072;&#1085;&#1085;&#1103; &#1090;&#1072;
+            &#1084;&#1072;&#1090;&#1077;&#1084;&#1072;&#1090;&#1080;&#1082;&#1072;, &#1103; &#1074;&#1095;&#1091;
+            &#1084;&#1086;&#1074;&#1091;
+            &#1087;&#1088;&#1086;&#1075;&#1088;&#1072;&#1084;&#1091;&#1074;&#1072;&#1085;&#1085;&#1103; JavaScript.
+            &#1062;&#1077; &#1085;&#1077; &#1087;&#1077;&#1088;&#1096;&#1080;&#1081; &#1084;&#1110;&#1081;
+            &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;, &#1091; &#1084;&#1077;&#1085;&#1077; &#1108;
+            &#1076;&#1077;&#1082;&#1110;&#1083;&#1100;&#1082;&#1072; &#1094;&#1110;&#1082;&#1072;&#1074;&#1080;&#1093;
+            &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;&#1110;&#1074; &#1085;&#1072; &#1084;&#1086;&#1111;&#1081;
+            &#1089;&#1090;&#1086;&#1088;&#1110;&#1085;&#1094;&#1110; &#1074; GitHub: &nbsp;</span><span class="c6"><a
+                class="c4"
+                href="https://www.google.com/url?q=https://github.com/DanielShpagin&amp;sa=D&amp;source=editors&amp;ust=1660234188114983&amp;usg=AOvVaw1rOg4FkXKCHf1wjxW9VGjI">https://github.com/DanielShpagin</a></span><span
+            class="c2">.`
+            }, 
+            {
+                element_type: 'p',
+                element_style: '',
+                element_id: '',
+                element_text: `&#1062;&#1077;&#1081; &#1087;&#1088;&#1086;&#1077;&#1082;&#1090;
+            &#1079;&#1088;&#1086;&#1073;&#1083;&#1077;&#1085;&#1080;&#1081; &#1076;&#1083;&#1103;
+            &#1087;&#1110;&#1076;&#1090;&#1088;&#1080;&#1084;&#1082;&#1080;
+            &#1059;&#1082;&#1088;&#1072;&#1111;&#1085;&#1080;, &#1090;&#1086;&#1084;&#1091;
+            &#1087;&#1088;&#1080;&#1108;&#1076;&#1085;&#1091;&#1081;&#1090;&#1077;&#1089;&#1100; &#1076;&#1086;
+            &#1076;&#1086;&#1087;&#1086;&#1084;&#1086;&#1075;&#1080; &#1085;&#1072;&#1096;&#1086;&#1111;
+            &#1072;&#1088;&#1084;&#1110;&#1111;: `
+            }, 
+            {
+                element_type: 'a', 
+                element_style: '', 
+                element_id: 'img', 
+                element_text: `<span
+            style="overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; width: 100%; height: 100%;">
+            <img alt="" src="images/1280X720_Army.png" width="100%" height="100%" title=""></span>`
+            }
+        ]
 
         const on = 'on';
         const off = 'off';
@@ -8757,6 +8816,7 @@
 
             $('.tutorial_elements').hide();
             $('.triggers_elements').hide();
+            $('.about_elements').hide();
 
             $('.add_trigger_elements').show();
 
@@ -9112,6 +9172,7 @@
         $('#show_triggers').click(function () {
             $('.tutorial_elements').hide();
             $('.add_trigger_elements').hide();
+            $('.about_elements').hide();
             $('.triggers_elements').show();
 
             fetch(`/triggers/${key.value}`).then(res => {
@@ -9126,6 +9187,7 @@
         $('#add_trigger').click(function () {
             $('.triggers_elements').hide();
             $('.tutorial_elements').hide();
+            $('.about_elements').hide();
             $('.add_trigger_elements').show();
 
             window.localStorage.removeItem('name');
@@ -9144,15 +9206,15 @@
         $('#help').click(() => {
             $('.triggers_elements').hide();
             $('.add_trigger_elements').hide();
-
+            $('.about_elements').hide();
             $('.tutorial_elements').show();
 
             var element = null;
 
             document.querySelector('.tutorial_elements').innerHTML = '';
 
-            for (var i = 0; i < elements.length; i++) {
-                element = elements[i];
+            for (var i = 0; i < tutorial_elements.length; i++) {
+                element = tutorial_elements[i];
 
                 var item = document.createElement(element.element_type);
 
@@ -9161,6 +9223,37 @@
                 item.innerHTML = element.element_text;
 
                 document.querySelector('.tutorial_elements').appendChild(item);
+            }
+        });
+
+        $('#about').click(() => {
+            $('.triggers_elements').hide();
+            $('.add_trigger_elements').hide();
+            $('.tutorial_elements').hide();
+            $('.about_elements').show();
+
+            var element = null;
+
+            document.querySelector('.about_elements').innerHTML = '';
+
+            for (var i = 0; i < about_elements.length; i++) {
+                element = about_elements[i];
+
+                var item = document.createElement(element.element_type);
+
+                item.id = element.element_id;
+                item.style = element.element_style;
+                item.innerHTML = element.element_text;
+
+                if (item.id === 'img') {
+                    item.href = 'https://bank.gov.ua/ua/news/all/natsionalniy-bank-vidkriv-spetsrahunok-dlya-zboru-koshtiv-na-potrebi-armiyi';
+                    console.log(item);
+                    console.log(element.element_text, ',', item.innerHTML);
+                }
+
+                document.querySelector('.about_elements').appendChild(item);
+
+                console.log(document.querySelector('.about_elements'))
             }
         });
     </script>

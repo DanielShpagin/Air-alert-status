@@ -41,6 +41,9 @@ html, body {
 }
 
 .add_trigger_elements {
+    width: 90%;
+    height: 90%;
+
     display: flex;
     flex-direction: column;
 }
@@ -76,6 +79,7 @@ select {
 /* options */
 
 .options1 {
+    width: 100%;
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -327,6 +331,33 @@ select {
     padding: 10px;
 }
 
+/* about_elements */
+
+.about_elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about_elements h2 {
+    font: 1.6em "Fira Sans", sans-serif;
+
+    margin: 0px;
+    padding: 10px;
+}
+
+.about_elements p {
+    font: 18px "Fira Sans", sans-serif;
+
+    margin: 0px;
+    padding: 10px;
+}
+
+#img {
+    width: 100%;
+    height: 100%;
+}
+
 /* elements */
 
 .elements {
@@ -359,4 +390,20 @@ select {
 
 #add_trigger:hover {
     background-color: rgb(219, 219, 219);
+}
+
+/* buttons */
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+
+    align-items: center;
+    justify-content: center;
+}
+
+/* select */
+
+#states, #districts, #communities {
+    width: 100%;
 }
