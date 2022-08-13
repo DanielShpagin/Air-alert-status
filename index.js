@@ -4,6 +4,7 @@ import fetch from "node-fetch";
 import fs from 'fs'
 import path from 'path';
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
 const __dirname = path.resolve();
 
@@ -28,31 +29,52 @@ async function readFiles() {
     });
 }
 
-async function generateKeys() {
-    if (!fs.existsSync('./keys/')) {
-        fs.mkdirSync('./keys/');
+async function createFolder() {
+    if (!fs.existsSync('./keys/')) fs.mkdirSync('./keys/');
+}
 
-        var number = 10;
-        var key = null;
-        var body = null;
+async function sendMessage(email, key) {
+    const data = JSON.parse(fs.readFileSync(`email.json`, 'utf8'));
+    const client = nodemailer.createTransport(JSON.parse(fs.readFileSync(`email.json`, 'utf8')));
 
-        for (var i = 0; i < number; i++) {
-            key = crypto.randomBytes(10).toString('hex');
-            body = {
-                "key": key,
-                "name": ""
-            }
+    console.log(data);
 
-            fs.writeFileSync(`./keys/${key}.json`, JSON.stringify(body, null, 2));
+    client.sendMail(
+        {
+            from: "uaalertinfo@gmail.com",
+            to: email,
+            subject: "Sending it from node.js",
+            text: `Будь ласка, використовуйте цей ключ для доступу до сайту ua-alert.info: ${key}.`
         }
+    );
+}
+
+function generateKey(name, email, text) {
+    var key = crypto.randomBytes(10).toString('hex');
+
+    var body = {
+        "key": key,
+        "name": name, 
+        "email": email, 
+        "text": text,
+        "max_trigger_amount": 3
     }
+
+    fs.writeFileSync(`./keys/${key}.json`, JSON.stringify(body, null, 2));
+
+    keys.push(body);
+
+    sendMessage(email, key);
 }
 
 async function getKeys() {
     fs.readdirSync('./keys/').forEach(file => {
         const data = JSON.parse(fs.readFileSync(`./keys/${file}`, 'utf8'));
 
-        if (data) keys.push(data);
+        if (data) {
+            if (!data.max_trigger_amount) data.max_trigger_amount = 10000;
+            keys.push(data);
+        }
     });
 }
 
@@ -69,7 +91,7 @@ var alerts = [];
 var keys = [];
 
 readFiles();
-generateKeys();
+createFolder();
 getKeys();
 
 app.use(bodyParser.json());
@@ -92,8 +114,21 @@ app.get('/delete/*', (req, res) => {
 app.get('/triggers/*', (req, res) => {
     var id = req.path.substring(10);
     var r = {};
+
     if (users[id]) r = users[id];
+
     res.send(JSON.stringify(r, null, 2));
+});
+
+app.post('/generateKey', (req, res) => {
+    var body = req.body;
+    var email = body.key_email;
+    var name = body.key_name;
+    var textarea = body.textarea;
+
+    generateKey(name, email, textarea);
+
+    res.send('sucess');
 });
 
 app.get('/', (req, res) => {
@@ -114,6 +149,8 @@ app.post('/data', (req, res) => {
 
     var num = 0;
 
+    var send = null;
+
     if (body.id) {
         for (var a = 0; a < keys.length; a++) {
             if (keys[a].key === key) {
@@ -121,6 +158,7 @@ app.post('/data', (req, res) => {
 
                 for (var b = 0; b < users[key].length; b++) {
                     var el = users[key][b];
+
                     if (el.triggerID === body.triggerID) {
                         if (el.need_alert) body.need_alert = el.need_alert;
                         if (el.started) body.started = el.started;
@@ -129,29 +167,47 @@ app.post('/data', (req, res) => {
                     }
                 }
 
-                if (num === 0) {
-                    var a = users[key];
-                    a.push(body);
-                }
+                console.log(users[key].length <= keys[a].max_trigger_amount, users);
+                if (users[key].length !== keys[a].max_trigger_amount) {
+                    send = 'sucess';
 
-                try {
-                    if (!fs.existsSync(`./users/${key}`)) {
-                        fs.mkdirSync(`./users/${key}`);
+                    if (num === 0) {
+                        var a = users[key];
+                        a.push(body);
+
+                        try {
+                            if (!fs.existsSync(`./users/${key}`)) {
+                                fs.mkdirSync(`./users/${key}`);
+                            }
+                        } catch (err) {
+                            console.error(err);
+                        }
+        
+                        fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
                     }
-                } catch (err) {
-                    console.error(err);
+                } else send = 'key is filled';
+
+                if (num > 0) {
+                    try {
+                        if (!fs.existsSync(`./users/${key}`)) {
+                            fs.mkdirSync(`./users/${key}`);
+                        }
+                    } catch (err) {
+                        console.error(err);
+                    }
+    
+                    fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
                 }
 
-                fs.writeFileSync(`./users/${key}/${triggerID}.json`, JSON.stringify(body, null, 2));
-
-                res.send('sucess');
+                if (send) res.send(send);
             }
         }
     } else {
-        res.send('acess denied');
+        send = 'acess denied';
+
+        res.send(send);
         return;
     }
-
 });
 
 app.use(express.static('files'));
@@ -246,7 +302,7 @@ async function onAlert() {
 
     var id = 0;
 
-    console.log(JSON.stringify(obj));
+    //console.log(JSON.parse(obj));
 
     for (var a = 0; a < users_massiv.length; a++) {
         user = users_massiv[a];

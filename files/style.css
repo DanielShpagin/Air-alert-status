@@ -40,30 +40,8 @@ html, body {
     align-items: center;
 }
 
-.add_trigger_elements {
-    width: 90%;
-    height: 90%;
-
-    display: flex;
-    flex-direction: column;
-}
-
-#text {
-    align-self: center;
-    font: 22px "Fira Sans", sans-serif;
-}
-
 label {
     font: 1rem 'Fira Sans', sans-serif;
-}
-
-.trigger {
-    max-width: auto;
-
-    border-bottom: 1px gray solid;
-
-    display: flex;
-    flex-direction: row;
 }
 
 select {
@@ -76,10 +54,28 @@ select {
     font-size: 15px;
 }
 
+/* add_trigger_elements */
+
+.add_trigger_elements {
+    width: 90%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#text {
+    align-self: center;
+
+    padding: 20px;
+    font: 22px "Fira Sans", sans-serif;
+}
+
 /* options */
 
 .options1 {
     width: 100%;
+
     align-self: center;
     display: flex;
     flex-direction: column;
@@ -101,6 +97,7 @@ select {
 
 #key {
     flex: 1;
+
     font: 14px "Fira Sans", sans-serif;
     outline: none;
 
@@ -116,6 +113,7 @@ select {
 
 #name {
     flex: 1;
+
     font: 14px "Fira Sans", sans-serif;
     outline: none;
 
@@ -132,7 +130,7 @@ select {
     justify-content: center;
 }
 
-.button {
+.top_button {
     font: 1.1rem 'Fira Sans', sans-serif;
 
     padding: 10px;
@@ -144,11 +142,11 @@ select {
     color: rgb(236, 236, 236);
 }
 
-.button:hover {
+.top_button:hover {
     background-color: rgb(77, 77, 180);;
 }
 
-#ok {
+.container_button {
     font: 1.1rem 'Fira Sans', sans-serif;
 
     padding: 10px;
@@ -156,10 +154,13 @@ select {
 
     border: none;
     outline: none;
+
     background-color: white;
+
+    cursor: pointer
 }
 
-#ok:hover {
+.container_button:hover {
     background-color: rgb(219, 219, 219);
 }
 
@@ -274,7 +275,10 @@ select {
     justify-content: space-between;
     align-items: center;
 
+    max-width: auto;
     height: 50px;
+
+    border-bottom: 1px gray solid;
 }
 
 .trigger:hover {
@@ -376,22 +380,6 @@ select {
     flex: 1;
 }
 
-#add_trigger {
-    font: 1.1rem 'Fira Sans', sans-serif;
-
-    padding: 10px;
-    margin: 20px;
-
-    border: none;
-    outline: none;
-
-    background-color: rgb(255, 255, 255);
-}
-
-#add_trigger:hover {
-    background-color: rgb(219, 219, 219);
-}
-
 /* buttons */
 
 #buttons {
@@ -406,4 +394,80 @@ select {
 
 #states, #districts, #communities {
     width: 100%;
+}
+
+/* key_elements */
+
+.key_elements {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+#key_area_text {
+    align-self: center;
+
+    padding: 20px;
+    font: 22px "Fira Sans", sans-serif;
+}
+
+.key_name_area {
+    display: flex;
+    align-items: center;
+}
+
+#key_name {
+    flex: 1;
+
+    font: 14px "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
+    width: 200px;
+    min-height: 30px;
+}
+
+.key_email_area {
+    display: flex;
+    align-items: center;
+}
+
+#key_email {
+    flex: 1;
+
+    font: 14px "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
+    width: 200px;
+    min-height: 30px;
+}
+
+.key_textarea {
+    display: flex;
+    align-items: center;
+}
+
+#textarea {
+    resize: none;
+
+    flex: 1;
+
+    font: 14px "Fira Sans", sans-serif;
+    outline: none;
+
+    margin: 5px;
+    width: 200px;
+    min-height: 60px;
+}
+
+.key_ok_area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#key_ok {
+    align-self: center;
 }
