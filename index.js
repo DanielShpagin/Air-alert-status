@@ -50,6 +50,16 @@ async function sendMessage(email, key) {
 }
 
 function generateKey(name, email, text) {
+    getKeys();
+
+    for (var i = 0; i < keys.length; i++) {
+        if (keys[i].email === email) {
+            sendMessage(email, keys[i].key);
+
+            return;
+        }
+    }
+
     var key = crypto.randomBytes(10).toString('hex');
 
     var body = {
@@ -68,6 +78,7 @@ function generateKey(name, email, text) {
 }
 
 async function getKeys() {
+    keys = [];
     fs.readdirSync('./keys/').forEach(file => {
         const data = JSON.parse(fs.readFileSync(`./keys/${file}`, 'utf8'));
 
