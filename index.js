@@ -11,7 +11,7 @@ const https_options = {
     key: fs.readFileSync('./cert/ua-alert_info.key'),
     cert: fs.readFileSync('./cert/ua-alert_info.crt'),
     ca: fs.readFileSync('./cert/ua-alert_info.ca-bundle'),
-  };
+};
 
 const __dirname = path.resolve();
 
@@ -45,8 +45,6 @@ async function createFolder() {
 async function sendMessage(email, key) {
     const data = JSON.parse(fs.readFileSync(`email.json`, 'utf8'));
     const client = nodemailer.createTransport(JSON.parse(fs.readFileSync(`email.json`, 'utf8')));
-
-    console.log(data);
 
     client.sendMail(
         {
@@ -187,7 +185,6 @@ app.post('/data', (req, res) => {
                     }
                 }
 
-                console.log(users[key].length <= keys[a].max_trigger_amount, users);
                 if (users[key].length !== keys[a].max_trigger_amount) {
                     send = 'sucess';
 
@@ -241,7 +238,6 @@ apikey = fs.readFileSync('key.txt').toString('utf8').substring(0, 41);
 
 if (apikey.length == 0) {
     console.error('You need to get the correct access key from the https://api.ukrainealarm.com and put into the key.txt');
-    //abort();
 }
 
 async function alert_request(cmd) {
@@ -321,8 +317,6 @@ async function onAlert() {
     var type = null;
 
     var id = 0;
-
-    //console.log(JSON.parse(obj));
 
     for (var a = 0; a < users_massiv.length; a++) {
         user = users_massiv[a];
