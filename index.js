@@ -5,11 +5,20 @@ import fs from 'fs'
 import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import https from 'https';
+
+const https_options = {
+    key: fs.readFileSync('./cert/ua-alert_info.key'),
+    cert: fs.readFileSync('./cert/ua-alert_info.crt'),
+    ca: fs.readFileSync('./cert/ua-alert_info.ca-bundle'),
+  };
 
 const __dirname = path.resolve();
 
 const app = express();
-const port = 4000;
+const port = 443;
+
+const server = https.createServer(https_options, app);
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
@@ -212,7 +221,7 @@ app.post('/data', (req, res) => {
 
 app.use(express.static('files'));
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
