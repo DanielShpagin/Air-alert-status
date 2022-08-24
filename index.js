@@ -409,6 +409,7 @@ function trigger_alerts() {
                     if(trigger.end_attempts < 4){
                         console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
                         exec_hook(trigger.webhook_close, trigger).then(res => {
+                            console.log(res);
                             if (res.result) {
                                 res.object.started = false;
                                 res.object.end_attempts=0;
