@@ -120,7 +120,7 @@ app.get('/update', (req, res) => {
     checkAlerts(onAlert);
     onAlert();
     trigger_alerts();
-}
+});
 
 app.get('/delete/*', (req, res) => {
     var massiv = req.path.split('/');
