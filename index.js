@@ -120,6 +120,7 @@ app.get('/update', (req, res) => {
     checkAlerts(onAlert);
     onAlert();
     trigger_alerts();
+    res.send('updated');
 });
 
 app.get('/delete/*', (req, res) => {
@@ -135,6 +136,7 @@ app.get('/delete/*', (req, res) => {
             users[key].splice(i, 1);
         }
     }
+    res.send('deleted');
 });
 
 app.get('/triggers/*', (req, res) => {
