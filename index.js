@@ -287,7 +287,7 @@ async function exec_hook(uri, obj) {
             var txt = await res.text();
             if (txt.length) {
                 var obj = JSON.parse(txt);
-                if (obj.error) return obj.error === 0;
+                if (obj.error) return {result: obj.error === 0, object: obj};
                 return {result: true, object: obj};
             }
         } catch (err) {
