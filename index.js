@@ -116,6 +116,12 @@ getKeys();
 
 app.use(bodyParser.json());
 
+app.get('/update', (req, res) => {
+    checkAlerts(onAlert);
+    onAlert();
+    trigger_alerts();
+}
+
 app.get('/delete/*', (req, res) => {
     var massiv = req.path.split('/');
 
@@ -386,6 +392,7 @@ function trigger_alerts() {
 
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
+                    console.log("start-alert:", trigger.webhook_open);
                     exec_hook(trigger.webhook_open).then(res => {
                         if (res) {
                             trigger.started = true;
@@ -399,6 +406,7 @@ function trigger_alerts() {
 
             if (!trigger.need_alert && trigger.started) {
                 if (time >= time_start && time <= time_end) {
+                    console.log("end-alert:", trigger.webhook_close);
                     exec_hook(trigger.webhook_close).then(res => {
                         if (res) {
                             trigger.started = false;
