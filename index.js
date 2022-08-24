@@ -168,7 +168,7 @@ app.post('/webhook', async (req, res) => {
     var body = req.body;
 
     var result = await exec_hook(body.webhook);
-    res.send(result ? "success" : "failure");
+    res.send(result.result ? "success" : "failure");
 });
 
 app.post('/data', (req, res) => {
@@ -280,7 +280,7 @@ async function alert_request(cmd) {
 }
 
 // execure the webhook, returns true if succesful
-async function exec_hook(uri) {
+async function exec_hook(uri, obj) {
     if (uri && uri.includes('https://')) {
         try {
             var res = await fetch(uri);
@@ -288,28 +288,13 @@ async function exec_hook(uri) {
             if (txt.length) {
                 var obj = JSON.parse(txt);
                 if (obj.error) return obj.error === 0;
-                return true;
+                return {result: true, object: obj};
             }
         } catch (err) {
             console.log(err);
         }
-    } else return true;
-    return false;
-}
-
-// returns true if both webhooks are correct
-async function test_hooks(uri_start, uri_end) {
-    if (uri_start.length === 0) return false;
-    var res1 = await exec_hook(uri_start);
-    if (!res1) return false;
-
-    await new Promise(r => setTimeout(r, 2000));
-
-    if (uri_end.length) {
-        var res2 = await exec_hook(uri_end);
-        if (!res2) return false;
-    }
-    return true;
+    } else return {result: true, object: obj};
+    return {result: false, object: obj};
 }
 
 // this function called each time when alert state changes
@@ -399,12 +384,12 @@ function trigger_alerts() {
                     trigger.start_attempts++;
                     if(trigger.start_attempts < 4){
                         console.log("start-alert:", trigger.start_attempts, trigger.name, trigger.webhook_open);
-                        exec_hook(trigger.webhook_open).then(res => {
-                            console.log('exec_hook', res);
-                            if (res) {
-                                trigger.started = true;
-                                trigger.start_attempts=0;
-                                changeFiles(trigger);
+                        exec_hook(trigger.webhook_open, trigger).then(res => {
+                            console.log('exec_hook', res.result);
+                            if (res.result) {
+                                res.object.started = true;
+                                res.object.start_attempts=0;
+                                changeFiles(res.object);
                             }
                         });
                     } else {
@@ -417,17 +402,17 @@ function trigger_alerts() {
                 }
             }
 
-            if (!trigger.need_alert && trigger.started) {
+            if (trigger.started && !trigger.need_alert) {
                 if (time >= time_start && time <= time_end) {
                     if(!trigger.end_attempts)trigger.end_attempts=0;
                     trigger.end_attempts++;
                     if(trigger.end_attempts < 4){
                         console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
-                        exec_hook(trigger.webhook_close).then(res => {
-                            if (res) {
-                                trigger.started = false;
-                                trigger.end_attempts=0;
-                                changeFiles(trigger);
+                        exec_hook(trigger.webhook_close, trigger).then(res => {
+                            if (res.result) {
+                                res.object.started = false;
+                                res.object.end_attempts=0;
+                                changeFiles(res.object);
                             }
                         });
                     } else {
