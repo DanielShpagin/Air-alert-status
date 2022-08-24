@@ -383,12 +383,12 @@ function trigger_alerts() {
                     if(!trigger.start_attempts)trigger.start_attempts=0;
                     trigger.start_attempts++;
                     if(trigger.start_attempts < 4){
-                        console.log("start-alert:", trigger.start_attempts, trigger.name, trigger.webhook_open);
+                        console.log("start-alert:", trigger.start_attempts, trigger.name);
                         exec_hook(trigger.webhook_open, trigger).then(res => {
-                            console.log('exec_hook_start', res)
                             if (res.result) {
                                 res.object.started = true;
                                 res.object.start_attempts=0;
+                                res.object.end_attempts=0;
                                 changeFiles(res.object);
                             }
                         });
@@ -409,9 +409,9 @@ function trigger_alerts() {
                     if(trigger.end_attempts < 4){
                         console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
                         exec_hook(trigger.webhook_close, trigger).then(res => {
-                            console.log('exec_hook_end', res)
                             if (res.result) {
                                 res.object.started = false;
+                                res.object.start_attempts=0;
                                 res.object.end_attempts=0;
                                 changeFiles(res.object);
                             }
