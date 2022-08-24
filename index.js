@@ -398,7 +398,7 @@ function trigger_alerts() {
                     if(!trigger.start_attempts)trigger.start_attempts=0;
                     trigger.start_attempts++;
                     if(trigger.start_attempts < 4){
-                        console.log("start-alert:", trigger.start_attempts, trigger.webhook_open);
+                        console.log("start-alert:", trigger.start_attempts, trigger.name, trigger.webhook_open);
                         exec_hook(trigger.webhook_open).then(res => {
                             console.log('exec_hook', res);
                             if (res) {
@@ -422,7 +422,7 @@ function trigger_alerts() {
                     if(!trigger.end_attempts)trigger.end_attempts=0;
                     trigger.end_attempts++;
                     if(trigger.end_attempts < 4){
-                        console.log("end-alert:", trigger.end_attempts, trigger.webhook_close);
+                        console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
                         exec_hook(trigger.webhook_close).then(res => {
                             if (res) {
                                 trigger.started = false;
