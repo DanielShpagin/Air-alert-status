@@ -52,7 +52,7 @@ async function sendMessage(email, key) {
         {
             from: "uaalertinfo@gmail.com",
             to: email,
-            subject: "Sending it from node.js",
+            subject: "ua-alert registration",
             text: `Будь ласка, використовуйте цей ключ для доступу до сайту ua-alert.info: ${key}.`
         }
     );
@@ -117,6 +117,7 @@ getKeys();
 app.use(bodyParser.json());
 
 app.get('/update', (req, res) => {
+    console.log('/update');
     checkAlerts(onAlert);
     onAlert();
     trigger_alerts();
@@ -136,7 +137,7 @@ app.get('/delete/*', (req, res) => {
             users[key].splice(i, 1);
         }
     }
-    res.send('deleted');
+    res.send('updated');
 });
 
 app.get('/triggers/*', (req, res) => {
@@ -195,7 +196,7 @@ app.post('/data', (req, res) => {
                     }
                 }
 
-                console.log(users[key].length <= keys[a].max_trigger_amount, users);
+                
                 if (users[key].length !== keys[a].max_trigger_amount) {
                     send = 'sucess';
 
@@ -395,12 +396,17 @@ function trigger_alerts() {
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
                     console.log("start-alert:", trigger.webhook_open);
-                    exec_hook(trigger.webhook_open).then(res => {
-                        if (res) {
-                            trigger.started = true;
-                            changeFiles(trigger);
-                        }
-                    });
+                    if(!trigger.start_attempts)trigger.start_attempts=0;
+                    trigger.start_attempts++;
+                    if(trigger.start_attempts < 4){
+                        exec_hook(trigger.webhook_open).then(res => {
+                            if (res) {
+                                trigger.started = true;
+                                trigger.start_attempts=0;
+                                changeFiles(trigger);
+                            }
+                        });
+                    }
                 } else {
                     trigger.started = true;
                 }
@@ -409,12 +415,17 @@ function trigger_alerts() {
             if (!trigger.need_alert && trigger.started) {
                 if (time >= time_start && time <= time_end) {
                     console.log("end-alert:", trigger.webhook_close);
-                    exec_hook(trigger.webhook_close).then(res => {
-                        if (res) {
-                            trigger.started = false;
-                            changeFiles(trigger);
-                        }
-                    });
+                    if(!trigger.end_attempts)trigger.end_attempts=0;
+                    trigger.end_attempts++;
+                    if(trigger.end_attempts < 4){
+                        exec_hook(trigger.webhook_close).then(res => {
+                            if (res) {
+                                trigger.started = false;
+                                trigger.end_attempts=0;
+                                changeFiles(trigger);
+                            }
+                        });
+                    }
                 } else {
                     trigger.started = false;
                 }
