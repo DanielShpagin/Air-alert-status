@@ -406,6 +406,8 @@ function trigger_alerts() {
                                 changeFiles(trigger);
                             }
                         });
+                    } else {
+                        trigger.started = true;
                     }
                 } else {
                     trigger.started = true;
@@ -425,6 +427,8 @@ function trigger_alerts() {
                                 changeFiles(trigger);
                             }
                         });
+                    } else {
+                        trigger.started = false;
                     }
                 } else {
                     trigger.started = false;
