@@ -408,9 +408,11 @@ function trigger_alerts() {
                         });
                     } else {
                         trigger.started = true;
+                        changeFiles(trigger);
                     }
                 } else {
                     trigger.started = true;
+                    changeFiles(trigger);
                 }
             }
 
@@ -429,9 +431,11 @@ function trigger_alerts() {
                         });
                     } else {
                         trigger.started = false;
+                        changeFiles(trigger);
                     }
                 } else {
                     trigger.started = false;
+                    changeFiles(trigger);
                 }
             }
         }
