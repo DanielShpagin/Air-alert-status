@@ -280,21 +280,21 @@ async function alert_request(cmd) {
 }
 
 // execure the webhook, returns true if succesful
-async function exec_hook(uri, obj) {
+async function exec_hook(uri, trigger) {
     if (uri && uri.includes('https://')) {
         try {
             var res = await fetch(uri);
             var txt = await res.text();
             if (txt.length) {
                 var obj = JSON.parse(txt);
-                if (obj.error) return {result: obj.error === 0, object: obj};
-                return {result: true, object: obj};
+                if (obj.error) return {result: obj.error === 0, object: trigger};
+                return {result: true, object: trigger};
             }
         } catch (err) {
             console.log(err);
         }
-    } else return {result: true, object: obj};
-    return {result: false, object: obj};
+    } else return {result: true, object: trigger};
+    return {result: false, object: trigger};
 }
 
 // this function called each time when alert state changes
