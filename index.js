@@ -400,6 +400,7 @@ function trigger_alerts() {
                     if(trigger.start_attempts < 4){
                         console.log("start-alert:", trigger.start_attempts, trigger.webhook_open);
                         exec_hook(trigger.webhook_open).then(res => {
+                            console.log('exec_hook', res);
                             if (res) {
                                 trigger.started = true;
                                 trigger.start_attempts=0;
