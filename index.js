@@ -131,7 +131,7 @@ app.get('/svitlo/now/*', (req, res) => {
     var massiv = req.path.split('/');
     if(massiv.length>2){
         var domain = massiv[3];
-        res.send(currentElectricityState(domain) ? "2" : "1");
+        res.send(currentElectricityState(domain) ? "1" : "2");
     } else res.send('wrong domain');
 });
 
