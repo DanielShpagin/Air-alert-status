@@ -6,6 +6,11 @@ import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import https from 'https';
+import cors from 'cors';
+
+//import './electricity.js';
+import {getElectricityHistoryToday, getElectricityHistory, currentElectricityState} from './electricity.js';
+
 
 const https_options = {
     key: fs.readFileSync('./cert/ua-alert_info.key'),
@@ -50,7 +55,7 @@ async function sendMessage(email, key) {
         {
             from: "uaalertinfo@gmail.com",
             to: email,
-            subject: "Sending it from node.js",
+            subject: "ua-alert registration",
             text: `Будь ласка, використовуйте цей ключ для доступу до сайту ua-alert.info: ${key}.`
         }
     );
@@ -112,7 +117,43 @@ readFiles();
 createFolder();
 getKeys();
 
+app.use(cors({
+    origin: '*'
+  }));
+  
 app.use(bodyParser.json());
+
+app.get('/update', (req, res) => {
+    console.log('/update');
+    checkAlerts(onAlert);
+    onAlert();
+    trigger_alerts();
+    res.send('updated');
+});
+
+app.get('/svitlo/now/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(currentElectricityState(domain) ? "1" : "2");
+    } else res.send('wrong domain');
+});
+
+app.get('/svitlo/today/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(JSON.stringify(getElectricityHistoryToday(domain)));
+    } else res.send('wrong domain');
+});
+
+app.get('/svitlo/history/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(JSON.stringify(getElectricityHistory(domain)));
+    } else res.send('wrong domain');
+});
 
 app.get('/delete/*', (req, res) => {
     var massiv = req.path.split('/');
@@ -127,6 +168,7 @@ app.get('/delete/*', (req, res) => {
             users[key].splice(i, 1);
         }
     }
+    res.send('updated');
 });
 
 app.get('/triggers/*', (req, res) => {
@@ -157,7 +199,7 @@ app.post('/webhook', async (req, res) => {
     var body = req.body;
 
     var result = await exec_hook(body.webhook);
-    res.send(result ? "success" : "failure");
+    res.send(result.result ? "success" : "failure");
 });
 
 app.post('/data', (req, res) => {
@@ -185,6 +227,7 @@ app.post('/data', (req, res) => {
                     }
                 }
 
+                
                 if (users[key].length !== keys[a].max_trigger_amount) {
                     send = 'sucess';
 
@@ -267,36 +310,21 @@ async function alert_request(cmd) {
 }
 
 // execure the webhook, returns true if succesful
-async function exec_hook(uri) {
+async function exec_hook(uri, trigger) {
     if (uri && uri.includes('https://')) {
         try {
             var res = await fetch(uri);
             var txt = await res.text();
             if (txt.length) {
                 var obj = JSON.parse(txt);
-                if (obj.error) return obj.error === 0;
-                return true;
+                if (obj.error) return {result: obj.error === 0, object: trigger};
+                return {result: true, object: trigger};
             }
         } catch (err) {
             console.log(err);
         }
-    } else return true;
-    return false;
-}
-
-// returns true if both webhooks are correct
-async function test_hooks(uri_start, uri_end) {
-    if (uri_start.length === 0) return false;
-    var res1 = await exec_hook(uri_start);
-    if (!res1) return false;
-
-    await new Promise(r => setTimeout(r, 2000));
-
-    if (uri_end.length) {
-        var res2 = await exec_hook(uri_end);
-        if (!res2) return false;
-    }
-    return true;
+    } else return {result: true, object: trigger};
+    return {result: false, object: trigger};
 }
 
 // this function called each time when alert state changes
@@ -380,27 +408,49 @@ function trigger_alerts() {
 
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
-                    exec_hook(trigger.webhook_open).then(res => {
-                        if (res) {
-                            trigger.started = true;
-                            changeFiles(trigger);
-                        }
-                    });
+                    if(!trigger.start_attempts)trigger.start_attempts=0;
+                    trigger.start_attempts++;
+                    if(trigger.start_attempts < 4){
+                        console.log("start-alert:", trigger.start_attempts, trigger.name);
+                        exec_hook(trigger.webhook_open, trigger).then(res => {
+                            if (res.result) {
+                                res.object.started = true;
+                                res.object.start_attempts=0;
+                                res.object.end_attempts=0;
+                                changeFiles(res.object);
+                            }
+                        });
+                    } else {
+                        trigger.started = true;
+                        changeFiles(trigger);
+                    }
                 } else {
                     trigger.started = true;
+                    changeFiles(trigger);
                 }
             }
 
-            if (!trigger.need_alert && trigger.started) {
+            if (trigger.started && !trigger.need_alert) {
                 if (time >= time_start && time <= time_end) {
-                    exec_hook(trigger.webhook_close).then(res => {
-                        if (res) {
-                            trigger.started = false;
-                            changeFiles(trigger);
-                        }
-                    });
+                    if(!trigger.end_attempts)trigger.end_attempts=0;
+                    trigger.end_attempts++;
+                    if(trigger.end_attempts < 4){
+                        console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
+                        exec_hook(trigger.webhook_close, trigger).then(res => {
+                            if (res.result) {
+                                res.object.started = false;
+                                res.object.start_attempts=0;
+                                res.object.end_attempts=0;
+                                changeFiles(res.object);
+                            }
+                        });
+                    } else {
+                        trigger.started = false;
+                        changeFiles(trigger);
+                    }
                 } else {
                     trigger.started = false;
+                    changeFiles(trigger);
                 }
             }
         }
