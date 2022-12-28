@@ -6,6 +6,8 @@ import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import https from 'https';
+import cors from 'cors';
+
 //import './electricity.js';
 import {getElectricityHistoryToday, getElectricityHistory, currentElectricityState} from './electricity.js';
 
@@ -117,6 +119,10 @@ readFiles();
 createFolder();
 getKeys();
 
+app.use(cors({
+    origin: '*'
+  }));
+  
 app.use(bodyParser.json());
 
 app.get('/update', (req, res) => {
