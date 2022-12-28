@@ -6,6 +6,9 @@ import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import https from 'https';
+//import './electricity.js';
+import {getElectricityHistoryToday, getElectricityHistory, currentElectricityState} from './electricity.js';
+
 
 const https_options = {
     key: fs.readFileSync('./cert/ua-alert_info.key'),
@@ -122,6 +125,30 @@ app.get('/update', (req, res) => {
     onAlert();
     trigger_alerts();
     res.send('updated');
+});
+
+app.get('/svitlo/now/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(currentElectricityState(domain) ? "2" : "1");
+    } else res.send('wrong domain');
+});
+
+app.get('/svitlo/today/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(JSON.stringify(getElectricityHistoryToday(domain)));
+    } else res.send('wrong domain');
+});
+
+app.get('/svitlo/history/*', (req, res) => {
+    var massiv = req.path.split('/');
+    if(massiv.length>2){
+        var domain = massiv[3];
+        res.send(JSON.stringify(getElectricityHistory(domain)));
+    } else res.send('wrong domain');
 });
 
 app.get('/delete/*', (req, res) => {
