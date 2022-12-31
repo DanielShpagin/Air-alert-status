@@ -141,8 +141,22 @@ var verboseLogin=true;
         };
         fs.writeFile('electricity_users/'+this.name+'.json',JSON.stringify(obj,null, ' '),()=>{});
     }
+    calcTime(offset_hours) {
+        // create Date object for current location
+        var d = new Date();
+    
+        // convert to msec
+        // subtract local time zone offset
+        // get UTC time in msec
+        var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    
+        // create new Date object for different city
+        // using supplied offset
+        var nd = new Date(utc + (3600000*offset_hours));
+        return nd;
+    }
     async update(){
-        var cur =  new Date();
+        var cur =  this.calcTime(2);
         cur.setL
         var day = cur.getDate();
         var month = cur.getMonth()+1;
