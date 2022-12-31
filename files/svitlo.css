@@ -1,0 +1,165 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+}
+
+.alert_plus {
+    background-color: #ffff64;
+    position: absolute;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.alert_negative {
+    background-color: rgb(51 51 51);
+    position: absolute;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    font-size: 18px;
+    border-radius: 5px;
+    color: white;
+}
+
+table, td {
+    border: 1px solid rgb(37 37 37);
+    border-collapse: collapse;
+    padding: 0;
+}
+
+.date_item {
+    text-align: center;
+    font-size: 17px;
+}
+
+.your_date_item {
+    text-align: center;
+    font-size: 17px;
+    background-color: #e7e76d;
+}
+
+.table {
+    margin: auto;
+    border: none;
+}
+
+.table tbody {
+    border-collapse: collapse;
+}
+
+.table .lamp_icon {
+    background-color: #e7e76d;
+    font-size: 50px;
+    width: 130px;
+    height: 85px;
+    text-align: center;
+}
+
+.table .alert_icon {
+    background-color: rgb(43, 43, 43);
+    font-size: 55px;
+    width: 130px;
+    height: 85px;
+    text-align: center;
+}
+
+.td_plus {
+    background-color: #e7e76d;
+    height: 100px;
+}
+
+.td_negative {
+    background-color: rgb(43, 43, 43);
+}
+
+.td_margin {
+    border: none;
+}
+
+.table .time_hour {
+    width: 100px;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.table .time_hour_plus {
+    width: 100px;
+    padding: 5px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.inner_table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.inner_table td {
+    padding: 0;
+    height: 40px;
+    border: 1px solid rgb(37 37 37);;
+}
+
+/*.table {
+    margin: 15px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.table_top {
+    display: flex;
+}
+
+.alarm_item_icon {
+    width: 65px;
+    height: 80px;
+
+    text-align: center;
+
+    font-size: 50px;
+    background-color: brown;
+
+    border: 2px solid rgb(37 37 37);
+}
+
+.time_container {
+    display: flex;
+}
+
+.item_hour {
+    width: 65px;
+    height: 80px;
+
+    font-size: 20px;
+    border: 2px solid rgb(37 37 37);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item_date_container {
+    display: flex;
+
+    width: 100%;
+    height: 25px;
+
+    border: 1px solid rgb(37 37 37);
+}
+
+table, th, td {
+    border: 1px solid;
+    margin: 0;
+}*/
