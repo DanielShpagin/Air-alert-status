@@ -11,7 +11,6 @@ import cors from 'cors';
 //import './electricity.js';
 import {getElectricityHistoryToday, getElectricityHistory, currentElectricityState} from './electricity.js';
 
-
 const https_options = {
     key: fs.readFileSync('./cert/ua-alert_info.key'),
     cert: fs.readFileSync('./cert/ua-alert_info.crt'),
@@ -133,7 +132,7 @@ app.get('/update', (req, res) => {
 
 app.get('/svitlo/now/*', (req, res) => {
     var massiv = req.path.split('/');
-    if(massiv.length>2){
+    if (massiv.length > 2) {
         var domain = massiv[3];
         res.send(currentElectricityState(domain) ? "1" : "2");
     } else res.send('wrong domain');
@@ -141,7 +140,7 @@ app.get('/svitlo/now/*', (req, res) => {
 
 app.get('/svitlo/today/*', (req, res) => {
     var massiv = req.path.split('/');
-    if(massiv.length>2){
+    if (massiv.length > 2) {
         var domain = massiv[3];
         res.send(JSON.stringify(getElectricityHistoryToday(domain)));
     } else res.send('wrong domain');
@@ -149,7 +148,7 @@ app.get('/svitlo/today/*', (req, res) => {
 
 app.get('/svitlo/history/*', (req, res) => {
     var massiv = req.path.split('/');
-    if(massiv.length>2){
+    if (massiv.length > 2) {
         var domain = massiv[3];
         res.send(JSON.stringify(getElectricityHistory(domain)));
     } else res.send('wrong domain');
@@ -190,6 +189,10 @@ app.post('/generateKey', (req, res) => {
 
     res.send('sucess');
 });
+
+app.get('/svitlo/*', (req, res) => {
+    res.sendFile(__dirname + '/files/svitlo.html');
+})
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/files/index.html');
