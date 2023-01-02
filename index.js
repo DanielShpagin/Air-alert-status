@@ -121,6 +121,7 @@ app.use(cors({
   }));
   
 app.use(bodyParser.json());
+app.use('/tutorial', express.static('tutorial'));
 
 app.get('/update', (req, res) => {
     console.log('/update');

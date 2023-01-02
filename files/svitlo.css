@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -7,6 +8,70 @@ html, body {
 .container {
     width: 100%;
     height: 100%;
+}
+
+.top_container {
+    width: 100%;
+    height: 50px;
+    background-color: rgb(100, 100, 255);
+    display: flex;
+}
+
+.connect_button {
+    align-self: center;
+}
+
+.connect_button input {
+    font: 1rem 'Fira Sans', sans-serif;
+
+    padding: 5px;
+
+    border: none;
+    outline: none;
+
+    background-color: rgb(100, 100, 255);
+    color: rgb(236, 236, 236);
+
+    cursor: pointer;
+
+    height: 35px;
+    margin-left: 10px;
+}
+
+.connect_button input:hover {
+    background-color: rgb(77, 77, 180);;
+}
+
+.margin {
+    flex: 1;
+}
+
+.share_button {
+    align-self: center;
+}
+
+.share_button i {
+    font-size: 1.8em;
+    height: 30px;
+    padding: 5px;
+
+    margin-right: 10px;
+
+    border: none;
+    outline: none;
+
+    background-color: rgb(100, 100, 255);
+    color: rgb(236, 236, 236);
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.share_button i:hover {
+    background-color: rgb(77, 77, 180);
 }
 
 .alert_plus {
@@ -32,7 +97,8 @@ html, body {
     color: white;
 }
 
-table, td {
+table,
+td {
     border: 1px solid rgb(37 37 37);
     border-collapse: collapse;
     padding: 0;
@@ -109,7 +175,8 @@ table, td {
 .inner_table td {
     padding: 0;
     height: 40px;
-    border: 1px solid rgb(37 37 37);;
+    border: 1px solid rgb(37 37 37);
+    ;
 }
 
 /*.table {

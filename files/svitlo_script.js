@@ -95,10 +95,35 @@ function beginning() {
 
                             if (days[i].data[a]) {
                                 if (days[i].data[a] === '1') {
-                                    var number1 = 0;
+                                    /*var number1 = 0;
                                     var number2 = 0;
 
-                                    for (var b = 0; b < days[i].data.length; b++) {
+                                    var num1 = 0;
+                                    var b1 = a;
+
+                                    while (true) {
+                                        if (days[i].data[b1-1] === '2' || b1 === 0) {
+                                            num1=b1;
+                                            break;
+                                        }
+
+                                        b1--;
+                                    }
+
+                                    var num2 = 0;
+
+                                    for (var b = num1; b < days[i].data.length; b++) {
+                                        if (days[i].data[b+1] === '2' || !days[i].data[b+1]) {
+                                            num2=b;
+                                            break;
+                                        }
+                                    }*/
+
+                                    //console.log(num1, num2);
+
+                                    //var num3 = num2-num1;
+
+                                    /*for (var b = 0; b < days[i].data.length; b++) {
                                         if (b === a) {
                                             for (var c = 0; c < days[i].data.length; c++) {
                                                 if (days[i].data[c] === '1') {
@@ -109,8 +134,11 @@ function beginning() {
                                                 }
                                             }
                                         }
-                                    }
+                                    }*/
 
+                                    /*console.log(num3, num1, num2);
+
+                                    number1 = num3;
                                     number1*=10;
                                     number1/=60;
 
@@ -124,7 +152,6 @@ function beginning() {
                                     number2/=60;
 
                                     var number3 = number1-Math.floor(number1);
-                                    console.log(number3);
                                     number3*=60;
                                     number3=Math.floor(number3+0.5);
 
@@ -133,15 +160,17 @@ function beginning() {
                                     number4=Math.floor(number4+0.5);
 
                                     td2.text1 = `&#128161; на протязі: ${number1.toFixed(0)} год. ${number3} хв.`;
-                                    td2.text2 = `&#128161; за день: ${number2.toFixed(0)} год. ${number4} хв.`;
+                                    td2.text2 = `&#128161; за день: ${number2.toFixed(0)} год. ${number4} хв.`;*/
+                                    td2.column = i;
+                                    td2.row = a;
                                     td2.className = 'td_plus';
                                     td2.addEventListener('click', (event) => {
-                                        for (var b = 0; b < document.querySelectorAll('.alert_plus').length; b++) {
-                                            document.querySelectorAll('.alert_plus')[b].remove();
+                                        for (var i = 0; i < document.querySelectorAll('.alert_plus').length; i++) {
+                                            document.querySelectorAll('.alert_plus')[i].remove();
                                         }
 
-                                        for (var b = 0; b < document.querySelectorAll('.alert_negative').length; b++) {
-                                            document.querySelectorAll('.alert_negative')[b].remove();
+                                        for (var i = 0; i < document.querySelectorAll('.alert_negative').length; i++) {
+                                            document.querySelectorAll('.alert_negative')[i].remove();
                                         }
 
                                         let elem = event.target;
@@ -155,11 +184,116 @@ function beginning() {
                                         alert.style.top = y-100;
                                         alert.style.left = x;
 
+                                        var number1 = 0;
+                                        var number2 = 0;
+
+                                        var column = event.target.column;
+                                        var row = event.target.row;
+
+                                        var column1 = column;
+                                        var column2 = column;
+
+                                        function forward(column) {
+                                            for (var i = 0; i < days[column].data.length; i++) {
+                                                if (days[column].data[i] === '1') {
+                                                    number1++;
+                                                }
+
+                                                if (days[column].data[i] !== '1') {
+                                                    if (i === days[column].data.length) {
+                                                        column1++;
+                                                        i = 0;
+                                                        continue;
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        function back(column) {
+                                            console.log(days, column);
+                                            for (var i = days[column].data.length-1; true; i--) {
+                                                if (days[column].data[i] === '1') {
+                                                    number2++;
+                                                }
+
+                                                if (days[column].data[i] !== '1') {
+                                                    if (days[column-1]) {
+                                                        if (i === 0) {
+                                                            column2--;
+                                                            i=24*6;
+                                                            continue;
+                                                            //back(column2);
+                                                        }
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        for (var i = row; true; i++) {
+                                            if (days[column].data[i] === '1') {
+                                                number1++;
+                                            }
+
+                                            console.log(days[column].data[i]);
+
+                                            if (days[column].data[i] !== '1') {
+                                                if (days[column+1]) {
+                                                    if (i === days[column].data.length) {
+                                                        column1++;
+                                                        forward(column1);
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+
+                                        for (var i = row; true; i--) {  
+                                            if (days[column].data[i] === '1') {
+                                                number2++;
+                                            }
+
+                                            if (days[column].data[i] !== '1') {
+                                                if (days[column-1]) {
+                                                    if (days[column].data[i] !== '2') {
+                                                        column2--;
+                                                        back(column2);
+                                                    }
+                                                }
+                                                break;
+                                            }
+                                        }
+
+                                        var number3 = number1+number2-1;
+
+                                        number3*=10;
+                                        number3/=60;
+
+                                        var number4 = number3-Math.floor(number3);
+                                        number4*=60;
+                                        number4=Math.floor(number4+0.5);
+
+                                        var number5 = 0;
+
+                                        for (var i = 0; i < days[column].data.length; i++) {
+                                            if (days[column].data[i] === '1') {
+                                                number5++;
+                                            }
+                                        }
+    
+                                        number5*=10;
+                                        number5/=60;
+
+                                        var number6 = number5-Math.floor(number5);
+                                        number6*=60;
+                                        number6=Math.floor(number6+0.5);
+
                                         var p1 = document.createElement('p');
-                                        p1.innerHTML = event.target.text1;
+                                        p1.innerHTML = `&#128161; протягом: ${Math.floor(number3)} год. ${number4} хв.`;
 
                                         var p2 = document.createElement('p');
-                                        p2.innerHTML = event.target.text2;
+                                        p2.innerHTML = `&#128161; протягом дня: ${Math.floor(number5)} год. ${number6} хв.`;
 
                                         alert.appendChild(p1);
                                         alert.appendChild(p2);
@@ -196,16 +330,24 @@ function beginning() {
                                     number2*=10;
                                     number2/=60;
 
-                                    td2.text1 = `&#x26A0; на протязі: ${number1.toFixed(1)} год.`;
-                                    td2.text2 = `&#x26A0; за день: ${number2.toFixed(1)} год.`;
+                                    var number3 = number1-Math.floor(number1);
+                                    number3*=60;
+                                    number3=Math.floor(number3+0.5);
+
+                                    var number4 = number2-Math.floor(number2);
+                                    number4*=60;
+                                    number4=Math.floor(number4+0.5);
+
+                                    td2.column = i;
+                                    td2.row = a;
                                     td2.className = 'td_negative';
                                     td2.addEventListener('click', (event) => {
-                                        for (var b = 0; b < document.querySelectorAll('.alert_plus').length; b++) {
-                                            document.querySelectorAll('.alert_plus')[b].remove();
+                                        for (var i = 0; i < document.querySelectorAll('.alert_plus').length; i++) {
+                                            document.querySelectorAll('.alert_plus')[i].remove();
                                         }
 
-                                        for (var b = 0; b < document.querySelectorAll('.alert_negative').length; b++) {
-                                            document.querySelectorAll('.alert_negative')[b].remove();
+                                        for (var i = 0; i < document.querySelectorAll('.alert_negative').length; i++) {
+                                            document.querySelectorAll('.alert_negative')[i].remove();
                                         }
 
                                         let elem = event.target;
@@ -219,11 +361,64 @@ function beginning() {
                                         alert.style.top = y-100;
                                         alert.style.left = x;
 
+                                        var number1 = 0;
+                                        var number2 = 0;
+
+                                        var column = event.target.column;
+                                        var row = event.target.row;
+
+                                        var num1 = 0;
+                                        var num2 = 0;
+
+                                        for (var i = row; i < days[column].data.length; i++) {
+                                            if (days[column].data[i] === '2') {
+                                                number1++;
+                                            }
+
+                                            if (days[column].data[i] !== '2') {
+                                                break;
+                                            }
+                                        }
+
+                                        for (var i = row; i < days[column].data.length; i--) {
+                                            if (days[column].data[i] === '2') {
+                                                number2++;
+                                            }
+
+                                            if (days[column].data[i] !== '2') {
+                                                break;
+                                            }
+                                        }
+
+                                        var number3 = number1+number2-1;
+
+                                        number3*=10;
+                                        number3/=60;
+
+                                        var number4 = number3-Math.floor(number3);
+                                        number4*=60;
+                                        number4=Math.floor(number4+0.5);
+
+                                        var number5 = 0;
+
+                                        for (var i = 0; i < days[column].data.length; i++) {
+                                            if (days[column].data[i] === '2') {
+                                                number5++;
+                                            }
+                                        }
+    
+                                        number5*=10;
+                                        number5/=60;
+
+                                        var number6 = number5-Math.floor(number5);
+                                        number6*=60;
+                                        number6=Math.floor(number6+0.5);
+
                                         var p1 = document.createElement('p');
-                                        p1.innerHTML = event.target.text1;
+                                        p1.innerHTML = `&#x26A0; протягом: ${Math.floor(number3)} год. ${number4} хв.`;
 
                                         var p2 = document.createElement('p');
-                                        p2.innerHTML = event.target.text2;
+                                        p2.innerHTML = `&#x26A0; протягом дня: ${Math.floor(number5)} год. ${number6} хв.`;
 
                                         alert.appendChild(p1);
                                         alert.appendChild(p2);
@@ -258,13 +453,13 @@ function beginning() {
 beginning();
 
 setInterval(() => {
-    document.querySelector('.table table tdoy').innerHTML = '';
+    document.querySelector('.table table tbody').innerHTML = '';
     var top = document.createElement('tr');
     top.className = 'top';
     document.querySelector('.table table tbody').appendChild(top);
 
     beginning();
-}, 25*60*1000);
+}, 5*60*1000);
 
 document.querySelector('.container').addEventListener('click', (event) => {
     if (event.srcElement.className !== 'td_plus' && event.srcElement.className !== 'td_negative') {
@@ -276,5 +471,4 @@ document.querySelector('.container').addEventListener('click', (event) => {
             document.querySelectorAll('.alert_negative')[b].remove();
         }
     }
-    console.log(event.currentTarget, event.srcElement);
 });
