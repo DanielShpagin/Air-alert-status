@@ -141,8 +141,14 @@ var verboseLogin=true;
         };
         fs.writeFile('electricity_users/'+this.name+'.json',JSON.stringify(obj,null, ' '),()=>{});
     }
+    calcTime(offset_hours) {
+        var d = new Date();
+        var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+        var nd = new Date(utc + (3600000*offset_hours));
+        return nd;
+    }
     async update(){
-        var cur =  new Date();
+        var cur =  this.calcTime(2);
         cur.setL
         var day = cur.getDate();
         var month = cur.getMonth()+1;
