@@ -1,5 +1,19 @@
 var url_name = window.location.href.split('/')[4];
 
+document.querySelector('.share_button').addEventListener('click', event => {
+    if (navigator.share) {
+        navigator.share({
+            title: 'Electricity info', 
+            url: window.location.href
+        }).then(() => {
+            console.log('Thanks for sharing!');
+        })
+            .catch(console.error);
+    } else {
+        // fallback
+    }
+});
+
 function data(d1, d2, row, column, x, y, days) {
     for (var i = 0; i < document.querySelectorAll('.alert_plus').length; i++) {
         document.querySelectorAll('.alert_plus')[i].remove();
@@ -92,7 +106,7 @@ function data(d1, d2, row, column, x, y, days) {
         if (days[row2].data[i] !== d1) {
             if (days[row2].data[i] !== '1' && days[row2].data[i] !== '2') {
                 row2++;
-                i=days[row2].data.length;
+                i=days[row2].data.length-1;
                 continue;
             }
 
@@ -124,14 +138,27 @@ function data(d1, d2, row, column, x, y, days) {
     number6*=60;
     number6=Math.floor(number6+0.5);
 
-    var p1 = document.createElement('p');
-    p1.innerHTML = `&#128161; протягом: ${Math.floor(number3)} год. ${number4} хв.`;
+    if (d1 === '1') {
+        var p1 = document.createElement('p');
+        p1.innerHTML = `&#128161;: ${Math.floor(number3)} год. ${number4} хв.`;
 
-    var p2 = document.createElement('p');
-    p2.innerHTML = `&#128161; протягом дня: ${Math.floor(number5)} год. ${number6} хв.`;
+        var p2 = document.createElement('p');
+        p2.innerHTML = `&#128161;: впродовж дня: ${Math.floor(number5)} год. ${number6} хв.`;
 
-    alert.appendChild(p1);
-    alert.appendChild(p2);
+        alert.appendChild(p1);
+        alert.appendChild(p2);
+    }
+
+    if (d1 === '2') {
+        var p1 = document.createElement('p');
+        p1.innerHTML = `<g>&#x26A0;</g>: ${Math.floor(number3)} год. ${number4} хв.`;
+
+        var p2 = document.createElement('p');
+        p2.innerHTML = `<g>&#x26A0;</g>: впродовж дня: ${Math.floor(number5)} год. ${number6} хв.`;
+
+        alert.appendChild(p1);
+        alert.appendChild(p2);
+    }
 
     document.querySelector('body').appendChild(alert);
 }
@@ -141,15 +168,15 @@ function beginning() {
         result.text().then(txt => {
             console.log(txt, url_name);
 
-            if (txt === '1') {
+            /*if (txt === '1') {
                 console.log(txt);
                 var lamp_icon = document.createElement('td');
                 lamp_icon.innerHTML = '&#128161;';
                 lamp_icon.className = 'lamp_icon';
                 document.querySelector('.container .top').appendChild(lamp_icon);
-            }
+            }*/
 
-            if (txt === '2') {
+            if (txt === '1') {
                 var alert_icon = document.createElement('td');
                 alert_icon.innerHTML = '&#x26A0;';
                 alert_icon.className = 'alert_icon';

@@ -22,7 +22,7 @@ body {
 }
 
 .connect_button input {
-    font: 1rem 'Fira Sans', sans-serif;
+    font: 1.1rem 'Fira Sans', sans-serif;
 
     padding: 5px;
 
@@ -34,7 +34,7 @@ body {
 
     cursor: pointer;
 
-    height: 35px;
+    height: 40px;
     margin-left: 10px;
 }
 
@@ -97,6 +97,10 @@ body {
     color: white;
 }
 
+.alert_negative g {
+    color: rgb(255, 49, 49);
+}
+
 table,
 td {
     border: 1px solid rgb(37 37 37);
@@ -134,6 +138,7 @@ td {
 
 .table .alert_icon {
     background-color: rgb(43, 43, 43);
+    color: rgb(255, 49, 49);
     font-size: 55px;
     width: 130px;
     height: 85px;
