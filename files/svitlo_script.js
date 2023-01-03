@@ -26,35 +26,36 @@ function data(d1, d2, row, column, x, y, days) {
     var row1 = row;
     var row2 = row;
 
-    function forward(row) {
-        for (var i = 0; i < days[row].data.length; i++) {
-            if (days[row].data[i] === d1) {
+    function forward() {
+        for (var i = 0; i < days[row1].data.length; i++) {
+            if (days[row1].data[i] === d1) {
                 number1++;
             }
 
-            if (days[row].data[i] !== d1) {
-                if (i === days[row].data.length) {
+            if (days[row1].data[i] !== d1) {
+                if (days[row1].data[i] !== d1 && days[row1].data[i] !== d2) {
                     row1++;
-                    i = 0;
+                    i=0;
                     continue;
                 }
+
                 break;
             }
         }
     }
 
-    function back(row) {
-        console.log(days, row);
-        for (var i = days[row].data.length-1; true; i--) {
-            if (days[row].data[i] === d1) {
+    function back() {
+        console.log(days, row2);
+        for (var i = days[row2].data.length-1; true; i--) {
+            if (days[row2].data[i] === d1) {
                 number2++;
             }
 
-            if (days[row].data[i] !== d1) {
-                if (days[row-1]) {
+            if (days[row2].data[i] !== d1) {
+                if (days[row2-1]) {
                     if (i === 0) {
                         row2--;
-                        i=days[row].data.length;
+                        i=days[row2].data.length-1;
                         continue;
                     }
                 }
@@ -64,37 +65,37 @@ function data(d1, d2, row, column, x, y, days) {
     }
 
     for (var i = column; true; i++) {
-        if (days[row].data[i] === d1) {
+        if (days[row1].data[i] === d1) {
             number1++;
         }
 
-        console.log(days[row].data[i]);
+        console.log(days[row1].data[i]);
 
-        if (days[row].data[i] !== d1) {
-            if (days[row+1]) {
-                if (i === days[row].data.length) {
-                    if (row1 !== 0) {
-                        row1++;
-                        forward(row1);
-                    }
+        if (days[row1].data[i] !== d1) {
+            if (days[row1].data[i] !== '1' && days[row1].data[i] !== '2') {
+                if (row1 !== 0) {
+                    row1--;
+                    i=0;
+                    continue;
                 }
             }
+
             break;
         }
     }
 
     for (var i = column; true; i--) {  
-        if (days[row].data[i] === d1) {
+        if (days[row2].data[i] === d1) {
             number2++;
         }
 
-        if (days[row].data[i] !== d1) {
-            if (days[row-1]) {
-                if (days[row].data[i] !== d2) {
-                    row2--;
-                    back(row2);
-                }
+        if (days[row2].data[i] !== d1) {
+            if (days[row2].data[i] !== '1' && days[row2].data[i] !== '2') {
+                row2++;
+                i=days[row2].data.length;
+                continue;
             }
+
             break;
         }
     }
