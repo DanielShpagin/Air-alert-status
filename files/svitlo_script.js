@@ -140,10 +140,10 @@ function data(d1, d2, row, column, x, y, days) {
 
     if (d1 === '1') {
         var p1 = document.createElement('p');
-        p1.innerHTML = `&#128161;: ${Math.floor(number3)} год. ${number4} хв.`;
+        p1.innerHTML = `&#128161; ${Math.floor(number3)}:${number4}`;
 
         var p2 = document.createElement('p');
-        p2.innerHTML = `&#128161;: впродовж дня: ${Math.floor(number5)} год. ${number6} хв.`;
+        p2.innerHTML = `&#128161; впродовж дня ${Math.floor(number5)}:${number6}`;
 
         alert.appendChild(p1);
         alert.appendChild(p2);
@@ -151,10 +151,10 @@ function data(d1, d2, row, column, x, y, days) {
 
     if (d1 === '2') {
         var p1 = document.createElement('p');
-        p1.innerHTML = `<g>&#x26A0;</g>: ${Math.floor(number3)} год. ${number4} хв.`;
+        p1.innerHTML = `<g>&#x26A0;</g> ${Math.floor(number3)}:${number4}`;
 
         var p2 = document.createElement('p');
-        p2.innerHTML = `<g>&#x26A0;</g>: впродовж дня: ${Math.floor(number5)} год. ${number6} хв.`;
+        p2.innerHTML = `<g>&#x26A0;</g> впродовж дня ${Math.floor(number5)}:${number6}`;
 
         alert.appendChild(p1);
         alert.appendChild(p2);
@@ -168,15 +168,15 @@ function beginning() {
         result.text().then(txt => {
             console.log(txt, url_name);
 
-            /*if (txt === '1') {
+            if (txt === '1') {
                 console.log(txt);
                 var lamp_icon = document.createElement('td');
                 lamp_icon.innerHTML = '&#128161;';
                 lamp_icon.className = 'lamp_icon';
                 document.querySelector('.container .top').appendChild(lamp_icon);
-            }*/
+            }
 
-            if (txt === '1') {
+            if (txt === '2') {
                 var alert_icon = document.createElement('td');
                 alert_icon.innerHTML = '&#x26A0;';
                 alert_icon.className = 'alert_icon';
