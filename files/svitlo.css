@@ -10,7 +10,9 @@ body {
     height: 100%;
 
     display: flex;
-    flex-direction: column  ;
+    flex-direction: column;
+
+    background-color: rgb(100, 100, 255);
 }
 
 .top_container {
@@ -146,7 +148,7 @@ table {
     background-color: rgb(43, 43, 43);
     color: rgb(255, 49, 49);
     font-size: 55px;
-    width: 130px;
+    width: 75px;
     height: 85px;
     text-align: center;
 }
@@ -164,11 +166,13 @@ table {
 }
 
 .table .time_hour {
+    padding: 5px;
     font-size: 125%;
     text-align: center;
 }
 
 .table .time_hour_plus {
+    padding: 5px;
     font-size: 125%;
     text-align: center;
 }
@@ -179,6 +183,7 @@ table {
 }
 
 .inner_table td {
+    padding: 0;
     height: 40;
     border: 1px solid rgb(37 37 37);;
 }
