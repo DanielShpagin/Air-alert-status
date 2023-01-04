@@ -8,6 +8,9 @@ body {
 .container {
     width: 100%;
     height: 100%;
+
+    display: flex;
+    flex-direction: column  ;
 }
 
 .top_container {
@@ -101,16 +104,19 @@ body {
     color: rgb(255, 49, 49);
 }
 
-table,
-td {
+table, td {
     border: 1px solid rgb(37 37 37);
     border-collapse: collapse;
     padding: 0;
 }
 
+table {
+    width: 100%;
+}
+
 .date_item {
     text-align: center;
-    font-size: 17px;
+    font-size: 100%;
 }
 
 .your_date_item {
@@ -120,7 +126,7 @@ td {
 }
 
 .table {
-    margin: auto;
+    width: 100%;
     border: none;
 }
 
@@ -131,7 +137,7 @@ td {
 .table .lamp_icon {
     background-color: #e7e76d;
     font-size: 50px;
-    width: 130px;
+    width: 75px;
     height: 85px;
     text-align: center;
 }
@@ -147,7 +153,6 @@ td {
 
 .td_plus {
     background-color: #e7e76d;
-    height: 100px;
 }
 
 .td_negative {
@@ -159,16 +164,12 @@ td {
 }
 
 .table .time_hour {
-    width: 100px;
-    padding: 5px;
-    font-size: 20px;
+    font-size: 125%;
     text-align: center;
 }
 
 .table .time_hour_plus {
-    width: 100px;
-    padding: 5px;
-    font-size: 20px;
+    font-size: 125%;
     text-align: center;
 }
 
@@ -178,10 +179,8 @@ td {
 }
 
 .inner_table td {
-    padding: 0;
-    height: 40px;
-    border: 1px solid rgb(37 37 37);
-    ;
+    height: 40;
+    border: 1px solid rgb(37 37 37);;
 }
 
 /*.table {
