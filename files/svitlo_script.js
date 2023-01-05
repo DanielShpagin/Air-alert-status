@@ -5,12 +5,7 @@ document.querySelector('.share_button').addEventListener('click', event => {
         navigator.share({
             title: 'Electricity info', 
             url: window.location.href
-        }).then(() => {
-            console.log('Thanks for sharing!');
         })
-            .catch(console.error);
-    } else {
-        // fallback
     }
 });
 
@@ -22,7 +17,7 @@ function data(d1, d2, row, column, x, y, days) {
 
     for (var i = 0; i < document.querySelectorAll('.alert_negative').length; i++) {
         document.querySelectorAll('.alert_negative')[i].remove();
-        i++;
+        i--;
     }
 
     var alert = document.createElement('div');
@@ -40,56 +35,16 @@ function data(d1, d2, row, column, x, y, days) {
     var row1 = row;
     var row2 = row;
 
-    function forward() {
-        for (var i = 0; i < days[row1].data.length; i++) {
-            if (days[row1].data[i] === d1) {
-                number1++;
-            }
-
-            if (days[row1].data[i] !== d1) {
-                if (days[row1].data[i] !== d1 && days[row1].data[i] !== d2) {
-                    row1++;
-                    i=0;
-                    continue;
-                }
-
-                break;
-            }
-        }
-    }
-
-    function back() {
-        console.log(days, row2);
-        for (var i = days[row2].data.length-1; true; i--) {
-            if (days[row2].data[i] === d1) {
-                number2++;
-            }
-
-            if (days[row2].data[i] !== d1) {
-                if (days[row2-1]) {
-                    if (i === 0) {
-                        row2--;
-                        i=days[row2].data.length-1;
-                        continue;
-                    }
-                }
-                break;
-            }
-        }
-    }
-
     for (var i = column; true; i++) {
         if (days[row1].data[i] === d1) {
             number1++;
         }
 
-        console.log(days[row1].data[i]);
-
         if (days[row1].data[i] !== d1) {
             if (days[row1].data[i] !== '1' && days[row1].data[i] !== '2') {
                 if (row1 !== 0) {
                     row1--;
-                    i=0;
+                    i=-1;
                     continue;
                 }
             }
@@ -106,7 +61,7 @@ function data(d1, d2, row, column, x, y, days) {
         if (days[row2].data[i] !== d1) {
             if (days[row2].data[i] !== '1' && days[row2].data[i] !== '2') {
                 row2++;
-                i=days[row2].data.length-1;
+                i=days[row2].data.length;
                 continue;
             }
 
@@ -166,10 +121,7 @@ function data(d1, d2, row, column, x, y, days) {
 function beginning() {
     fetch(`https://ua-alert.info/svitlo/now/${url_name}`).then(result => {
         result.text().then(txt => {
-            console.log(txt, url_name);
-
             if (txt === '1') {
-                console.log(txt);
                 var lamp_icon = document.createElement('td');
                 lamp_icon.innerHTML = '&#128161;';
                 lamp_icon.className = 'lamp_icon';
@@ -185,8 +137,6 @@ function beginning() {
 
             fetch(`https://ua-alert.info/svitlo/history/${url_name}`).then(result => {
                 result.text().then(txt => {
-                    console.log(JSON.parse(txt));
-
                     var days = JSON.parse(txt);
 
                     days.reverse();
@@ -305,10 +255,6 @@ function beginning() {
                         document.querySelector('.table table tbody').appendChild(tr1);
                     }
 
-                    console.log(document.querySelector('.table').offsetWidth,
-                    document.querySelector('.table').offsetHeight,
-                    document.querySelector('.container').offsetHeight, 
-                    document.querySelector('.top_container').offsetHeight);
                     document.querySelector('html').style.width = document.querySelector('.table').offsetWidth;
                     document.querySelector('html').style.height = document.querySelector('.table').offsetHeight+document.querySelector('.top_container').offsetHeight;
                 });
