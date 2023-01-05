@@ -304,6 +304,13 @@ function beginning() {
 
                         document.querySelector('.table table tbody').appendChild(tr1);
                     }
+
+                    console.log(document.querySelector('.table').offsetWidth,
+                    document.querySelector('.table').offsetHeight,
+                    document.querySelector('.container').offsetHeight, 
+                    document.querySelector('.top_container').offsetHeight);
+                    document.querySelector('html').style.width = document.querySelector('.table').offsetWidth;
+                    document.querySelector('html').style.height = document.querySelector('.table').offsetHeight+document.querySelector('.top_container').offsetHeight;
                 });
             });
         });
