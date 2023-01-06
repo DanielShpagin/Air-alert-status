@@ -291,7 +291,13 @@ app.post('/check_data', (req, res) => {
     var id = req.body.id;
 
     if (id) {
-        var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+        var jdata='{}';
+        try{
+            jdata = fs.readFileSync('data.json', 'utf8');
+        } catch(e){
+
+        }
+        var data = JSON.parse(jdata);
 
         if (!data) {
             data = {};
