@@ -116,6 +116,20 @@ readFiles();
 createFolder();
 getKeys();
 
+setInterval(() => {
+    var array = Object.values(JSON.parse(fs.readFileSync('data.json', 'utf8')));
+    var data1 = array.length;
+    var data2 = 0;
+    
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].date === new Date(Date.now()).getDate()) {
+            data2++;
+        }
+    }
+
+    console.log(`Скільки користувачів зайшло на сайт: ${data1}, Скільки користувачів зайшло сьогодні: ${data2}`);
+}, 5*60*1000);
+
 app.use(cors({
     origin: '*'
   }));
@@ -124,7 +138,6 @@ app.use(bodyParser.json());
 app.use('/tutorial', express.static('tutorial'));
 
 app.get('/update', (req, res) => {
-    console.log('/update');
     checkAlerts(onAlert);
     onAlert();
     trigger_alerts();
@@ -274,6 +287,25 @@ app.post('/data', (req, res) => {
     }
 });
 
+app.post('/check_data', (req, res) => {
+    var id = req.body.id;
+
+    if (id) {
+        var data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+
+        if (!data) {
+            data = {};
+        }
+
+        data[id] = {
+            id: id, 
+            date: new Date(Date.now()).getDate()
+        }
+
+        fs.writeFileSync('data.json', JSON.stringify(data, null, 2))
+    }
+});
+
 app.use(express.static('files'));
 
 server.listen(port, () => {
@@ -308,7 +340,6 @@ async function alert_request(cmd) {
 
         return {};
     } catch (err) {
-        console.log('Error:', err);
         return {};
     }
 }
@@ -415,7 +446,6 @@ function trigger_alerts() {
                     if(!trigger.start_attempts)trigger.start_attempts=0;
                     trigger.start_attempts++;
                     if(trigger.start_attempts < 4){
-                        console.log("start-alert:", trigger.start_attempts, trigger.name);
                         exec_hook(trigger.webhook_open, trigger).then(res => {
                             if (res.result) {
                                 res.object.started = true;
@@ -439,7 +469,6 @@ function trigger_alerts() {
                     if(!trigger.end_attempts)trigger.end_attempts=0;
                     trigger.end_attempts++;
                     if(trigger.end_attempts < 4){
-                        console.log("end-alert:", trigger.end_attempts, trigger.name, trigger.webhook_close);
                         exec_hook(trigger.webhook_close, trigger).then(res => {
                             if (res.result) {
                                 res.object.started = false;

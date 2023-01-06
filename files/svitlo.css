@@ -122,7 +122,7 @@ table {
 .your_date_item {
     text-align: center;
     font-size: 17px;
-    background-color: #e7e76d;
+    background-color: #ffff59;
 }
 
 .table {
@@ -135,7 +135,7 @@ table {
 }
 
 .table .lamp_icon {
-    background-color: #e7e76d;
+    background-color: #ffff59;
     font-size: 50px;
     width: 75px;
     height: 85px;
@@ -151,12 +151,20 @@ table {
     text-align: center;
 }
 
-.td_plus {
-    background-color: #e7e76d;
+.td_plus_0 {
+    background-color: #e7e76d;;
 }
 
-.td_negative {
+.td_plus_1 {
+    background-color: #ffff59;
+}
+
+.td_negative_0 {
     background-color: rgb(43, 43, 43);
+}
+
+.td_negative_1 {
+    background-color: rgb(31 31 31);
 }
 
 .td_margin {

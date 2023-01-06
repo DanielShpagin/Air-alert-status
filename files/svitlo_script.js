@@ -1,15 +1,81 @@
+if (5%2 == 0) {
+    console.log('even');
+} else {
+    console.log('odd');
+}
+
 var url_name = window.location.href.split('/')[4];
 
 document.querySelector('.share_button').addEventListener('click', event => {
     if (navigator.share) {
         navigator.share({
-            title: 'Electricity info', 
+            title: 'Electricity info',
             url: window.location.href
         })
     }
 });
 
-function data(d1, d2, row, column, x, y, days) {
+console.log(new Date(Date.now()).getDate());
+console.log(document.cookie);
+
+function setCookie(name, data) {
+    document.cookie = name + "=" + data;
+}
+
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+
+        while (c.charAt(0) == ' ') {
+            console.log(c.charAt(0), c.substring(1));
+            c = c.substring(1);
+        }
+
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+
+    return "";
+}
+
+function generateRandomKey() {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+
+    for ( var i = 0; i < 10; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}
+
+function checkData() {
+    let id = getCookie('id');
+
+    if (!id) {
+        setCookie('id', generateRandomKey());
+        id = getCookie('id');
+    }
+
+    fetch('/check_data', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+}
+
+function createAlert(d1, d2, row, column, x, y, days) {
     for (var i = 0; i < document.querySelectorAll('.alert_plus').length; i++) {
         document.querySelectorAll('.alert_plus')[i].remove();
         i--;
@@ -26,7 +92,7 @@ function data(d1, d2, row, column, x, y, days) {
         alert.className = 'alert_plus';
     } else if (d1 === '2') alert.className = 'alert_negative';
 
-    alert.style.top = y-100;
+    alert.style.top = y - 100;
     alert.style.left = x;
 
     var number1 = 0;
@@ -44,7 +110,7 @@ function data(d1, d2, row, column, x, y, days) {
             if (days[row1].data[i] !== '1' && days[row1].data[i] !== '2') {
                 if (row1 !== 0) {
                     row1--;
-                    i=-1;
+                    i = -1;
                     continue;
                 }
             }
@@ -53,7 +119,7 @@ function data(d1, d2, row, column, x, y, days) {
         }
     }
 
-    for (var i = column; true; i--) {  
+    for (var i = column; true; i--) {
         if (days[row2].data[i] === d1) {
             number2++;
         }
@@ -61,7 +127,7 @@ function data(d1, d2, row, column, x, y, days) {
         if (days[row2].data[i] !== d1) {
             if (days[row2].data[i] !== '1' && days[row2].data[i] !== '2') {
                 row2++;
-                i=days[row2].data.length;
+                i = days[row2].data.length;
                 continue;
             }
 
@@ -69,14 +135,14 @@ function data(d1, d2, row, column, x, y, days) {
         }
     }
 
-    var number3 = number1+number2-1;
+    var number3 = number1 + number2 - 1;
 
-    number3*=10;
-    number3/=60;
+    number3 *= 10;
+    number3 /= 60;
 
-    var number4 = number3-Math.floor(number3);
-    number4*=60;
-    number4=Math.floor(number4+0.5);
+    var number4 = number3 - Math.floor(number3);
+    number4 *= 60;
+    number4 = Math.floor(number4 + 0.5);
 
     var number5 = 0;
 
@@ -86,12 +152,12 @@ function data(d1, d2, row, column, x, y, days) {
         }
     }
 
-    number5*=10;
-    number5/=60;
+    number5 *= 10;
+    number5 /= 60;
 
-    var number6 = number5-Math.floor(number5);
-    number6*=60;
-    number6=Math.floor(number6+0.5);
+    var number6 = number5 - Math.floor(number5);
+    number6 *= 60;
+    number6 = Math.floor(number6 + 0.5);
 
     if (d1 === '1') {
         var p1 = document.createElement('p');
@@ -194,6 +260,8 @@ function beginning() {
                         }
 
                         var num = 0;
+                        var num1 = 0;
+                        var num2 = 0;
 
                         for (var a = 0; a < 6 * 24; a++) {
                             if (!num) {
@@ -208,9 +276,15 @@ function beginning() {
 
                             if (days[i].data[a]) {
                                 if (days[i].data[a] === '1') {
+                                    if (Math.floor(a/24)%2 == 0) {
+                                        td2.className = 'td_plus_0';
+                                    } else {
+                                        td2.className = 'td_plus_1';
+                                    }
+
                                     td2.row = i;
                                     td2.column = a;
-                                    td2.className = 'td_plus';
+
                                     td2.addEventListener('click', (event) => {
                                         let elem = event.target;
                                         let rect = elem.getBoundingClientRect();
@@ -218,14 +292,20 @@ function beginning() {
                                         var x = rect.x;
                                         var y = rect.y;
 
-                                        data('1', '2', elem.row, elem.column, x, y, days);
+                                        createAlert('1', '2', elem.row, elem.column, x, y, days);
                                     });
                                 }
 
                                 if (days[i].data[a] === '2') {
+                                    if (Math.floor(a/24)%2 == 0) {
+                                        td2.className = 'td_negative_0';
+                                    } else {
+                                        td2.className = 'td_negative_1';
+                                    }
+
                                     td2.row = i;
                                     td2.column = a;
-                                    td2.className = 'td_negative';
+
                                     td2.addEventListener('click', (event) => {
                                         let elem = event.target;
                                         let rect = elem.getBoundingClientRect();
@@ -233,7 +313,7 @@ function beginning() {
                                         var x = rect.x;
                                         var y = rect.y;
 
-                                        data('2', '1', elem.row, elem.column, x, y, days);
+                                        createAlert('2', '1', elem.row, elem.column, x, y, days);
                                     });
                                 }
                             } else {
@@ -243,6 +323,7 @@ function beginning() {
                             tr2.appendChild(td2);
 
                             num++;
+                            num1++;
 
                             if (num === 6) {
                                 num = 0;
@@ -256,7 +337,7 @@ function beginning() {
                     }
 
                     document.querySelector('html').style.width = document.querySelector('.table').offsetWidth;
-                    document.querySelector('html').style.height = document.querySelector('.table').offsetHeight+document.querySelector('.top_container').offsetHeight;
+                    document.querySelector('html').style.height = document.querySelector('.table').offsetHeight + document.querySelector('.top_container').offsetHeight;
                 });
             });
         });
@@ -272,14 +353,14 @@ setInterval(() => {
     document.querySelector('.table table tbody').appendChild(top);
 
     beginning();
-}, 5*60*1000);
+}, 5 * 60 * 1000);
 
 document.querySelector('.container').addEventListener('click', (event) => {
-    if (event.srcElement.className !== 'td_plus' && event.srcElement.className !== 'td_negative') {
+    if (event.srcElement.className !== 'td_plus_0' && event.srcElement.className !== 'td_plus_1' && event.srcElement.className !== 'td_negative_0' && event.srcElement.className !== 'td_negative_1') {
         for (var b = 0; b < document.querySelectorAll('.alert_plus').length; b++) {
             document.querySelectorAll('.alert_plus')[b].remove();
         }
-    
+
         for (var b = 0; b < document.querySelectorAll('.alert_negative').length; b++) {
             document.querySelectorAll('.alert_negative')[b].remove();
         }
