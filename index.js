@@ -135,7 +135,9 @@ app.use(cors({
   }));
   
 app.use(bodyParser.json());
-app.use('/tutorial', express.static('tutorial'));
+app.use('/tutorial1', express.static('tutorial1'));
+app.use('/about', express.static('about'));
+app.use('/files', express.static('files'));
 
 app.get('/update', (req, res) => {
     checkAlerts(onAlert);

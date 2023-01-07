@@ -18,6 +18,8 @@ body {
     height: 50px;
     background-color: rgb(100, 100, 255);
     display: flex;
+
+    padding: 5px;
 }
 
 .connect_button {
@@ -38,10 +40,33 @@ body {
     cursor: pointer;
 
     height: 40px;
-    margin-left: 10px;
 }
 
 .connect_button input:hover {
+    background-color: rgb(77, 77, 180);;
+}
+
+.about_button {
+    align-self: center;
+}
+
+.about_button input {
+    font: 1.1rem 'Fira Sans', sans-serif;
+
+    padding: 5px;
+
+    border: none;
+    outline: none;
+
+    background-color: rgb(100, 100, 255);
+    color: rgb(236, 236, 236);
+
+    cursor: pointer;
+
+    height: 40px;
+}
+
+.about_button input:hover {
     background-color: rgb(77, 77, 180);;
 }
 

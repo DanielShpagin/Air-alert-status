@@ -1,9 +1,3 @@
-if (5%2 == 0) {
-    console.log('even');
-} else {
-    console.log('odd');
-}
-
 var url_name = window.location.href.split('/')[4];
 
 document.querySelector('.share_button').addEventListener('click', event => {
@@ -14,9 +8,6 @@ document.querySelector('.share_button').addEventListener('click', event => {
         })
     }
 });
-
-console.log(new Date(Date.now()).getDate());
-console.log(document.cookie);
 
 function setCookie(name, data) {
     document.cookie = name + "=" + data;
@@ -31,7 +22,6 @@ function getCookie(cname) {
         let c = ca[i];
 
         while (c.charAt(0) == ' ') {
-            console.log(c.charAt(0), c.substring(1));
             c = c.substring(1);
         }
 
@@ -209,6 +199,8 @@ function beginning() {
 
                     var hours = 24;
                     var num = 0;
+
+                    //var time = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12', '12-13', '13-14', '14-15', '15-16', '16-17', '18-19', '19-20', '20-21', '21-22', '22-23', '23-24', '24-0']
 
                     for (var i = 0; i < hours; i++) {
                         var time_hour = document.createElement('td');
