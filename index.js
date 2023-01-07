@@ -135,7 +135,7 @@ app.use(cors({
   }));
   
 app.use(bodyParser.json());
-app.use('/tutorial1', express.static('tutorial1'));
+app.use('/tutorial', express.static('tutorial'));
 app.use('/about', express.static('about'));
 app.use('/files', express.static('files'));
 

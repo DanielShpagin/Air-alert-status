@@ -1,0 +1,99 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background-color: rgb(255, 255, 148);
+}
+
+.container {
+    margin: 0;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-direction: column;
+}
+
+.top {
+    width: 100%;
+    height: 50px;
+
+    background-color: rgb(100, 100, 255);
+    display: flex;
+}
+
+.dialog {
+    overflow: auto;
+    list-style-type: none;
+
+    height: 100%;
+    width: 700px;
+
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* about_elements */
+
+.about_elements {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about_elements h2 {
+    font: 1.6em "Fira Sans", sans-serif;
+
+    margin: 0px;
+    padding: 10px;
+}
+
+.about_elements p {
+    font: 18px "Fira Sans", sans-serif;
+
+    margin: 0px;
+    padding: 10px;
+}
+
+#img {
+    width: 100%;
+    height: 100%;
+}
+
+/* back_button */
+
+.back_button {
+    align-self: center;
+}
+
+.back_button i {
+    font-size: 2em;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+
+    margin-left: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+    border: none;
+    outline: none;
+
+    background-color: rgb(100, 100, 255);
+    color: rgb(236, 236, 236);
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.back_button i:hover {
+    background-color: rgb(77, 77, 180);
+}
