@@ -306,6 +306,11 @@ app.post('/check_data', (req, res) => {
     }
 });
 
+app.post('/get_data', (req, res) => {
+    var array = Object.values(JSON.parse(fs.readFileSync('data.json', 'utf8')));
+    res.send(JSON.stringify(array));
+})
+
 app.use(express.static('files'));
 
 server.listen(port, () => {

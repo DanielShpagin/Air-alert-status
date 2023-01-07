@@ -212,12 +212,14 @@ function beginning() {
 
                     for (var i = 0; i < hours; i++) {
                         var time_hour = document.createElement('td');
+
                         if (num === 6) {
                             num = 0;
                             time_hour.className = 'time_hour_plus';
                         } else {
                             time_hour.className = 'time_hour';
                         }
+
                         time_hour.innerHTML = `${i}:00`;
 
                         document.querySelector('table .top').appendChild(time_hour);
@@ -354,6 +356,35 @@ setInterval(() => {
 
     beginning();
 }, 5 * 60 * 1000);
+
+setInterval(() => {
+    var id = getCookie('id');
+
+    fetch('/get_data', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => {
+        res.text().then(txt => {
+            var array = JSON.parse(txt);
+            var data1 = array.length;
+            var data2 = 0;
+            
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].date === new Date(Date.now()).getDate()) {
+                    data2++;
+                }
+            }
+
+            console.log(`Скільки користувачів зайшло на сайт: ${data1}, Скільки користувачів зайшло сьогодні: ${data2}`);
+        })
+    })
+}, 5*60*1000);
 
 document.querySelector('.container').addEventListener('click', (event) => {
     if (event.srcElement.className !== 'td_plus_0' && event.srcElement.className !== 'td_plus_1' && event.srcElement.className !== 'td_negative_0' && event.srcElement.className !== 'td_negative_1') {
