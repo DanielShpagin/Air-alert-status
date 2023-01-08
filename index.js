@@ -306,6 +306,8 @@ app.post('/check_data', (req, res) => {
 
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2))
     }
+
+    res.send('');
 });
 
 app.post('/get_data', (req, res) => {
