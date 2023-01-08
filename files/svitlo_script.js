@@ -65,6 +65,35 @@ function checkData() {
     });
 }
 
+function getData() {
+    var id = getCookie('id');
+
+    fetch('/get_data', {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    }).then(res => {
+        res.text().then(txt => {
+            var array = JSON.parse(txt);
+            var data1 = array.length;
+            var data2 = 0;
+            
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].date === new Date(Date.now()).getDate()) {
+                    data2++;
+                }
+            }
+
+            console.log(`Скільки користувачів зайшло на сайт: ${data1}, Скільки користувачів зайшло сьогодні: ${data2}`);
+        })
+    })
+}
+
 function createAlert(d1, d2, row, column, x, y, days) {
     for (var i = 0; i < document.querySelectorAll('.alert_plus').length; i++) {
         document.querySelectorAll('.alert_plus')[i].remove();
@@ -350,32 +379,8 @@ setInterval(() => {
 }, 5 * 60 * 1000);
 
 setInterval(() => {
-    var id = getCookie('id');
-
-    fetch('/get_data', {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            id: id
-        })
-    }).then(res => {
-        res.text().then(txt => {
-            var array = JSON.parse(txt);
-            var data1 = array.length;
-            var data2 = 0;
-            
-            for (var i = 0; i < array.length; i++) {
-                if (array[i].date === new Date(Date.now()).getDate()) {
-                    data2++;
-                }
-            }
-
-            console.log(`Скільки користувачів зайшло на сайт: ${data1}, Скільки користувачів зайшло сьогодні: ${data2}`);
-        })
-    })
+    checkData();
+    getData();
 }, 5*60*1000);
 
 document.querySelector('.container').addEventListener('click', (event) => {
@@ -389,3 +394,6 @@ document.querySelector('.container').addEventListener('click', (event) => {
         }
     }
 });
+
+checkData();
+getData();
