@@ -62,6 +62,10 @@ function checkData() {
         body: JSON.stringify({
             id: id
         })
+    }).then(res => {
+        res.text().then(txt => {
+            console.log(txt);
+        });
     });
 }
 
