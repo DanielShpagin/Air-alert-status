@@ -18,12 +18,14 @@ body {
     height: 50px;
     background-color: rgb(100, 100, 255);
     display: flex;
-
-    padding: 5px;
 }
 
 .connect_button {
     align-self: center;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 5px;
 }
 
 .connect_button input {
@@ -76,14 +78,16 @@ body {
 
 .share_button {
     align-self: center;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 5px;
 }
 
 .share_button i {
     font-size: 1.8em;
     height: 30px;
     padding: 5px;
-
-    margin-right: 10px;
 
     border: none;
     outline: none;
