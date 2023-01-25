@@ -301,8 +301,10 @@ app.post('/check_data', (req, res) => {
 
         data[id] = {
             id: id, 
-            date: new Date(Date.now()).getDate()
+            date: new Date(Date.now())
         }
+
+        console.log(new Date(Date.now()));
 
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2))
     }
@@ -528,3 +530,5 @@ setInterval(async () => {
     onAlert();
     trigger_alerts();
 }, 30000);
+
+'sussy-374211'

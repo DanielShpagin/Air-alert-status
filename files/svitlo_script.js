@@ -94,8 +94,8 @@ function getData() {
             }
 
             console.log(`Скільки користувачів зайшло на сайт: ${data1}, Скільки користувачів зайшло сьогодні: ${data2}`);
-        })
-    })
+        });
+    });
 }
 
 function createAlert(d1, d2, row, column, x, y, days) {
@@ -227,13 +227,23 @@ function beginning() {
             fetch(`https://ua-alert.info/svitlo/history/${url_name}`).then(result => {
                 result.text().then(txt => {
                     var days = JSON.parse(txt);
-
                     days.reverse();
+
+                    var data = [
+                        '111100221111002211110022', 
+                        '110022111100221111002211', 
+                        '002211110022111100221111', 
+                        '221111002211110022111100', 
+                        '111100221111002211110022', 
+                        '111100221111002211110022', 
+                        '111100221111002211110022'
+                    ];
+                    
+                    const today = new Date(Date.now());
+                    const string = data[today.getDay()-1];
 
                     var hours = 24;
                     var num = 0;
-
-                    //var time = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10', '10-11', '11-12', '12-13', '13-14', '14-15', '15-16', '16-17', '18-19', '19-20', '20-21', '21-22', '22-23', '23-24', '24-0']
 
                     for (var i = 0; i < hours; i++) {
                         var time_hour = document.createElement('td');
@@ -274,17 +284,10 @@ function beginning() {
                             12: 'гру.'
                         }
 
-                        if (i === 0) {
-                            var date_item = document.createElement('td');
-                            date_item.className = 'your_date_item';
-                            date_item.innerHTML = `${date_number} ${months[date_month]}`;
-                            tr1.appendChild(date_item);
-                        } else {
-                            var date_item = document.createElement('td');
-                            date_item.className = 'date_item';
-                            date_item.innerHTML = `${date_number} ${months[date_month]}`;
-                            tr1.appendChild(date_item);
-                        }
+                        var date_item = document.createElement('td');
+                        date_item.className = 'date_item';
+                        date_item.innerHTML = `${date_number} ${months[date_month]}`;
+                        tr1.appendChild(date_item);
 
                         var num = 0;
                         var num1 = 0;
@@ -347,12 +350,17 @@ function beginning() {
                                 td2.className = 'td_margin';
                             }
 
+                            if (i === 0) {
+                                if (string[num1] === '0') td2.innerHTML = '+';
+                                if (string[num1] === '2') td2.innerHTML = '-';
+                            }
+
                             tr2.appendChild(td2);
 
                             num++;
-                            num1++;
 
                             if (num === 6) {
+                                num1++;
                                 num = 0;
                                 inner_table.appendChild(tr2);
                                 td1.appendChild(inner_table);

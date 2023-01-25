@@ -20,6 +20,17 @@ body {
     display: flex;
 }
 
+.text {
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border: 0;
+}
+
 .connect_button {
     align-self: center;
 
@@ -137,6 +148,8 @@ table, td {
     border: 1px solid rgb(37 37 37);
     border-collapse: collapse;
     padding: 0;
+    position: relative;
+    text-align: center;
 }
 
 table {
@@ -182,18 +195,30 @@ table {
 
 .td_plus_0 {
     background-color: #e7e76d;;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .td_plus_1 {
     background-color: #ffff59;
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .td_negative_0 {
     background-color: rgb(43, 43, 43);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .td_negative_1 {
     background-color: rgb(31 31 31);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 .td_margin {
