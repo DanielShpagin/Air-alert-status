@@ -87,12 +87,14 @@ function getData() {
             var data1 = array.length;
             var data2 = 0;
             
-            var year = new Date(Date.now()).split('-')[0];
-            var date = new Date(Date.now()).split('-')[1];
+            var year = new Date(Date.now()).getFullYear();
+            var date = new Date(Date.now()).getDate();
             
             for (var i = 0; i < array.length; i++) {
-                var year1 = array[i].date.split[0];
-                var date1 = array[i].date.split[1];
+                var year1 = array[i].date.split('-')[0];
+                var date1 = array[i].date.split('-')[1];
+
+                if (data1[0] === '0') data1 = data1.substring(1);
 
                 if (year === year1 && date === date1) {
                     data2++;
