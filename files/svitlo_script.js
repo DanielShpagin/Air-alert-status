@@ -1,5 +1,3 @@
-var url_name = window.location.href.split('/')[4];
-
 document.querySelector('.share_button').addEventListener('click', event => {
     if (navigator.share) {
         navigator.share({
@@ -218,6 +216,8 @@ function createAlert(d1, d2, row, column, x, y, days) {
 }
 
 function beginning() {
+    var url_name = window.location.href.split('/')[4];
+
     fetch(`https://ua-alert.info/svitlo/now/${url_name}`).then(result => {
         result.text().then(txt => {
             if (txt === '1') {
