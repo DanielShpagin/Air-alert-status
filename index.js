@@ -120,9 +120,15 @@ setInterval(() => {
     var array = Object.values(JSON.parse(fs.readFileSync('data.json', 'utf8')));
     var data1 = array.length;
     var data2 = 0;
+
+    var year = new Date(Date.now()).split('-')[0];
+    var date = new Date(Date.now()).split('-')[1];
     
     for (var i = 0; i < array.length; i++) {
-        if (array[i].date === new Date(Date.now()).getDate()) {
+        var year1 = array[i].date.split[0];
+        var date1 = array[i].date.split[1];
+
+        if (year === year1 && date === date1) {
             data2++;
         }
     }

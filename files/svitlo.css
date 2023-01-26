@@ -22,7 +22,6 @@ body {
 
 .text {
     font-size: 30px;
-    font-weight: bold;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -196,33 +195,31 @@ table {
 .td_plus_0 {
     background-color: #e7e76d;;
     color: black;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 8px;
 }
 
 .td_plus_1 {
     background-color: #ffff59;
     color: black;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 8px;
 }
 
 .td_negative_0 {
     background-color: rgb(43, 43, 43);
     color: white;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 8px;
 }
 
 .td_negative_1 {
     background-color: rgb(31 31 31);
     color: white;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 8px;
 }
 
 .td_margin {
     border: none;
+    font-weight: lighter;
+    font-size: 8px;
 }
 
 .table .time_hour {
@@ -249,7 +246,7 @@ table {
 }
 
 /*.table {
-    margin: 15px auto;
+    margin: 10px auto;
     display: flex;
     flex-direction: column;
 }

@@ -87,8 +87,14 @@ function getData() {
             var data1 = array.length;
             var data2 = 0;
             
+            var year = new Date(Date.now()).split('-')[0];
+            var date = new Date(Date.now()).split('-')[1];
+            
             for (var i = 0; i < array.length; i++) {
-                if (array[i].date === new Date(Date.now()).getDate()) {
+                var year1 = array[i].date.split[0];
+                var date1 = array[i].date.split[1];
+
+                if (year === year1 && date === date1) {
                     data2++;
                 }
             }
@@ -351,8 +357,8 @@ function beginning() {
                             }
 
                             if (i === 0) {
-                                if (string[num1] === '0') td2.innerHTML = '+';
-                                if (string[num1] === '2') td2.innerHTML = '-';
+                                if (string[num1] === '0') td2.innerHTML = '➕';
+                                if (string[num1] === '2') td2.innerHTML = '➖';
                             }
 
                             tr2.appendChild(td2);
