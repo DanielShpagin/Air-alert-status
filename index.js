@@ -115,13 +115,15 @@ function getData() {
     var date = new Date(Date.now()).getDate();
     
     for (var i = 0; i < array.length; i++) {
-        var year1 = array[i].date.split('-')[0];
-        var date1 = array[i].date.split('-')[1];
+        if (array[i].date) {
+            var year1 = array[i].date.date;
+            var date1 = array[i].date.year;
 
-        if (data1[0] === '0') data1 = data1.substring(1);
+            if (data1[0] === '0') data1 = data1.substring(1);
 
-        if (year === year1 && date === date1) {
-            data2++;
+            if (year === year1 && date === date1) {
+                data2++;
+            }
         }
     }
 
@@ -314,10 +316,11 @@ app.post('/check_data', (req, res) => {
 
         data[id] = {
             id: id, 
-            date: new Date(Date.now())
+            date: {
+                date: new Date(Date.now()).getDate(), 
+                year: new Date(Date.now()).getFullYear()
+            }
         }
-
-        console.log(new Date(Date.now()));
 
         fs.writeFileSync('data.json', JSON.stringify(data, null, 2))
     }

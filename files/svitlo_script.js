@@ -64,7 +64,7 @@ function checkData() {
         })
     }).then(res => {
         res.text().then(txt => {
-            console.log(txt);
+            getData();
         });
     });
 }
@@ -91,13 +91,15 @@ function getData() {
             var date = new Date(Date.now()).getDate();
             
             for (var i = 0; i < array.length; i++) {
-                var year1 = array[i].date.split('-')[0];
-                var date1 = array[i].date.split('-')[1];
+                if (array[i].date) {
+                    var year1 = array[i].date.year;
+                    var date1 = array[i].date.date;
 
-                if (data1[0] === '0') data1 = data1.substring(1);
+                    if (data1[0] === '0') data1 = data1.substring(1);
 
-                if (year === year1 && date === date1) {
-                    data2++;
+                    if (year === year1 && date === date1) {
+                        data2++;
+                    }
                 }
             }
 
@@ -400,7 +402,6 @@ setInterval(() => {
 
 setInterval(() => {
     checkData();
-    getData();
 }, 5*60*1000);
 
 document.querySelector('.container').addEventListener('click', (event) => {
@@ -416,4 +417,3 @@ document.querySelector('.container').addEventListener('click', (event) => {
 });
 
 checkData();
-getData();
