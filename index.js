@@ -34,12 +34,8 @@ const corsOptions = {
     // origin: 'http://good.com'
     // This was will return error page for express route
     // but will allow socket connection
-    allowRequest: function (req, callback) {
-        console.log('origin', req.headers.origin);
-        callback(null, true)      
-    },
     origin: ["https://localhost","https://ua-alert.info"],
-    credentials: false
+    credentials: true
   }
   const corsOptions2 = {
     // Not working for both express and socket.io somehow?
@@ -53,10 +49,10 @@ const corsOptions = {
     origin: true,
     credentials: true
   }
-app.use(function (req, res, next) {
-    console.log("Middleware called")
-    next();
-});
+//app.use(function (req, res, next) {
+//    console.log("Middleware called")
+//    next();
+//});
 //app.use(function(req, res, next) {
 //    console.log('test', req.path);
 //    res.header("Access-Control-Allow-Origin", "https://localhost"); // update to match the domain you will make the request from
