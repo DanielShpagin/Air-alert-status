@@ -152,7 +152,10 @@ setInterval(() => {
 //  }));
 
 app.use(cors({
-    origin: '/svitlo/*'
+    origin: ['https://ua-alert.info'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
   }));
   
 app.use(bodyParser.json());
