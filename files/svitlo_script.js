@@ -316,7 +316,7 @@ function beginning() {
 
                             if (days[i].data[a]) {
                                 if (days[i].data[a] === '1') {
-                                    if (Math.floor(a/24)%2 == 0) {
+                                    if (Math.floor(a/6)%2 == 0) {
                                         td2.className = 'td_plus_0';
                                     } else {
                                         td2.className = 'td_plus_1';
@@ -337,7 +337,7 @@ function beginning() {
                                 }
 
                                 if (days[i].data[a] === '2') {
-                                    if (Math.floor(a/24)%2 == 0) {
+                                    if (Math.floor(a/6)%2 == 0) {
                                         td2.className = 'td_negative_0';
                                     } else {
                                         td2.className = 'td_negative_1';

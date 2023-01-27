@@ -222,15 +222,17 @@ table {
 }
 
 .table .time_hour {
-    padding: 5px;
+    padding: 2px;
     font-size: 125%;
-    text-align: center;
+    text-align: left;
+    width:4.16%;
 }
 
 .table .time_hour_plus {
-    padding: 5px;
+    padding: 0px;
     font-size: 125%;
-    text-align: center;
+    text-align: left;
+    width:4.16%;
 }
 
 .inner_table {
@@ -241,7 +243,7 @@ table {
 .inner_table td {
     padding: 0;
     height: 40;
-    border: 1px solid rgb(37 37 37);;
+    border: 1px solid rgb(50 50 50);
 }
 
 /*.table {
