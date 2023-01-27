@@ -152,7 +152,7 @@ setInterval(() => {
 //  }));
 
 app.use(cors({
-    origin: '*'
+    origin: '/svitlo/*'
   }));
   
 app.use(bodyParser.json());
