@@ -25,6 +25,54 @@ const port = 443;
 
 const server = https.createServer(https_options, app);
 
+//app.use(cors({
+//   origin: ["https://localhost","https://ua-alert.info"],
+//    credentials: false
+//  }));
+const corsOptions = {
+    // Not working for both express and socket.io somehow?
+    // origin: 'http://good.com'
+    // This was will return error page for express route
+    // but will allow socket connection
+    //allowRequest: function (req, callback) {
+    //    console.log('origin', req.headers.origin);
+    //    callback(null, true)      
+    //}
+    origin: ["https://localhost/socket.io/","https://ua-alert.info/socket.io/"],
+    credentials: true
+  }
+  const corsOptions2 = {
+    // Not working for both express and socket.io somehow?
+    // origin: 'http://good.com'
+    // This was will return error page for express route
+    // but will allow socket connection
+    //allowRequest: function (req, callback) {
+    //    console.log('origin', req.headers.origin);
+    //    callback(null, true)      
+    //}
+    origin: true,
+    credentials: true
+  }
+//app.use(function (req, res, next) {
+//    console.log("Middleware called")
+//    next();
+//});
+//app.use(function(req, res, next) {
+//    console.log('test', req.path);
+//    res.header("Access-Control-Allow-Origin", "https://localhost"); // update to match the domain you will make the request from
+//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//    next();
+//  });
+
+app.use(cors(corsOptions));
+
+import { Server } from "socket.io";
+
+const socketio = new Server(server,{
+    cors: corsOptions2,
+    allowEIO3: true,
+});
+
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
@@ -337,20 +385,6 @@ app.post('/get_data', (req, res) => {
 })
 
 app.use(express.static('files'));
-
-app.use(cors({
-    origin: ["https://localhost","https://ua-alert.info"],
-    credentials: true
-  }));
-
-import * as io from "socket.io"
-const socketio = new io.Server(server,{
-    cors: {
-      origin: true,
-      credentials: true,
-    },
-    allowEIO3: true,
-});
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
