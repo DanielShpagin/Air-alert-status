@@ -361,7 +361,10 @@ socketio.on('connection', socket => {
     console.log('User connected');
 
     socket.on('message', message => {
-        socketio.emit('message', message);
+        console.log('message:',message);
+        var sent=JSON.stringify({source:message,now:Date.now()});
+        console.log('sent:',sent);
+        socketio.emit('message', sent);
     });
 
     socket.on('disconnect', () => {
