@@ -348,7 +348,8 @@ server.listen(port, () => {
 import * as io from "socket.io"
 const socketio = new io.Server(server, {
     cors: {
-      origin: "https://ua-alert.info"
+      origin: "https://ua-alert.info",
+      credentials: true
     }
   });
 
