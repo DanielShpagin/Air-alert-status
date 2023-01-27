@@ -34,11 +34,11 @@ const corsOptions = {
     // origin: 'http://good.com'
     // This was will return error page for express route
     // but will allow socket connection
-    //allowRequest: function (req, callback) {
-    //    console.log('origin', req.headers.origin);
-    //    callback(null, true)      
-    //}
-    origin: ["https://localhost/socket.io/","https://ua-alert.info/socket.io/"],
+    allowRequest: function (req, callback) {
+        console.log('origin', req.headers.origin);
+        callback(null, true)      
+    },
+    origin: "https://localhost",
     credentials: true
   }
   const corsOptions2 = {
@@ -53,10 +53,10 @@ const corsOptions = {
     origin: true,
     credentials: true
   }
-//app.use(function (req, res, next) {
-//    console.log("Middleware called")
-//    next();
-//});
+app.use(function (req, res, next) {
+    console.log("Middleware called")
+    next();
+});
 //app.use(function(req, res, next) {
 //    console.log('test', req.path);
 //    res.header("Access-Control-Allow-Origin", "https://localhost"); // update to match the domain you will make the request from
@@ -64,15 +64,15 @@ const corsOptions = {
 //    next();
 //  });
 
-//app.use(cors(corsOptions));
 
 import { Server } from "socket.io";
 
 const socketio = new Server(server,{
-    cors: corsOptions,
-    //allowEIO3: true,
+    cors: corsOptions2,
+    allowEIO3: true,
 });
 
+app.use(cors(corsOptions2));
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
