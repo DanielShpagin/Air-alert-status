@@ -6,6 +6,7 @@ import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import https from 'https';
+import http from 'http';
 import cors from 'cors';
 
 //import './electricity.js';
@@ -34,7 +35,7 @@ const corsOptions = {
     // origin: 'http://good.com'
     // This was will return error page for express route
     // but will allow socket connection
-    origin: ["https://localhost","https://ua-alert.info"],
+    origin: '*',//["https://localhost/","https://ua-alert.info/"],
     credentials: false
   }
   const corsOptions2 = {
@@ -68,7 +69,7 @@ const socketio = new Server(server,{
     //allowEIO3: true,
 });
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
