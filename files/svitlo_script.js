@@ -313,6 +313,7 @@ function beginning() {
                             }
 
                             var td2 = document.createElement('td');
+                            td2.style.border="none";
 
                             if (days[i].data[a]) {
                                 if (days[i].data[a] === '1') {
@@ -360,9 +361,11 @@ function beginning() {
                                 td2.className = 'td_margin';
                             }
 
+
                             if (i === 0) {
                                 if (string[num1] === '0') td2.innerHTML = '➕';
                                 if (string[num1] === '2') td2.innerHTML = '➖';
+                                if (string[num1] === '1') td2.innerHTML = '/';
                             }
 
                             tr2.appendChild(td2);
