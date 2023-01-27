@@ -147,8 +147,13 @@ setInterval(() => {
     getData();
 }, 5*60*1000);
 
+//app.use(cors({
+//    origin: '/socket*'
+//  }));
+
 app.use(cors({
-    origin: '*'
+    origin: 'https://ua-alert.info/*',
+    credentials: true
   }));
   
 app.use(bodyParser.json());
