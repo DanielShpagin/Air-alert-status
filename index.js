@@ -26,10 +26,7 @@ const hport=80;
 
 
 const server = https.createServer(https_options, app);
-const hserver = http.createServer(function (req, res) {
-    res.writeHead(200)
-    res.end('...')
-  });
+const hserver = http.createServer(app);
   
 hserver.listen(hport);
 //app.use(cors({
