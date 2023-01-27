@@ -338,10 +338,6 @@ app.post('/get_data', (req, res) => {
 
 app.use(express.static('files'));
 
-server.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
-
 app.use(cors({
     origin: ['https://ua-alert.info', 'https://localhost'],
     credentials: true,
@@ -356,6 +352,10 @@ const socketio = new io.Server(server, {
     },
     allowEIO3: true,
   });
+
+server.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
 
 socketio.on('connection', socket => {
     console.log('User connected');
