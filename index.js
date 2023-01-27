@@ -38,8 +38,8 @@ const corsOptions = {
         console.log('origin', req.headers.origin);
         callback(null, true)      
     },
-    origin: "https://localhost",
-    credentials: true
+    origin: ["https://localhost","https://ua-alert.info"],
+    credentials: false
   }
   const corsOptions2 = {
     // Not working for both express and socket.io somehow?
@@ -69,7 +69,7 @@ import { Server } from "socket.io";
 
 const socketio = new Server(server,{
     cors: corsOptions,
-    allowEIO3: true,
+    //allowEIO3: true,
 });
 
 app.use(cors(corsOptions));
