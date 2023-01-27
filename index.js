@@ -22,7 +22,9 @@ const __dirname = path.resolve();
 const app = express();
 const port = 443;
 
+
 const server = https.createServer(https_options, app);
+
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
@@ -337,6 +339,21 @@ app.use(express.static('files'));
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
+});
+
+import * as io from "socket.io"
+const socketio = new io.Server(server);
+
+socketio.on('connection', socket => {
+    console.log('User connected');
+
+    socket.on('message', message => {
+        socketio.emit('message', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 });
 
 var apikey = '';
