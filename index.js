@@ -28,7 +28,6 @@ const hport=80;
 const server = https.createServer(https_options, app);
 const hserver = http.createServer(app);
   
-hserver.listen(hport);
 //app.use(cors({
 //   origin: ["https://localhost","https://ua-alert.info"],
 //    credentials: false
@@ -73,6 +72,7 @@ const socketio = new Server(hserver,{
 });
 
 app.use(cors(corsOptions));
+hserver.listen(hport);
 
 socketio.engine.on("connection_error", (err) => {
     console.log(err.req);      // the request object
