@@ -312,8 +312,7 @@ function beginning() {
                                 var tr2 = document.createElement('tr');
                             }
 
-                            var td2 = document.createElement('td');
-                            td2.style.border="none";
+                            var td2 = document.createElement('td');                        
 
                             if (days[i].data[a]) {
                                 if (days[i].data[a] === '1') {
@@ -360,12 +359,14 @@ function beginning() {
                             } else {
                                 td2.className = 'td_margin';
                             }
+                            td2.style.border="none";
+                            td2.style["border-opacity"]="0.0";
 
 
                             if (i === 0) {
-                                if (string[num1] === '0') td2.innerHTML = '➕';
-                                if (string[num1] === '2') td2.innerHTML = '➖';
-                                if (string[num1] === '1') td2.innerHTML = '/';
+                                if (string[num1] === '0') td2.innerHTML = '🟢';
+                                if (string[num1] === '2') td2.innerHTML = '🚫';
+                                if (string[num1] === '1') td2.innerHTML = '❓';
                             }
 
                             tr2.appendChild(td2);
