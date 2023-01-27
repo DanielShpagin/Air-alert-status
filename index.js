@@ -344,17 +344,13 @@ app.use(cors({
   }));
 
 import * as io from "socket.io"
-const socketio = new io.Server(server, {
-    cors: {
-      origin: 'https://ua-alert.info',
-      credentials: true,
-    }
+const socketio = new io.Server(server
     //cors: {
     //  origin: true,
     //  credentials: true,
     //},
     //allowEIO3: true,
-  });
+  );
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
