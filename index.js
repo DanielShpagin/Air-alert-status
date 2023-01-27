@@ -68,11 +68,11 @@ app.use(function (req, res, next) {
 import { Server } from "socket.io";
 
 const socketio = new Server(server,{
-    cors: corsOptions2,
+    cors: corsOptions,
     allowEIO3: true,
 });
 
-app.use(cors(corsOptions2));
+app.use(cors(corsOptions));
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
@@ -194,10 +194,6 @@ getData();
 setInterval(() => {
     getData();
 }, 5*60*1000);
-
-//app.use(cors({
-//    origin: '/socket*'
-//  }));
 
   
 app.use(bodyParser.json());
