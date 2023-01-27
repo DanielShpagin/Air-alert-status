@@ -69,7 +69,7 @@ app.use(cors(corsOptions));
 import { Server } from "socket.io";
 
 const socketio = new Server(server,{
-    cors: corsOptions2,
+    cors: corsOptions,
     allowEIO3: true,
 });
 
