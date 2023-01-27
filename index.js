@@ -22,10 +22,16 @@ const __dirname = path.resolve();
 
 const app = express();
 const port = 443;
+const hport=8080;
 
 
 const server = https.createServer(https_options, app);
-
+const hserver = http.createServer(function (req, res) {
+    res.writeHead(200)
+    res.end('...')
+  });
+  
+hserver.listen(hport);
 //app.use(cors({
 //   origin: ["https://localhost","https://ua-alert.info"],
 //    credentials: false
@@ -64,7 +70,7 @@ const corsOptions = {
 
 import { Server } from "socket.io";
 
-const socketio = new Server(server,{
+const socketio = new Server(hserver,{
     cors: corsOptions,
     //allowEIO3: true,
 });
