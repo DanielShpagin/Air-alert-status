@@ -151,12 +151,6 @@ setInterval(() => {
 //    origin: '/socket*'
 //  }));
 
-app.use(cors({
-    origin: ['https://ua-alert.info'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
-  }));
   
 app.use(bodyParser.json());
 app.use('/tutorial', express.static('tutorial'));
@@ -348,10 +342,17 @@ server.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
 
+app.use(cors({
+    origin: ['https://ua-alert.info'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
+  }));
+
 import * as io from "socket.io"
 const socketio = new io.Server(server, {
     cors: {
-      origin: "https://ua-alert.info",
+      origin: ['https://ua-alert.info'],
       credentials: true
     }
   });
