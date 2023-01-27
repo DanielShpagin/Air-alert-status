@@ -346,7 +346,7 @@ app.use(cors({
 import * as io from "socket.io"
 const socketio = new io.Server(server,{
     cors: {
-      origin: ["https://localhost","https://ua-alert.info"],
+      origin: true,
       credentials: true,
     },
     allowEIO3: true,
