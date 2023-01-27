@@ -343,18 +343,18 @@ server.listen(port, () => {
 });
 
 app.use(cors({
-    origin: ['https://ua-alert.info'],
+    origin: ['https://ua-alert.info', 'https://localhost'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept']
   }));
 
 import * as io from "socket.io"
 const socketio = new io.Server(server, {
     cors: {
-      origin: ['https://ua-alert.info'],
-      credentials: true
-    }
+      origin: true,
+      credentials: true,
+    },
+    allowEIO3: true,
   });
 
 socketio.on('connection', socket => {
