@@ -152,7 +152,7 @@ setInterval(() => {
 //  }));
 
 app.use(cors({
-    origin: 'https://ua-alert.info/*',
+    origin: 'https://ua-alert.info',
     credentials: true
   }));
   
