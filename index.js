@@ -69,7 +69,7 @@ const socketio = new Server(server,{
     //allowEIO3: true,
 });
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
