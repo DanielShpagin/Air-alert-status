@@ -339,18 +339,21 @@ app.post('/get_data', (req, res) => {
 app.use(express.static('files'));
 
 app.use(cors({
-    origin: ['https://ua-alert.info', 'https://localhost'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin: 'https://ua-alert.info',
+    credentials: true
   }));
 
 import * as io from "socket.io"
 const socketio = new io.Server(server, {
     cors: {
-      origin: true,
+      origin: 'https://ua-alert.info',
       credentials: true,
-    },
-    allowEIO3: true,
+    }
+    //cors: {
+    //  origin: true,
+    //  credentials: true,
+    //},
+    //allowEIO3: true,
   });
 
 server.listen(port, () => {
