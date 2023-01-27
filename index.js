@@ -152,8 +152,7 @@ setInterval(() => {
 //  }));
 
 app.use(cors({
-    origin: 'https://ua-alert.info',
-    credentials: true
+    origin: '*'
   }));
   
 app.use(bodyParser.json());
@@ -347,7 +346,11 @@ server.listen(port, () => {
 });
 
 import * as io from "socket.io"
-const socketio = new io.Server(server);
+const socketio = new io.Server(server, {
+    cors: {
+      origin: "https://ua-alert.info"
+    }
+  });
 
 socketio.on('connection', socket => {
     console.log('User connected');
