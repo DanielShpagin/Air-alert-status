@@ -71,6 +71,21 @@ const socketio = new Server(server,{
 
 app.use(cors(corsOptions));
 
+socketio.on('connection', socket => {
+    console.log('User connected');
+
+    socket.on('message', message => {
+        console.log('message:',message);
+        var sent=JSON.stringify({source:message,now:Date.now()});
+        console.log('sent:',sent);
+        socketio.emit('message', sent);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
+
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
         fs.mkdirSync('./users/');
@@ -381,21 +396,6 @@ app.use(express.static('files'));
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
-});
-
-socketio.on('connection', socket => {
-    console.log('User connected');
-
-    socket.on('message', message => {
-        console.log('message:',message);
-        var sent=JSON.stringify({source:message,now:Date.now()});
-        console.log('sent:',sent);
-        socketio.emit('message', sent);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
 });
 
 var apikey = '';
