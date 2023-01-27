@@ -339,18 +339,18 @@ app.post('/get_data', (req, res) => {
 app.use(express.static('files'));
 
 app.use(cors({
-    origin: 'https://ua-alert.info',
+    origin: ["https://localhost","https://ua-alert.info"],
     credentials: true
   }));
 
 import * as io from "socket.io"
-const socketio = new io.Server(server
-    //cors: {
-    //  origin: true,
-    //  credentials: true,
-    //},
-    //allowEIO3: true,
-  );
+const socketio = new io.Server(server,{
+    cors: {
+      origin: ["https://localhost","https://ua-alert.info"],
+      credentials: true,
+    },
+    allowEIO3: true,
+});
 
 server.listen(port, () => {
     console.log(`Listening on port ${port}`);
