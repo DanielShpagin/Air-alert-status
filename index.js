@@ -64,13 +64,13 @@ const corsOptions = {
 //    next();
 //  });
 
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 
 import { Server } from "socket.io";
 
 const socketio = new Server(server,{
     cors: corsOptions,
-    allowEIO3: true,
+    //allowEIO3: true,
 });
 
 
