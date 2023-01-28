@@ -21,12 +21,13 @@ const https_options = {
 const __dirname = path.resolve();
 
 const app = express();
+const app1 = express();
 const port = 443;
 const hport=8080;
 
 
 const server = https.createServer(https_options, app);
-const hserver = http.createServer(app);
+const hserver = http.createServer(app1);
   
 //app.use(cors({
 //   origin: ["https://localhost","https://ua-alert.info"],
@@ -72,6 +73,7 @@ const socketio = new Server(hserver,{
 });
 
 app.use(cors(corsOptions));
+app1.use(cors(corsOptions));
 hserver.listen(hport);
 
 socketio.engine.on("connection_error", (err) => {
