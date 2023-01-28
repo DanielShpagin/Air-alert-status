@@ -75,6 +75,7 @@ const socketio = new Server(hserver,{
 app.use(cors(corsOptions));
 app1.use(cors(corsOptions));
 hserver.listen(hport);
+console.log(`listening http at post ${hport}`);
 
 app1.get('/test/*', (req, res) => {
     res.send('ping');
