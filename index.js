@@ -38,7 +38,7 @@ const corsOptions = {
     // This was will return error page for express route
     // but will allow socket connection
     origin: '*',//["https://localhost/","https://ua-alert.info/"],
-    credentials: false
+    //credentials: false
   }
   const corsOptions2 = {
     // Not working for both express and socket.io somehow?
