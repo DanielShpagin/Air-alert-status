@@ -29,64 +29,20 @@ const hport=8080;
 const server = https.createServer(https_options, app);
 const hserver = http.createServer(app1);
   
-//app.use(cors({
-//   origin: ["https://localhost","https://ua-alert.info"],
-//    credentials: false
-//  }));
 const corsOptions = {
-    // Not working for both express and socket.io somehow?
-    // origin: 'http://good.com'
-    // This was will return error page for express route
-    // but will allow socket connection
-    origin: '*',//["https://localhost/","https://ua-alert.info/"],
-    //credentials: false
-  }
-  const corsOptions2 = {
-    // Not working for both express and socket.io somehow?
-    // origin: 'http://good.com'
-    // This was will return error page for express route
-    // but will allow socket connection
-    //allowRequest: function (req, callback) {
-    //    console.log('origin', req.headers.origin);
-    //    callback(null, true)      
-    //}
-    origin: true,
-    credentials: true
-  }
-//app.use(function (req, res, next) {
-//    console.log("Middleware called")
-//    next();
-//});
-//app.use(function(req, res, next) {
-//    console.log('test', req.path);
-//    res.header("Access-Control-Allow-Origin", "https://localhost"); // update to match the domain you will make the request from
-//    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//    next();
-//  });
-
+    origin: '*',
+}
 
 import { Server } from "socket.io";
 
 const socketio = new Server(hserver,{
     cors: corsOptions,
-    //allowEIO3: true,
 });
 
 app.use(cors(corsOptions));
 app1.use(cors(corsOptions));
 hserver.listen(hport);
-console.log(`listening http at post ${hport}`);
-
-app1.get('/test/*', (req, res) => {
-    res.send('ping');
-});
-
-socketio.engine.on("connection_error", (err) => {
-    console.log(err.req);      // the request object
-    console.log(err.code);     // the error code, for example 1
-    console.log(err.message);  // the error message, for example "Session ID unknown"
-    console.log(err.context);  // some additional error context
-  });
+console.log(`listening http at port ${hport}`);
 
 socketio.on('connection', socket => {
     console.log('User connected');
