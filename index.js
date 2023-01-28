@@ -76,6 +76,10 @@ app.use(cors(corsOptions));
 app1.use(cors(corsOptions));
 hserver.listen(hport);
 
+app1.get('/test/*', (req, res) => {
+    res.send('ping');
+});
+
 socketio.engine.on("connection_error", (err) => {
     console.log(err.req);      // the request object
     console.log(err.code);     // the error code, for example 1
