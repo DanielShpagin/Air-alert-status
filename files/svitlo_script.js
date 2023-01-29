@@ -250,7 +250,8 @@ function beginning() {
                     ];
                     
                     const today = new Date(Date.now());
-                    const string = data[(today.getDay()+6)%7];
+                    var cday = (today.getDay()+6)%7;
+                    var string = data[cday];
 
                     var hours = 24;
                     var num = 0;
@@ -273,6 +274,7 @@ function beginning() {
 
                     for (var i = 0; i < days.length; i++) {
                         var tr1 = document.createElement('tr');
+                        string = data[(cday-i+days.length*7)%7];
 
                         var date = days[i].day.split(' ');
                         var date_number = date[0];
@@ -363,7 +365,7 @@ function beginning() {
                             td2.style["border-opacity"]="0.0";
 
 
-                            if (i === 0 && string && string.length) {
+                            if (i < 3 && string && string.length) {
                                 if (string[num1] === '0') td2.innerHTML = '🟢';
                                 if (string[num1] === '2') td2.innerHTML = '🚫';
                                 if (string[num1] === '1') td2.innerHTML = '❓';
