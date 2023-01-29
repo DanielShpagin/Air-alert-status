@@ -321,7 +321,6 @@ function beginning() {
                                 subCell.style.height = "100%";
                                 subCell.style.margin="0pt";
                                 subCell.innerHTML='&nbsp';
-                                cell.style.zIndex=10;
                                 if(a<days[i].data.length){
                                     var v = days[i].data[a];
                                     if(j&1){
@@ -331,7 +330,20 @@ function beginning() {
                                         if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
                                         else subCell.style.backgroundColor = "rgba(255,255,0,0.48)";  
                                     }
-                                }                                  
+                                    subCell.row = i;
+                                    subCell.column = a;
+                                    subCell.addEventListener('click', (event) => {
+                                        let elem = event.target;
+                                        let rect = elem.getBoundingClientRect();
+    
+                                        var x = rect.x;
+                                        var y = rect.y;
+
+                                        var v1 = v==='1' ? '2' : '1'; 
+    
+                                        createAlert(v, v1, elem.row, elem.column, x, y, days);
+                                    });  
+                                }                                
                                 cell.appendChild(subCell);
                             }
                             var charX = document.createElement("div");
