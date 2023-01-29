@@ -332,13 +332,14 @@ function beginning() {
                                     }
                                     subCell.row = i;
                                     subCell.column = a;
+                                    subCell.v = v;
                                     subCell.addEventListener('click', (event) => {
                                         let elem = event.target;
                                         let rect = elem.getBoundingClientRect();
     
                                         var x = rect.x;
                                         var y = rect.y;
-
+                                        var v = elem.v;
                                         var v1 = v==='1' ? '2' : '1'; 
     
                                         createAlert(v, v1, elem.row, elem.column, x, y, days);
