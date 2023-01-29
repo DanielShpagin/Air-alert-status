@@ -250,7 +250,8 @@ function beginning() {
                     ];
                     
                     const today = new Date(Date.now());
-                    const string = data[today.getDay()-1];
+                    var cday = (today.getDay()+6)%7;
+                    var string = data[cday];
 
                     var hours = 24;
                     var num = 0;
@@ -265,7 +266,7 @@ function beginning() {
                             time_hour.className = 'time_hour';
                         }
 
-                        time_hour.innerHTML = `${i}:00`;
+                        time_hour.innerHTML = `${i}`;
 
                         document.querySelector('table .top').appendChild(time_hour);
                         num++;
@@ -273,6 +274,7 @@ function beginning() {
 
                     for (var i = 0; i < days.length; i++) {
                         var tr1 = document.createElement('tr');
+                        string = data[(cday-i+days.length*7)%7];
 
                         var date = days[i].day.split(' ');
                         var date_number = date[0];
@@ -303,35 +305,41 @@ function beginning() {
                         var num1 = 0;
                         var num2 = 0;
 
-                        for (var a = 0; a < 6 * 24; a++) {
-                            if (!num) {
-                                var td1 = document.createElement('td');
-                                var inner_table = document.createElement('table');
-                                inner_table.className = 'inner_table';
-
-                                var tr2 = document.createElement('tr');
-                            }
-
-                            var td2 = document.createElement('td');
-
-                            if (days[i].data[a]) {
-                                if (days[i].data[a] === '1') {
-                                    if (Math.floor(a/24)%2 == 0) {
-                                        td2.className = 'td_plus_0';
-                                    } else {
-                                        td2.className = 'td_plus_1';
+                        for (var j = 0; j < 24; j++) {
+                            var cell = document.createElement("td");
+                            cell.style.border = "1px solid black";
+                            cell.style.padding ="0pt";
+                            cell.style.margin ="0pt";
+                            cell.style.position = "relative";
+                            cell.style.height="30pt";
+                            
+                            for (var k = 0; k < 6; k++) {
+                                var a=j*6+k;
+                                var subCell = document.createElement("div");
+                                subCell.style.display = "inline-block";
+                                subCell.style.width = "calc(100% / 6)";
+                                subCell.style.height = "100%";
+                                subCell.style.margin="0pt";
+                                subCell.innerHTML='&nbsp';
+                                if(a<days[i].data.length){
+                                    var v = days[i].data[a];
+                                    if(j&1){
+                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
+                                        else subCell.style.backgroundColor = "rgba(255,240,0,0.56)";  
+                                    }else{
+                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
+                                        else subCell.style.backgroundColor = "rgba(255,255,0,0.48)";  
                                     }
-
-                                    td2.row = i;
-                                    td2.column = a;
-
-                                    td2.addEventListener('click', (event) => {
+                                    subCell.row = i;
+                                    subCell.column = a;
+                                    subCell.addEventListener('click', (event) => {
                                         let elem = event.target;
                                         let rect = elem.getBoundingClientRect();
-
+    
                                         var x = rect.x;
                                         var y = rect.y;
 
+<<<<<<< HEAD
                                         createAlert('1', '2', elem.row, elem.column, x, y, days);
                                     });
                                 }
@@ -376,8 +384,36 @@ function beginning() {
                                 inner_table.appendChild(tr2);
                                 td1.appendChild(inner_table);
                                 tr1.appendChild(td1);
+=======
+                                        var v1 = v==='1' ? '2' : '1'; 
+    
+                                        createAlert(v, v1, elem.row, elem.column, x, y, days);
+                                    });  
+                                }                                
+                                cell.appendChild(subCell);
+>>>>>>> 2954e71cbca764f515c104673ceb65fe16c463b3
                             }
+                            var charX = document.createElement("div");
+                            charX.innerHTML = "&nbsp";
+                            charX.style.display = "inline-block";
+                            charX.style.position = "absolute";
+                            charX.style.top = "50%";
+                            charX.style.left = "50%";
+                            charX.style.transform = "translate(-50%, -55%)";
+                            charX.style.fontSize = "16px";
+                            charX.style.opacity="1%";
+                            charX.style.color = "white";
+                            charX.innerHTML = '❓'
+                            if (i < 7 && string && string.length) {                                
+                                if (string[j] === '2') {
+                                    cell.classList.add("crossed");
+                                }
+                                if (string[j] === '1') charX.style.opacity="80%";
+                            }                             
+                            cell.appendChild(charX);
+                            tr1.appendChild(cell);
                         }
+
 
                         document.querySelector('.table table tbody').appendChild(tr1);
                     }

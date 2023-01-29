@@ -6,6 +6,7 @@ import path from 'path';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import https from 'https';
+import http from 'http';
 import cors from 'cors';
 
 //import './electricity.js';
@@ -20,9 +21,43 @@ const https_options = {
 const __dirname = path.resolve();
 
 const app = express();
+const app1 = express();
 const port = 443;
+const hport=8080;
+
 
 const server = https.createServer(https_options, app);
+const hserver = http.createServer(app1);
+  
+const corsOptions = {
+    origin: '*',
+}
+
+import { Server } from "socket.io";
+
+const socketio = new Server(hserver,{
+    cors: corsOptions,
+});
+
+app.use(cors(corsOptions));
+app1.use(cors(corsOptions));
+hserver.listen(hport);
+console.log(`listening http at port ${hport}`);
+
+socketio.on('connection', socket => {
+    console.log('User connected');
+
+    socket.on('message', message => {
+        console.log('message:',message);
+        var sent=JSON.stringify({source:message,now:Date.now()});
+        console.log('sent:',sent);
+        socketio.emit('message', sent);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
+});
 
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
@@ -145,9 +180,6 @@ setInterval(() => {
     getData();
 }, 5*60*1000);
 
-app.use(cors({
-    origin: '*'
-  }));
   
 app.use(bodyParser.json());
 app.use('/tutorial', express.static('tutorial'));
