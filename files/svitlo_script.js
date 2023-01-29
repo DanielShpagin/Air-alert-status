@@ -250,7 +250,7 @@ function beginning() {
                     ];
                     
                     const today = new Date(Date.now());
-                    const string = data[today.getDay()-1];
+                    const string = data[(today.getDay()+6)%7];
 
                     var hours = 24;
                     var num = 0;
@@ -363,7 +363,7 @@ function beginning() {
                             td2.style["border-opacity"]="0.0";
 
 
-                            if (i === 0) {
+                            if (i === 0 && string && string.length) {
                                 if (string[num1] === '0') td2.innerHTML = '🟢';
                                 if (string[num1] === '2') td2.innerHTML = '🚫';
                                 if (string[num1] === '1') td2.innerHTML = '❓';
