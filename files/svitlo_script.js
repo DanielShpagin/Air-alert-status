@@ -266,7 +266,7 @@ function beginning() {
                             time_hour.className = 'time_hour';
                         }
 
-                        time_hour.innerHTML = `${i}:00`;
+                        time_hour.innerHTML = `${i}`;
 
                         document.querySelector('table .top').appendChild(time_hour);
                         num++;
@@ -305,84 +305,56 @@ function beginning() {
                         var num1 = 0;
                         var num2 = 0;
 
-                        for (var a = 0; a < 6 * 24; a++) {
-                            if (!num) {
-                                var td1 = document.createElement('td');
-                                var inner_table = document.createElement('table');
-                                inner_table.className = 'inner_table';
-
-                                var tr2 = document.createElement('tr');
-                            }
-
-                            var td2 = document.createElement('td');                        
-
-                            if (days[i].data[a]) {
-                                if (days[i].data[a] === '1') {
-                                    if (Math.floor(a/6)%2 == 0) {
-                                        td2.className = 'td_plus_0';
-                                    } else {
-                                        td2.className = 'td_plus_1';
+                        for (var j = 0; j < 24; j++) {
+                            var cell = document.createElement("td");
+                            cell.style.border = "1px solid black";
+                            cell.style.padding ="0pt";
+                            cell.style.margin ="0pt";
+                            cell.style.position = "relative";
+                            cell.style.height="30pt";
+                            
+                            for (var k = 0; k < 6; k++) {
+                                var a=j*6+k;
+                                var subCell = document.createElement("div");
+                                subCell.style.display = "inline-block";
+                                subCell.style.width = "calc(100% / 6)";
+                                subCell.style.height = "100%";
+                                subCell.style.margin="0pt";
+                                subCell.innerHTML='&nbsp';
+                                cell.style.zIndex=10;
+                                if(a<days[i].data.length){
+                                    var v = days[i].data[a];
+                                    if(j&1){
+                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
+                                        else subCell.style.backgroundColor = "rgba(255,240,0,0.56)";  
+                                    }else{
+                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
+                                        else subCell.style.backgroundColor = "rgba(255,255,0,0.48)";  
                                     }
-
-                                    td2.row = i;
-                                    td2.column = a;
-
-                                    td2.addEventListener('click', (event) => {
-                                        let elem = event.target;
-                                        let rect = elem.getBoundingClientRect();
-
-                                        var x = rect.x;
-                                        var y = rect.y;
-
-                                        createAlert('1', '2', elem.row, elem.column, x, y, days);
-                                    });
+                                }                                  
+                                cell.appendChild(subCell);
+                            }
+                            var charX = document.createElement("div");
+                            charX.innerHTML = "&nbsp";
+                            charX.style.display = "inline-block";
+                            charX.style.position = "absolute";
+                            charX.style.top = "50%";
+                            charX.style.left = "50%";
+                            charX.style.transform = "translate(-50%, -55%)";
+                            charX.style.fontSize = "16px";
+                            charX.style.opacity="1%";
+                            charX.style.color = "white";
+                            charX.innerHTML = '❓'
+                            if (i < 3 && string && string.length) {                                
+                                if (string[j] === '2') {
+                                    cell.classList.add("crossed");
                                 }
-
-                                if (days[i].data[a] === '2') {
-                                    if (Math.floor(a/6)%2 == 0) {
-                                        td2.className = 'td_negative_0';
-                                    } else {
-                                        td2.className = 'td_negative_1';
-                                    }
-
-                                    td2.row = i;
-                                    td2.column = a;
-
-                                    td2.addEventListener('click', (event) => {
-                                        let elem = event.target;
-                                        let rect = elem.getBoundingClientRect();
-
-                                        var x = rect.x;
-                                        var y = rect.y;
-
-                                        createAlert('2', '1', elem.row, elem.column, x, y, days);
-                                    });
-                                }
-                            } else {
-                                td2.className = 'td_margin';
-                            }
-                            td2.style.border="none";
-                            td2.style["border-opacity"]="0.0";
-
-
-                            if (i < 3 && string && string.length) {
-                                if (string[num1] === '0') td2.innerHTML = '🟢';
-                                if (string[num1] === '2') td2.innerHTML = '🔴';
-                                if (string[num1] === '1') td2.innerHTML = '❓';
-                            }
-
-                            tr2.appendChild(td2);
-
-                            num++;
-
-                            if (num === 6) {
-                                num1++;
-                                num = 0;
-                                inner_table.appendChild(tr2);
-                                td1.appendChild(inner_table);
-                                tr1.appendChild(td1);
-                            }
+                                if (string[j] === '1') charX.style.opacity="80%";
+                            }                             
+                            cell.appendChild(charX);
+                            tr1.appendChild(cell);
                         }
+
 
                         document.querySelector('.table table tbody').appendChild(tr1);
                     }
