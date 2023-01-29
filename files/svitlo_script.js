@@ -307,6 +307,7 @@ function beginning() {
 
                         for (var j = 0; j < 24; j++) {
                             var cell = document.createElement("td");
+                            cell.className = 'td_plus';
                             cell.style.border = "1px solid black";
                             cell.style.padding ="0pt";
                             cell.style.margin ="0pt";
@@ -324,11 +325,21 @@ function beginning() {
                                 if(a<days[i].data.length){
                                     var v = days[i].data[a];
                                     if(j&1){
-                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
-                                        else subCell.style.backgroundColor = "rgba(255,240,0,0.56)";  
+                                        if(v === '2') {
+                                            subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
+                                            subCell.className = 'td_plus_0';
+                                        } else {
+                                            subCell.style.backgroundColor = "rgba(255,240,0,0.56)";
+                                            subCell.className = 'td_plus_1';
+                                        }
                                     }else{
-                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
-                                        else subCell.style.backgroundColor = "rgba(255,255,0,0.48)";  
+                                        if (v === '2') {
+                                            subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
+                                            subCell.className = 'td_negative_0';
+                                        } else {
+                                            subCell.style.backgroundColor = "rgba(255,255,0,0.48)";
+                                            subCell.className = 'td_negative_1';
+                                        }
                                     }
                                     subCell.row = i;
                                     subCell.column = a;
@@ -341,7 +352,6 @@ function beginning() {
                                         var y = rect.y;
                                         var v = elem.v;
                                         var v1 = v==='1' ? '2' : '1'; 
-    
                                         createAlert(v, v1, elem.row, elem.column, x, y, days);
                                     });  
                                 }                                
