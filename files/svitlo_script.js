@@ -315,6 +315,10 @@ function beginning() {
                             var cell = document.createElement("td");
                             cell.className = 'td_plus';
                             cell.style.border = "1px solid black";
+                            if(i==0){
+                                cell.style.borderTop = "2px solid black";
+                                cell.style.borderBottom = "2px solid black";
+                            }
                             cell.style.padding ="0pt";
                             cell.style.margin ="0pt";
                             cell.style.position = "relative";
