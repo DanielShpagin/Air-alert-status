@@ -272,11 +272,11 @@ function beginning() {
                         num++;
                     }
 
-                    for (var i = 0; i < days.length; i++) {
+                    for (var i = -5; i < days.length; i++) {
                         var tr1 = document.createElement('tr');
                         string = data[(cday-i+days.length*7)%7];
 
-                        var date = days[i].day.split(' ');
+                        var date = i >= 0 ? days[i].day.split(' ') : ['','',''];
                         var date_number = date[0];
                         var date_month = date[1];
                         var date_year = date[2];
@@ -298,7 +298,13 @@ function beginning() {
 
                         var date_item = document.createElement('td');
                         date_item.className = 'date_item';
-                        date_item.innerHTML = `${date_number} ${months[date_month]}`;
+                        date_item.innerHTML = i>=0 ? `${date_number} ${months[date_month]}` : '';
+                        if(i===0){
+                            date_item.style.fontSize="120%";
+                            date_item.style.fontWeight="bold";
+                            date_item.style.backgroundColor='rgba(255,255,0,0.5)';
+                        }
+
                         tr1.appendChild(date_item);
 
                         var num = 0;
@@ -322,7 +328,7 @@ function beginning() {
                                 subCell.style.height = "100%";
                                 subCell.style.margin="0pt";
                                 subCell.innerHTML='&nbsp';
-                                if(a<days[i].data.length){
+                                if(i>=0 && a<days[i].data.length){
                                     var v = days[i].data[a];
                                     if(j&1){
                                         if(v === '2') {
