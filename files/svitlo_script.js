@@ -303,6 +303,14 @@ function beginning() {
                             date_item.style.fontSize="120%";
                             date_item.style.fontWeight="bold";
                             date_item.style.backgroundColor='rgba(255,255,0,0.5)';
+                            date_item.style.border = "2px solid black";
+                        }
+                        if(i<0){
+                            var dt = new Date(Date.now()-i*24*60*60*1000);
+                            date_item.innerHTML = `${dt.getDate()} ${months[dt.getMonth()+1]}`; 
+                            date_item.style.opacity="50%";
+                            date_item.style.backgroundColor="lightgrey";    
+
                         }
 
                         tr1.appendChild(date_item);
@@ -316,8 +324,7 @@ function beginning() {
                             cell.className = 'td_plus';
                             cell.style.border = "1px solid black";
                             if(i==0){
-                                cell.style.borderTop = "2px solid black";
-                                cell.style.borderBottom = "2px solid black";
+                                cell.style.borderTop = cell.style.borderBottom = "2px solid black";
                             }
                             cell.style.padding ="0pt";
                             cell.style.margin ="0pt";
