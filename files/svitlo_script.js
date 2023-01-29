@@ -368,7 +368,7 @@ function beginning() {
                             if (i < 3 && string && string.length) {
                                 if (string[num1] === '0') td2.innerHTML = '🟢';
                                 if (string[num1] === '2') td2.innerHTML = '🔴';
-                                if (string[num1] === '1') td2.innerHTML = '❓';
+                                if (string[num1] === '1') td2.innerHTML = '🟡';
                             }
 
                             tr2.appendChild(td2);
