@@ -171,6 +171,22 @@ table {
             rgba(0,0,0,0) 100%);
 }
 
+.crossedfw {
+    background: 
+        linear-gradient(to top left,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) calc(50% - 1.8px),
+            rgba(255,0,0,0.4) 50%,
+            rgba(0,0,0,0) calc(50% + 1.8px),
+            rgba(0,0,0,0) 100%),
+        linear-gradient(to top right,
+            rgba(0,0,0,0) 0%,
+            rgba(0,0,0,0) calc(50% - 1.8px),
+            rgba(255,0,0,0.4) 50%,
+            rgba(0,0,0,0) calc(50% + 1.8px),
+            rgba(0,0,0,0) 100%);
+}
+
 .date_item {
     text-align: center;
     font-size: 100%;
@@ -208,8 +224,6 @@ table {
     text-align: center;
 }
 
-<<<<<<< HEAD
-=======
 .td_plus_0 {
     background-color: #e7e76d;;
     color: black;
@@ -234,7 +248,6 @@ table {
     font-size: 15px;
 }
 
->>>>>>> a03e4420fc035530e8ba96f45124cf2ce87aabcd
 .td_margin {
     border: none;
     font-size: 15px;

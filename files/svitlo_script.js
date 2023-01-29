@@ -385,12 +385,19 @@ function beginning() {
                             charX.style.opacity="1%";
                             charX.style.color = "white";
                             charX.innerHTML = '❓'
+                            if(i<0){
+                                if (string[j] === '2') {
+                                    cell.className = "crossedfw";
+                                }
+                                if (string[j] === '1') charX.style.opacity="40%";
+                            }else
                             if (i < 7 && string && string.length) {                                
                                 if (string[j] === '2') {
-                                    cell.classList.add("crossed");
+                                    cell.className = "crossed";
                                 }
                                 if (string[j] === '1') charX.style.opacity="80%";
-                            }                             
+                            }       
+                                                
                             cell.appendChild(charX);
                             tr1.appendChild(cell);
                         }
