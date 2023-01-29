@@ -345,7 +345,7 @@ function beginning() {
                             charX.style.opacity="1%";
                             charX.style.color = "white";
                             charX.innerHTML = '❓'
-                            if (i < 3 && string && string.length) {                                
+                            if (i < 7 && string && string.length) {                                
                                 if (string[j] === '2') {
                                     cell.classList.add("crossed");
                                 }
