@@ -195,30 +195,30 @@ table {
 .td_plus_0 {
     background-color: #e7e76d;;
     color: black;
-    font-size: 8px;
+    font-size: 15px;
 }
 
 .td_plus_1 {
     background-color: #ffff59;
     color: black;
-    font-size: 8px;
+    font-size: 15px;
 }
 
 .td_negative_0 {
     background-color: rgb(43, 43, 43);
     color: white;
-    font-size: 8px;
+    font-size: 15px;
 }
 
 .td_negative_1 {
     background-color: rgb(31 31 31);
     color: white;
-    font-size: 8px;
+    font-size: 15px;
 }
 
 .td_margin {
     border: none;
-    font-size: 8px;
+    font-size: 15px;
 }
 
 .table .time_hour {

@@ -546,5 +546,3 @@ setInterval(async () => {
     onAlert();
     trigger_alerts();
 }, 30000);
-
-'sussy-374211'
