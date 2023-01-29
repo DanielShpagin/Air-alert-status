@@ -201,6 +201,8 @@ function createAlert(d1, d2, row, column, x, y, days) {
         alert.appendChild(p2);
     }
 
+    console.log(d1);
+
     if (d1 === '2') {
         var p1 = document.createElement('p');
         p1.innerHTML = `<g>&#x26A0;</g> ${Math.floor(number3)}:${number4}`;
@@ -307,6 +309,7 @@ function beginning() {
 
                         for (var j = 0; j < 24; j++) {
                             var cell = document.createElement("td");
+                            cell.className = 'td_plus';
                             cell.style.border = "1px solid black";
                             cell.style.padding ="0pt";
                             cell.style.margin ="0pt";
@@ -324,11 +327,21 @@ function beginning() {
                                 if(a<days[i].data.length){
                                     var v = days[i].data[a];
                                     if(j&1){
-                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
-                                        else subCell.style.backgroundColor = "rgba(255,240,0,0.56)";  
+                                        if(v === '2') {
+                                            subCell.style.backgroundColor = "rgba(0,0,0,0.56)";
+                                            subCell.className = 'td_plus_0';
+                                        } else {
+                                            subCell.style.backgroundColor = "rgba(255,240,0,0.56)";
+                                            subCell.className = 'td_plus_1';
+                                        }
                                     }else{
-                                        if(v === '2')subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
-                                        else subCell.style.backgroundColor = "rgba(255,255,0,0.48)";  
+                                        if (v === '2') {
+                                            subCell.style.backgroundColor = "rgba(0,0,0,0.48)";
+                                            subCell.className = 'td_negative_0';
+                                        } else {
+                                            subCell.style.backgroundColor = "rgba(255,255,0,0.48)";
+                                            subCell.className = 'td_negative_1';
+                                        }
                                     }
                                     subCell.row = i;
                                     subCell.column = a;
@@ -339,13 +352,15 @@ function beginning() {
                                         var x = rect.x;
                                         var y = rect.y;
 
-                                        var v1 = v==='1' ? '2' : '1'; 
+                                        var v1 = v === '1' ? '2' : '1';
+                                        console.log(v, v1);
     
                                         createAlert(v, v1, elem.row, elem.column, x, y, days);
                                     });  
                                 }                                
                                 cell.appendChild(subCell);
                             }
+
                             var charX = document.createElement("div");
                             charX.innerHTML = "&nbsp";
                             charX.style.display = "inline-block";
