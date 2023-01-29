@@ -352,13 +352,64 @@ function beginning() {
                                         var x = rect.x;
                                         var y = rect.y;
 
+<<<<<<< HEAD
                                         var v1 = v === '1' ? '2' : '1';
                                         console.log(v, v1);
+=======
+<<<<<<< HEAD
+                                        createAlert('1', '2', elem.row, elem.column, x, y, days);
+                                    });
+                                }
+
+                                if (days[i].data[a] === '2') {
+                                    if (Math.floor(a/24)%2 == 0) {
+                                        td2.className = 'td_negative_0';
+                                    } else {
+                                        td2.className = 'td_negative_1';
+                                    }
+
+                                    td2.row = i;
+                                    td2.column = a;
+
+                                    td2.addEventListener('click', (event) => {
+                                        let elem = event.target;
+                                        let rect = elem.getBoundingClientRect();
+
+                                        var x = rect.x;
+                                        var y = rect.y;
+
+                                        createAlert('2', '1', elem.row, elem.column, x, y, days);
+                                    });
+                                }
+                            } else {
+                                td2.className = 'td_margin';
+                            }
+
+                            if (i === 0) {
+                                if (string[num1] === '0') td2.innerHTML = '+';
+                                if (string[num1] === '1') td2.innerHTML = '?';
+                                if (string[num1] === '2') td2.innerHTML = '-';
+                            }
+
+                            tr2.appendChild(td2);
+
+                            num++;
+
+                            if (num === 6) {
+                                num1++;
+                                num = 0;
+                                inner_table.appendChild(tr2);
+                                td1.appendChild(inner_table);
+                                tr1.appendChild(td1);
+=======
+                                        var v1 = v==='1' ? '2' : '1'; 
+>>>>>>> a03e4420fc035530e8ba96f45124cf2ce87aabcd
     
                                         createAlert(v, v1, elem.row, elem.column, x, y, days);
                                     });  
                                 }                                
                                 cell.appendChild(subCell);
+>>>>>>> 2954e71cbca764f515c104673ceb65fe16c463b3
                             }
 
                             var charX = document.createElement("div");
