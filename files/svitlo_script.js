@@ -271,34 +271,44 @@ function beginning() {
                         document.querySelector('table .top').appendChild(time_hour);
                         num++;
                     }
+                    var months = {
+                        1: 'січ.',
+                        2: 'лют.',
+                        3: 'бер.',
+                        4: 'кві.',
+                        5: 'тра.',
+                        6: 'чер.',
+                        7: 'лип.',
+                        8: 'сер.',
+                        9: 'вер.',
+                        10: 'жов.',
+                        11: 'лис.',
+                        12: 'гру.'
+                    }
+                    var week=[
+                        "понеділок",
+                        "вівторок",
+                        "середа",
+                        "четвер",
+                        "п'ятниця",
+                        "субота",
+                        "неділя"
+                    ];
 
-                    for (var i = -5; i < days.length; i++) {
+                    for (var i = -6; i < days.length; i++) {
                         var tr1 = document.createElement('tr');
-                        string = data[(cday-i+days.length*7)%7];
+                        var wday=(cday-i+days.length*7)%7;
+                        string = data[wday];
 
                         var date = i >= 0 ? days[i].day.split(' ') : ['','',''];
                         var date_number = date[0];
                         var date_month = date[1];
                         var date_year = date[2];
 
-                        var months = {
-                            1: 'січ.',
-                            2: 'лют.',
-                            3: 'бер.',
-                            4: 'кві.',
-                            5: 'тра.',
-                            6: 'чер.',
-                            7: 'лип.',
-                            8: 'сер.',
-                            9: 'вер.',
-                            10: 'жов.',
-                            11: 'лис.',
-                            12: 'гру.'
-                        }
 
                         var date_item = document.createElement('td');
                         date_item.className = 'date_item';
-                        date_item.innerHTML = i>=0 ? `${date_number} ${months[date_month]}` : '';
+                        date_item.innerHTML = i>=0 ? `${date_number} ${months[date_month]}<br>${week[wday]}` : '';
                         if(i===0){
                             date_item.style.fontSize="120%";
                             date_item.style.fontWeight="bold";
@@ -307,10 +317,14 @@ function beginning() {
                         }
                         if(i<0){
                             var dt = new Date(Date.now()-i*24*60*60*1000);
-                            date_item.innerHTML = `${dt.getDate()} ${months[dt.getMonth()+1]}`; 
+                            date_item.innerHTML = `${dt.getDate()} ${months[dt.getMonth()+1]}<br>${week[wday]}`; 
                             date_item.style.opacity="50%";
                             date_item.style.backgroundColor="lightgrey";    
 
+                        }
+                        if(wday==0){
+                            date_item.style.borderBottom = "4px solid black";
+                            date_item.style.borderBottomStyle="double";
                         }
 
                         tr1.appendChild(date_item);
@@ -325,6 +339,10 @@ function beginning() {
                             cell.style.border = "1px solid black";
                             if(i==0){
                                 cell.style.borderTop = cell.style.borderBottom = "2px solid black";
+                            }
+                            if(wday==0){
+                                cell.style.borderBottom = "4px solid black";
+                                cell.style.borderBottomStyle="double";
                             }
                             cell.style.padding ="0pt";
                             cell.style.margin ="0pt";
@@ -391,7 +409,7 @@ function beginning() {
                                 }
                                 if (string[j] === '1') charX.style.opacity="40%";
                             }else
-                            if (i < 7 && string && string.length) {                                
+                            if (i < 10 && string && string.length) {                                
                                 if (string[j] === '2') {
                                     cell.className = "crossed";
                                 }
