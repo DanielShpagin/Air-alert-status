@@ -256,15 +256,19 @@ table {
 .table .time_hour {
     padding: 2px;
     font-size: 125%;
-    text-align: left;
+    text-align: center;
     width:4.16%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
 
 .table .time_hour_plus {
     padding: 0px;
     font-size: 125%;
-    text-align: left;
+    text-align: center;
     width:4.16%;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
 }
 
 .inner_table {

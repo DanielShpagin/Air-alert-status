@@ -255,6 +255,10 @@ function beginning() {
 
                     var hours = 24;
                     var num = 0;
+                    var chour=-1;
+                    if(days && days[0].data){
+                        chour = Math.floor(days[0].data.length/6);
+                    }
 
                     for (var i = 0; i < hours; i++) {
                         var time_hour = document.createElement('td');
@@ -266,7 +270,11 @@ function beginning() {
                             time_hour.className = 'time_hour';
                         }
 
-                        time_hour.innerHTML = `${i}`;
+                        time_hour.innerHTML = `${i}-${(i+1)%24}`;
+                        if(i==chour){
+                            time_hour.style.fontWeight="bold";
+                            time_hour.style.border="2px solid black";
+                        }
 
                         document.querySelector('table .top').appendChild(time_hour);
                         num++;
