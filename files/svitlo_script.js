@@ -274,6 +274,7 @@ function beginning() {
                         if(i==chour){
                             time_hour.style.fontWeight="bold";
                             time_hour.style.border="2px solid black";
+                            time_hour.style.backgroundColor='rgba(255,255,0,0.5)';
                         }
 
                         document.querySelector('table .top').appendChild(time_hour);
@@ -411,11 +412,16 @@ function beginning() {
                             charX.style.opacity="1%";
                             charX.style.color = "white";
                             charX.innerHTML = '❓'
+                            if(i<=0){
+                                if(j==chour){
+                                    cell.style.borderLeft = cell.style.borderRight = "2px solid black";
+                                }
+                            }
                             if(i<0){
                                 if (string[j] === '2') {
                                     cell.className = "crossedfw";
                                 }
-                                if (string[j] === '1') charX.style.opacity="40%";
+                                if (string[j] === '1') charX.style.opacity="40%";                                
                             }else
                             if (i < 10 && string && string.length) {                                
                                 if (string[j] === '2') {
