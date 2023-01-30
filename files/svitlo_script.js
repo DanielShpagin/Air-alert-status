@@ -255,10 +255,7 @@ function beginning() {
 
                     var hours = 24;
                     var num = 0;
-                    var chour=-1;
-                    if(days && days[0].data){
-                        chour = Math.floor(days[0].data.length/6);
-                    }
+                    var chour=today.getHours();
 
                     for (var i = 0; i < hours; i++) {
                         var time_hour = document.createElement('td');
