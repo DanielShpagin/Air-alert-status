@@ -248,10 +248,11 @@ function beginning() {
                         '111100221111002211110022', 
                         '111100221111002211110022'
                     ];
+
+                    var shift=4;
                     
                     const today = new Date(Date.now());
                     var cday = (today.getDay()+6)%7;
-                    var string = data[cday];
 
                     var hours = 24;
                     var num = 0;
@@ -304,7 +305,12 @@ function beginning() {
                     for (var i = -6; i < days.length; i++) {
                         var tr1 = document.createElement('tr');
                         var wday=(cday-i+days.length*7)%7;
-                        string = data[wday];
+                        var string = data[wday];
+                        if(shift>0){
+                            var s0=string;
+                            string='';
+                            for(var q=0;q<24;q++)string+=s0[(q+shift)%24];
+                        }
 
                         var date = i >= 0 ? days[i].day.split(' ') : ['','',''];
                         var date_number = date[0];
@@ -420,7 +426,7 @@ function beginning() {
                                 }
                                 if (string[j] === '1') charX.style.opacity="40%";                                
                             }else
-                            if (i < 10 && string && string.length) {                                
+                            if (i < 1 && string && string.length) {                                
                                 if (string[j] === '2') {
                                     cell.className = "crossed";
                                 }
