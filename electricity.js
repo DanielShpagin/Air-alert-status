@@ -126,6 +126,16 @@ var verboseLogin=true;
                 this.name=obj.name;
                 this.id=obj.id;
                 if(obj.data)this.data=obj.data;
+                if(obj.state)this.state=obj.state;
+                else{
+                    if(obj.data && obj.data.length){
+                        var last=obj.data[obj.data.length-1];
+                        if(last.data.length){
+                            var char=last.data[last.data.length-1];
+                            this.state = char=='1';
+                        }
+                    }
+                }
             }
         }catch(error){
             console.log(error);
@@ -137,6 +147,7 @@ var verboseLogin=true;
             password:this.password,
             id:this.id,
             name:this.name,
+            state:this.state,
             data:this.data
         };
         fs.writeFile('electricity_users/'+this.name+'.json',JSON.stringify(obj,null, ' '),()=>{});

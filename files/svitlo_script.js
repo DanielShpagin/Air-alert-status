@@ -414,6 +414,7 @@ function beginning() {
                             charX.style.fontSize = "16px";
                             charX.style.opacity="1%";
                             charX.style.color = "white";
+                            charX.style["pointer-events"] = "none";
                             charX.innerHTML = '❓'
                             if(i<=0){
                                 if(j==chour){
