@@ -421,13 +421,13 @@ function beginning() {
                                     cell.style.borderLeft = cell.style.borderRight = "2px solid black";
                                 }
                             }
-                            if(i<-2){
+                            if(i<0){
                                 if (string[j] === '2') {
                                     cell.className = "crossedfw";
                                 }
                                 if (string[j] === '1') charX.style.opacity="40%";                                
                             }else
-                            if (i < 1 && string && string.length) {                                
+                            if (i < 3 && string && string.length) {                                
                                 if (string[j] === '2') {
                                     cell.className = "crossed";
                                 }
