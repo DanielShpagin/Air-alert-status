@@ -427,7 +427,7 @@ function beginning() {
                                 }
                                 if (string[j] === '1') charX.style.opacity="40%";                                
                             }else
-                            if (i < 3 && string && string.length) {                                
+                            if (i < 4 && string && string.length) {                                
                                 if (string[j] === '2') {
                                     cell.className = "crossed";
                                 }
