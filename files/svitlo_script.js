@@ -369,7 +369,7 @@ function beginning() {
                                 subCell.style.height = "100%";
                                 subCell.style.margin="0pt";
                                 subCell.innerHTML='&nbsp';
-                                if(i>=-2 && a<days[i].data.length){
+                                if(i>=0 && a<days[i].data.length){
                                     var v = days[i].data[a];
                                     if(j&1){
                                         if(v === '2') {
@@ -421,7 +421,7 @@ function beginning() {
                                     cell.style.borderLeft = cell.style.borderRight = "2px solid black";
                                 }
                             }
-                            if(i<0){
+                            if(i<-2){
                                 if (string[j] === '2') {
                                     cell.className = "crossedfw";
                                 }
