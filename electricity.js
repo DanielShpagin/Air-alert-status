@@ -181,6 +181,9 @@ var verboseLogin=true;
         if(offs>cday.data.length)cday.data+=char.repeat(offs-cday.data.length);
         else cday.data=cday.data.substring(0,offs);
         this.state=await this.checkElectricity();
+        for(var i=0;i<3;i++) {
+            if(!this.state)this.state=await this.checkElectricity();
+        }
         cday.data += this.state ? '1':'2';
         console.log(str, offs, cday.data);
         this.write();
