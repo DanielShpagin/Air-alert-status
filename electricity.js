@@ -136,6 +136,12 @@ var verboseLogin=true;
                         }
                     }
                 }
+                for(var i=0;i<this.data.length;i++){
+                    var day=this.data[i];
+                    for(var j=2;j<day.data.length - 2;j++){
+                        if(day.data[j] == '2' && day.data[j - 2] == '1' && day.data[j + 2] == '1')day.data[j] = '1';
+                    }
+                }
             }
         }catch(error){
             console.log(error);
