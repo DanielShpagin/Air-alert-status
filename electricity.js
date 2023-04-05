@@ -159,7 +159,7 @@ var verboseLogin=true;
         return nd;
     }
     async update(){
-        var cur =  this.calcTime(2);
+        var cur =  this.calcTime(3);
         cur.setL
         var day = cur.getDate();
         var month = cur.getMonth()+1;
