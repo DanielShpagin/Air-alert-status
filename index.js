@@ -485,6 +485,8 @@ function trigger_alerts() {
 
     var time_start = 0;
     var time_end = 0;
+    var time_start_1 = 0;
+    var time_end_1 = 0;
 
     var massiv1 = [];
     var massiv2 = [];
@@ -499,12 +501,23 @@ function trigger_alerts() {
             massiv2 = trigger.time_end.split(':');
             time_start = parseInt(massiv1[0]) * 60 + parseInt(massiv1[1]);
             time_end = parseInt(massiv2[0]) * 60 + parseInt(massiv2[1]);
+            time_start_1 = time_start;
+            time_end_1 = time_end;
+            if('time_start_1' in trigger){
+                massiv1 = trigger.time_start_1.split(':');
+                time_start_1 = parseInt(massiv1[0]) * 60 + parseInt(massiv1[1]);
+            }
+
+            if('time_end_1' in trigger){
+                massiv1 = trigger.time_end_1.split(':');
+                time_end_1 = parseInt(massiv1[0]) * 60 + parseInt(massiv1[1]);
+            }
 
             if (trigger.need_alert && !trigger.started) {
                 if (time >= time_start && time <= time_end) {
                     if(!trigger.start_attempts)trigger.start_attempts=0;
                     trigger.start_attempts++;
-                    if(trigger.start_attempts < 4){
+                    if(trigger.start_attempts < 4 && trigger.webhook_open.length > 4){
                         exec_hook(trigger.webhook_open, trigger).then(res => {
                             if (res.result) {
                                 res.object.started = true;
@@ -524,10 +537,10 @@ function trigger_alerts() {
             }
 
             if (trigger.started && !trigger.need_alert) {
-                if (time >= time_start && time <= time_end) {
+                if (time >= time_start_1 && time <= time_end_1) {
                     if(!trigger.end_attempts)trigger.end_attempts=0;
                     trigger.end_attempts++;
-                    if(trigger.end_attempts < 4){
+                    if(trigger.end_attempts < 4 && trigger.webhook_close.length > 4){
                         exec_hook(trigger.webhook_close, trigger).then(res => {
                             if (res.result) {
                                 res.object.started = false;

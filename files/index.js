@@ -8329,6 +8329,9 @@ const choose_community = '--Оберіть громаду--';
 const time_start = document.getElementById('time_start');
 const time_end = document.getElementById('time_end');
 
+const time_start_1 = document.getElementById('time_start_1');
+const time_end_1 = document.getElementById('time_end_1');
+
 const webhook_open = document.getElementById('webhook_open');
 const webhook_close = document.getElementById('webhook_close');
 
@@ -8598,6 +8601,8 @@ function createTriggers(obj) {
 function setTime() {
     time_start.value = '00:00';
     time_end.value = '23:59';
+    time_start_1.value = '00:00';
+    time_end_1.value = '23:59';
 }
 
 function editTrigger(event) {
@@ -8642,6 +8647,17 @@ function editTrigger(event) {
 
             fillCommunitiesSelect();
             communities.value = trigger['community_name'];
+
+            time_start.value = trigger['time_start'];
+            time_end.value = trigger['time_end'];
+
+            if('time_start_1' in trigger){
+                time_start_1.value = trigger['time_start_1'];
+                time_end_1.value = trigger['time_end_1'];
+            } else{
+                time_start_1.value = trigger['time_start'];
+                time_end_1.value = trigger['time_end'];
+            }
 
             ok.value = 'Відрегадувати тріггер';
 
@@ -8863,6 +8879,8 @@ $('#ok').click(function () {
             'community_name': communities.value,
             'time_end': time_end.value,
             'time_start': time_start.value,
+            'time_end_1': time_end_1.value,
+            'time_start_1': time_start_1.value,
             'webhook_open': webhook_open.value,
             'webhook_close': webhook_close.value,
             'id': key.value,
