@@ -224,7 +224,7 @@ select {
     margin: 2.5px;
 }
 
-#time_start {
+#time_start, #time_tart_1 {
     font: 18px "Fira Sans", sans-serif;
     outline: none;
 
@@ -235,19 +235,19 @@ select {
     text-align: center;
 }
 
-#time_start_area {
+#time_start_area, #time_start_area_1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#time_end_area {
+#time_end_area, #time_end_area_1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-#time_end {
+#time_end, #time_end_1 {
     font: 18px "Fira Sans", sans-serif;
     outline: none;
 
