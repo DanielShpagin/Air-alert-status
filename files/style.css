@@ -216,6 +216,14 @@ select {
     min-height: 30px;
 }
 
+hr {
+    border: none;
+    border-top: 2px dashed #f00;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    width: 100%;
+}
 /* time */
 
 #time {
