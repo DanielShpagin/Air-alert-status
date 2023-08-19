@@ -2,8 +2,8 @@ import fetch from 'node-fetch';
 import crypto from 'crypto';
 import fs from 'fs';
 
-const APP_ID = 'YzfeftUVcZ6twZw1OoVKPRFYTrGEg01Q';
-const APP_SECRET = '4G91qSoboqYO4Y0XJ0LPPKIsq8reHdfa';
+const APP_ID = 'Uw83EKZFxdif7XFXEsrpduz5YyjP7nTl';
+const APP_SECRET = 'mXLOjea0woSMvK9gw7Fjsy7YlFO4iSu6';
 var verboseLogin=true;
 
  class ElectroUserInfo{
