@@ -29,23 +29,6 @@ const corsOptions = {
     origin: '*',
 }
 
-app.use(cors(corsOptions));
-
-socketio.on('connection', socket => {
-    console.log('User connected');
-
-    socket.on('message', message => {
-        console.log('message:',message);
-        var sent=JSON.stringify({source:message,now:Date.now()});
-        console.log('sent:',sent);
-        socketio.emit('message', sent);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('User disconnected');
-    });
-});
-
 async function readFiles() {
     if (!fs.existsSync('./users/')) {
         fs.mkdirSync('./users/');
@@ -586,7 +569,7 @@ const httpApp = express();
 // Handle all requests to /.well-known/pki-validation
 httpApp.get('/.well-known/pki-validation/:filename', (req, res) => {
   // Construct the path to the file based on the request
-  const filePath = `/root/eWeLink-blockly/public/.well-known/pki-validation/${req.params.filename}`;
+  const filePath = `/root/Air-alert-status/files/.well-known/pki-validation/${req.params.filename}`;
   res.sendFile(filePath);
 });
 
