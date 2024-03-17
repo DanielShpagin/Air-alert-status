@@ -11,7 +11,7 @@ import cors from 'cors';
 
 //import './electricity.js';
 import {getElectricityHistoryToday, getElectricityHistory, currentElectricityState} from './electricity.js';
-/*
+
 const https_options = {
     key: fs.readFileSync('./cert/ua-alert_info.key'),
     cert: fs.readFileSync('./cert/ua-alert_info.crt'),
@@ -561,7 +561,7 @@ setInterval(async () => {
     onAlert();
     trigger_alerts();
 }, 30000);
-*/
+
 
 
 const httpApp = express();
