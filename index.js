@@ -21,13 +21,9 @@ const https_options = {
 const __dirname = path.resolve();
 
 const app = express();
-const app1 = express();
 const port = 443;
-const hport=8080;
-
 
 const server = https.createServer(https_options, app);
-const hserver = http.createServer(app1);
   
 const corsOptions = {
     origin: '*',
@@ -40,9 +36,6 @@ const socketio = new Server(hserver,{
 });
 
 app.use(cors(corsOptions));
-app1.use(cors(corsOptions));
-hserver.listen(hport);
-console.log(`listening http at port ${hport}`);
 
 socketio.on('connection', socket => {
     console.log('User connected');
@@ -591,3 +584,26 @@ setInterval(async () => {
     onAlert();
     trigger_alerts();
 }, 30000);
+
+
+
+const httpApp = express();
+
+// Handle all requests to /.well-known/pki-validation
+httpApp.get('/.well-known/pki-validation/:filename', (req, res) => {
+  // Construct the path to the file based on the request
+  const filePath = `/root/eWeLink-blockly/public/.well-known/pki-validation/${req.params.filename}`;
+  res.sendFile(filePath);
+});
+
+// Optionally, redirect all other HTTP requests to HTTPS
+httpApp.get('*', (req, res) => {
+  res.redirect(`https://${req.headers.host}${req.url}`);
+});
+
+// Create HTTP server
+const httpServer = http.createServer(httpApp);
+
+httpServer.listen(9090, () => {
+  console.log('HTTP Server running on port 9090');
+});
