@@ -541,7 +541,7 @@ async function checkAlerts(callback) {
         if (id.lastActionIndex !== lastActionIndex) {
             lastActionIndex = id.lastActionIndex;
             obj = await alert_request('');
-            if (obj !== {}) {
+            if (Object.keys(obj).length !== 0) {
                 var areas='Alert state changed: ';                
                 for(const a of obj){
                     areas += a.regionName + '; ';
