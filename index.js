@@ -29,12 +29,6 @@ const corsOptions = {
     origin: '*',
 }
 
-import { Server } from "socket.io";
-
-const socketio = new Server(hserver,{
-    cors: corsOptions,
-});
-
 app.use(cors(corsOptions));
 
 socketio.on('connection', socket => {
