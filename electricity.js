@@ -189,6 +189,10 @@ var verboseLogin=true;
         var offs=cur.getHours()*6+Math.floor(cur.getMinutes()/10);
         var str = `${day} ${month} ${year}`;
         var cday=null;
+        if(this.data.length > 90){
+            // leave ony 90 entries
+            this.data=this.data.slice(this.data.length-90);
+        }
         this.data.forEach(e=>{
             if(e.day==str){
                 cday=e;
